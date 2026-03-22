@@ -88,4 +88,4 @@ Each skill includes detailed reference documents:
 
 ## Author
 
-Built by Augusto Digital for PayIt2.com.
+Built by Brian Anderson, PayIt2 Founder.
