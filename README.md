@@ -88,4 +88,4 @@ Each skill includes detailed reference documents:
 
 ## Author
 
-Built by Brian Anderson, PayIt2 Founder.
+Built by [Brian Anderson](https://github.com/brianmatic), PayIt2 Founder.
