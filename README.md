@@ -8,21 +8,14 @@
 
 ## For Users: How to Install
 
-This plugin works inside **Claude**, Anthropic's free AI assistant. You don't need to be technical to use it.
+This plugin works inside **Claude**, Anthropic's free AI assistant. You don't need any technical experience to use it.
 
-### Option 1: Claude Desktop App (recommended)
+1. Download the free [Claude desktop app](https://claude.ai/download) — or open [payit2.com](https://www.payit2.com) and start a campaign there
+2. In Claude, type `/plugin`, go to the **Discover** tab, and search for **PayIt2 Campaign Manager**
+3. Click **Install**
+4. Say *"Help me create a fundraising campaign"* and Claude will guide you from there
 
-1. Download the free [Claude desktop app](https://claude.ai/download)
-2. Open Claude and type `/plugin`
-3. Go to the **Discover** tab and search for **PayIt2 Campaign Manager**
-4. Click **Install**
-5. Start a conversation — say *"Help me create a fundraising campaign"* and Claude will guide you
-
-> The plugin is not yet listed in the marketplace. [Create a free PayIt2 account](https://www.payit2.com/register) and we'll notify you the moment it's available.
-
-### Option 2: Claude.ai (browser)
-
-Same steps as above, from [claude.ai](https://claude.ai) in your browser once the plugin is listed.
+> **Not listed yet.** [Create a free PayIt2 account](https://www.payit2.com/register) and we'll send you a direct link the moment it's available.
 
 ---
 
@@ -49,9 +42,9 @@ You can also just describe your situation in plain language — Claude will figu
 
 ## For Developers: Project Structure
 
-This is a [Claude Code plugin](https://code.claude.com/docs/en/plugins) — a self-contained directory of skills, commands, and agents that extends Claude's capabilities.
+This is a [Claude Code plugin](https://code.claude.com/docs/en/plugins) — a self-contained directory of skills, commands, and agents that extends Claude Code's capabilities.
 
-### Install locally
+### Install in Claude Code
 
 ```bash
 git clone https://github.com/PayIt2/payit2-campaign-manager.git
