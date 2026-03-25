@@ -107,6 +107,7 @@ payit2-campaign-manager/
 └── agents/
     ├── content-generator.md      # Sonnet — batch content (fundraisers, events, groups)
     ├── event-promoter.md         # Sonnet — event-specific promotion and countdown content
+    ├── group-collector.md        # Sonnet — group payment messages and reminder sequences
     ├── campaign-coach.md         # Opus  — deep diagnostic and strategy
     ├── donor-outreach.md         # Sonnet — personalized supporter comms at scale
     └── seo-optimizer.md          # Sonnet — SEO, community posting, media outreach
@@ -118,7 +119,7 @@ payit2-campaign-manager/
 
 **Commands** (`commands/`) — Six slash commands for common workflows. Direct entry points without needing to describe what you want.
 
-**Agents** (`agents/`) — Five autonomous subagents for heavier tasks. Claude spawns these automatically for batch work, deep analysis, or large-scale content generation.
+**Agents** (`agents/`) — Six autonomous subagents for heavier tasks. Claude spawns these automatically for batch work, deep analysis, or large-scale content generation.
 
 ### Reference files
 
