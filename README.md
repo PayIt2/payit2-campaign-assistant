@@ -21,16 +21,14 @@ This plugin works inside **Claude**, Anthropic's free AI assistant. You don't ne
 
 ## What It Does
 
-Once installed, the plugin gives Claude six commands:
+Once installed, the plugin gives Claude four commands:
 
 | Command | What it does |
 |---------|-------------|
-| `/launch-fundraiser` | Walks you through building a fundraising campaign from scratch — story, title, goal, photos, and launch strategy |
-| `/plan-event` | Sets up an event with smart ticketing — tiers, early bird pricing, promotion timeline, and attendee communications |
-| `/collect-from-group` | Creates a group payment collection page — cost splitting, launch messages, and a reminder cadence so you don't have to chase people |
-| `/weekly-checkin` | Weekly health check with a content calendar and specific action items |
-| `/boost-campaign` | Diagnoses a stalled campaign and gives you a 7-day rescue plan |
-| `/thank-donors` | Generates personalized thank-you messages for every supporter tier |
+| `/campaign` | Walks you through building any campaign from scratch — fundraiser, event, or group collection — with story, title, goal, ticketing, cost-splitting, and launch strategy |
+| `/promote` | Generates a complete promotion package: platform-specific social posts, email sequences, content calendar, and SEO recommendations |
+| `/check-in` | Health check on any active campaign with a score, diagnosis, and specific action items |
+| `/engage` | Generates personalized messages for supporters — thank-yous, updates, re-engagement, share requests, and non-payer follow-ups |
 
 You can also just describe your situation in plain language — Claude will figure out which skills to use.
 
@@ -54,7 +52,7 @@ This is a [Claude Code plugin](https://code.claude.com/docs/en/plugins) — a se
 git clone https://github.com/PayIt2/payit2-campaign-coach.git
 
 # Load for a single session
-claude --plugin-dir ./payit2-campaign-coach
+claude --plugin-dir ./payit2-campaign-coach/plugin
 
 # Or install to your user scope permanently
 claude plugin install payit2-campaign-coach@marketplace
@@ -63,85 +61,76 @@ claude plugin install payit2-campaign-coach@marketplace
 ### Directory layout
 
 ```
-payit2-campaign-coach/
+plugin/
 ├── .claude-plugin/
-│   └── plugin.json               # Plugin manifest
+│   └── plugin.json                   # Plugin manifest (v1.0.0)
 ├── skills/
-│   ├── campaign-creation/        # Fundraiser page creation
+│   ├── campaign-context/             # Shared context engine (used by all commands)
+│   │   └── SKILL.md
+│   ├── campaign-creation/            # Page building for all campaign types
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── story-templates.md
-│   │       └── title-formulas.md
-│   ├── campaign-promotion/       # Multi-channel promotion (fundraisers + events)
+│   │       ├── title-formulas.md
+│   │       ├── ticket-strategy.md
+│   │       └── cost-splitting-guide.md
+│   ├── campaign-promotion/           # Multi-channel promotion engine
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── post-templates.md
 │   │       └── email-sequences.md
-│   ├── donor-engagement/         # Supporter communications
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       ├── thank-you-templates.md
-│   │       └── update-templates.md
-│   ├── campaign-analytics/       # Health scoring and diagnostics
+│   ├── campaign-analytics/           # Health scoring and diagnostics
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── benchmark-data.md
 │   │       └── optimization-checklist.md
-│   ├── event-management/         # Event creation and ticketing
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       ├── ticket-strategy.md
-│   │       └── attendee-templates.md
-│   └── group-collection/         # Group payment collection
+│   └── supporter-engagement/         # Supporter communications for all types
 │       ├── SKILL.md
 │       └── references/
-│           ├── collection-templates.md
-│           └── cost-splitting-guide.md
+│           ├── thank-you-templates.md
+│           ├── update-templates.md
+│           └── reminder-templates.md
 ├── commands/
-│   ├── launch-fundraiser.md        # Create a fundraiser
-│   ├── plan-event.md             # Set up an event with ticketing
-│   ├── collect-from-group.md     # Group payment collection
-│   ├── weekly-checkin.md         # Weekly health check
-│   ├── boost-campaign.md         # Rescue a stalled campaign
-│   └── thank-donors.md           # Batch thank-you messages
+│   ├── campaign.md                   # Create any campaign type
+│   ├── promote.md                    # Generate promotion content
+│   ├── check-in.md                   # Health check and diagnosis
+│   └── engage.md                     # Supporter communications
 └── agents/
-    ├── content-generator.md      # Sonnet — batch content (fundraisers, events, groups)
-    ├── event-promoter.md         # Sonnet — event-specific promotion and countdown content
-    ├── group-collector.md        # Sonnet — group payment messages and reminder sequences
-    ├── campaign-coach.md         # Opus  — deep diagnostic and strategy
-    ├── donor-outreach.md         # Sonnet — personalized supporter comms at scale
-    └── seo-optimizer.md          # Sonnet — SEO, community posting, media outreach
+    ├── campaign-coach.md             # Opus  — deep strategy and rescue coaching
+    ├── content-generator.md          # Sonnet — batch content across all platforms
+    └── supporter-outreach.md         # Sonnet — personalized supporter comms at scale
 ```
 
 ### Components
 
-**Skills** (`skills/`) — Six workflow skills covering fundraisers, events, and group collections. Each includes a `SKILL.md` with detailed instructions and a `references/` folder of supporting data.
+**Skills** (`skills/`) — Five workflow skills covering all campaign types. `campaign-context` is a shared context-gathering engine invoked by every command. The remaining four map to the four commands.
 
-**Commands** (`commands/`) — Six slash commands for common workflows. Direct entry points without needing to describe what you want.
+**Commands** (`commands/`) — Four slash commands for common workflows. Direct entry points without needing to describe what you want.
 
-**Agents** (`agents/`) — Six autonomous subagents for heavier tasks. Claude spawns these automatically for batch work, deep analysis, or large-scale content generation.
+**Agents** (`agents/`) — Three autonomous subagents for heavier tasks. Claude spawns these automatically for batch work, deep analysis, or large-scale content generation.
 
 ### Reference files
 
 Each skill pulls from reference documents that encode research and best practices:
 
-**Fundraising:**
-- [story-templates.md](skills/campaign-creation/references/story-templates.md) — Category-specific story frameworks
-- [title-formulas.md](skills/campaign-creation/references/title-formulas.md) — Proven title formulas with scoring
-- [post-templates.md](skills/campaign-promotion/references/post-templates.md) — Platform-specific social post templates
-- [email-sequences.md](skills/campaign-promotion/references/email-sequences.md) — Full email drip sequences
-- [thank-you-templates.md](skills/donor-engagement/references/thank-you-templates.md) — Thank-you messages by donor tier
-- [update-templates.md](skills/donor-engagement/references/update-templates.md) — Campaign update templates
-- [benchmark-data.md](skills/campaign-analytics/references/benchmark-data.md) — Category benchmarks and KPIs
-- [optimization-checklist.md](skills/campaign-analytics/references/optimization-checklist.md) — Full optimization checklist
+**Campaign creation:**
+- [story-templates.md](plugin/skills/campaign-creation/references/story-templates.md) — Category-specific story frameworks
+- [title-formulas.md](plugin/skills/campaign-creation/references/title-formulas.md) — Proven title formulas with scoring
+- [ticket-strategy.md](plugin/skills/campaign-creation/references/ticket-strategy.md) — Ticket tier templates, early bird formulas, group discounts
+- [cost-splitting-guide.md](plugin/skills/campaign-creation/references/cost-splitting-guide.md) — Fixed, tiered, and flexible split models with fee transparency
 
-**Events:**
-- [ticket-strategy.md](skills/event-management/references/ticket-strategy.md) — Ticket tier templates, early bird formulas, group discounts
-- [attendee-templates.md](skills/event-management/references/attendee-templates.md) — Registration to post-event communication templates
+**Promotion:**
+- [post-templates.md](plugin/skills/campaign-promotion/references/post-templates.md) — Platform-specific social post templates
+- [email-sequences.md](plugin/skills/campaign-promotion/references/email-sequences.md) — Full email drip sequences
 
-**Group Collections:**
-- [collection-templates.md](skills/group-collection/references/collection-templates.md) — Launch messages, reminders, and category-specific templates
-- [cost-splitting-guide.md](skills/group-collection/references/cost-splitting-guide.md) — Fixed, tiered, and flexible split models with fee transparency
+**Analytics:**
+- [benchmark-data.md](plugin/skills/campaign-analytics/references/benchmark-data.md) — Category benchmarks and KPIs
+- [optimization-checklist.md](plugin/skills/campaign-analytics/references/optimization-checklist.md) — Full optimization checklist
+
+**Supporter engagement:**
+- [thank-you-templates.md](plugin/skills/supporter-engagement/references/thank-you-templates.md) — Thank-you messages by tier and campaign type
+- [update-templates.md](plugin/skills/supporter-engagement/references/update-templates.md) — Campaign update templates
+- [reminder-templates.md](plugin/skills/supporter-engagement/references/reminder-templates.md) — Collection reminder cadences, re-engagement, and celebration templates
 
 ### Research behind the plugin
 
@@ -152,7 +141,7 @@ The recommendations encoded in this plugin are drawn from analysis of crowdfundi
 - Video increases funds raised by up to 4x
 - Titles containing "help" succeed 30% more often
 - Goals under $5,000 are 2.5x more likely to succeed
-- Raising 20–30% in the first week correlates with 80% higher success rate
+- Raising 20-30% in the first week correlates with 80% higher success rate
 - Campaign updates increase donation likelihood by 40%
 - Optimal campaign description length: ~150 words
 
