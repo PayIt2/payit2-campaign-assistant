@@ -1,3 +1,11 @@
+# Org-Wide Standards
+
+> This repo follows the PayIt2 Platform Standards. For all org-wide rules covering security, testing, AWS, notifications, images, git workflow, and terminology, see:
+> **`../payit2-business/PLATFORM-STANDARDS.md`**
+> Rules in that document apply here without repetition. What follows are rules specific to this repo.
+
+---
+
 # CLAUDE.md
 
 This repo is the PayIt2 Campaign Coach plugin for Claude Code.
