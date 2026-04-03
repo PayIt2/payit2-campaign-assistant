@@ -14,7 +14,7 @@ version: 1.0.0
 
 # Campaign Analytics
 
-Diagnose campaign health, identify bottlenecks, and prescribe specific actions — for fundraisers, events, and group collections. This skill turns raw campaign data into actionable coaching.
+Diagnose campaign health, identify bottlenecks, and prescribe specific actions — for fundraisers, events, and groups. This skill turns raw campaign data into actionable coaching.
 
 ## Health Score Formula
 
@@ -36,11 +36,11 @@ Calculate a 0-100 health score using type-specific weights:
 | Registration velocity | 25% | % of capacity sold per week (healthy: 10-15%/week) |
 | Capacity utilization | 20% | % of total capacity sold (target 80%+ by event date) |
 | Promotion reach | 20% | Channels active, partner cross-promotion, share rate |
-| Engagement | 15% | Registrant-to-sharer ratio (target: 1 in 5 registrants shares) |
+| Engagement | 15% | Attendee-to-sharer ratio (target: 1 in 5 attendees shares) |
 | Revenue | 10% | Revenue vs. break-even vs. goal |
 | Logistics readiness | 10% | Communication cadence, confirmation emails set up |
 
-### Collection Weights
+### Group Weights
 | Factor | Weight | What to measure |
 |--------|--------|----------------|
 | Payment rate | 30% | % of group that has paid (target: 80%+ by deadline) |
@@ -68,7 +68,7 @@ When an organizer asks "why isn't this working?" run through all 3 stages:
 
 - Fundraiser: page views, shares, channel diversity
 - Event: registration page visits, social reach, partner posts
-- Collection: did launch message reach all group members?
+- Group: did launch message reach all members?
 
 **If traffic is low**: Problem is promotion, not the page. Reference campaign-promotion skill.
 
@@ -77,7 +77,7 @@ When an organizer asks "why isn't this working?" run through all 3 stages:
 
 - Fundraiser: visit-to-donation rate (healthy: 5-15%), avg donation $35-75
 - Event: visit-to-registration rate (healthy: 15-25%), ticket tier distribution
-- Collection: payment rate per reminder sent (should increase after each message)
+- Group: payment rate per reminder sent (should increase after each message)
 
 **If traffic is fine but conversion is low**: Problem is the page. Reference campaign-creation skill.
 
@@ -85,8 +85,8 @@ When an organizer asks "why isn't this working?" run through all 3 stages:
 **Question**: Are supporters becoming advocates?
 
 - Fundraiser: donor-to-sharer ratio (target >15%), update frequency
-- Event: registrant-to-sharer ratio (target: 1 in 5), re-share content posted
-- Collection: did payers bring peer pressure? Are non-payers responding to reminders?
+- Event: attendee-to-sharer ratio (target: 1 in 5), re-share content posted
+- Group: did paying members bring peer pressure? Are unpaid members responding to reminders?
 
 **If conversion is fine but growth has stalled**: Problem is engagement loop. Reference supporter-engagement skill.
 
@@ -110,10 +110,10 @@ When an organizer asks "why isn't this working?" run through all 3 stages:
 | Capacity utilization | On track to 80%+ by event | <50% at midpoint |
 | Early bird conversion | 25-35% of total tickets | <15% |
 | Ticket tier distribution | Even spread across tiers | >80% in cheapest tier |
-| Registrant share rate | 1 in 5 registrants shares | <1 in 10 |
+| Attendee share rate | 1 in 5 attendees shares | <1 in 10 |
 | Email open rate | 40-60% | <25% |
 
-### Collection KPIs
+### Group KPIs
 | KPI | Healthy | Warning |
 |-----|---------|---------|
 | Payment rate at midpoint | >50% paid | <30% paid |
@@ -126,17 +126,17 @@ When an organizer asks "why isn't this working?" run through all 3 stages:
 ### Quick Wins (do today — all types)
 - **Fundraiser**: Add/improve primary photo, shorten description to <150 words, add co-organizer, thank unthanked donors, post one update
 - **Event**: Post urgency content (seats remaining, days left), send reminder to opened-but-didn't-register email segment, update hero image
-- **Collection**: Send a progress update to the group, privately follow up with 1-2 non-payers
+- **Group**: Send a progress update to the group, privately follow up with 1-2 unpaid members
 
 ### Medium Effort (this week)
 - **Fundraiser**: Record and upload video (4x more funds), send personalized emails to top 20 contacts, create content for 3+ social channels
-- **Event**: Activate partner cross-promotion, create social proof content ("X registrants"), launch group discount offer
+- **Event**: Activate partner cross-promotion, create social proof content ("X attendees registered"), launch group discount offer
 - **Collection**: Add a co-collector, extend deadline with real-constraint framing, restructure payment tier if response is concentrated in one option
 
 ### Strategic Moves (campaign is stalled)
 - **Fundraiser**: Rewrite title (test 3 options), refresh full description, pitch local media
 - **Event**: Consider price adjustment, add a new tier, reach out to complementary organizations for cross-promotion
-- **Collection**: One-on-one outreach to every non-payer, consider scope reduction to match actual payment rate
+- **Group**: One-on-one outreach to every unpaid member, consider scope reduction to match actual payment rate
 
 ## Additional Resources
 

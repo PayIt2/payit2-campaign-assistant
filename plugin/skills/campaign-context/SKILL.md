@@ -16,20 +16,20 @@ Gather the minimum context needed for the current command through natural conver
 
 | Field | Needed By | Notes |
 |-------|-----------|-------|
-| Campaign type (fundraiser / event / collection) | All commands | Always required first |
+| Campaign type (fundraiser / event / group) | All commands | Always required first |
 | Title | All commands | Required |
 | URL (if live) | /promote, /check-in, /engage | Optional — extract what you can from URL structure |
-| Goal / target amount | /campaign, /check-in | Required for fundraiser and collection |
-| Ticket tiers / pricing | /campaign, /check-in | Required for events |
+| Goal / target amount | /campaign, /check-in | Required for fundraiser and group |
+| Ticket types / pricing | /campaign, /check-in | Required for events |
 | Current progress (amount raised / tickets sold / payments received) | /check-in, /engage | Required for check-in |
 | Days active / days until deadline or event | /check-in, /promote | Required for check-in |
 | Audience description | /promote, /campaign | Optional |
 | Channels used so far | /promote, /check-in | Optional |
-| Group size | /campaign, /check-in | Required for collections |
+| Group size | /campaign, /check-in | Required for group campaigns |
 
 ## Context-Gathering Rules
 
-1. **Type first.** Always establish campaign type before asking anything else. Ask: "What are you working on — a fundraiser, an event, or a group collection?"
+1. **Type first.** Always establish campaign type before asking anything else. Ask: "What are you working on — a fundraiser, an event, or a group?"
 
 2. **Minimum viable context.** Ask only what the current command needs. /promote needs type + title + what's been tried. /engage needs type + what action the user wants to take. Don't ask for a full data dump.
 
@@ -56,7 +56,7 @@ Ask in order:
 2. Then by type:
    - **Fundraiser:** "Share your current numbers — amount raised, number of donors, and how many days it's been live."
    - **Event:** "Share your numbers — tickets sold, total capacity, and how many days until the event."
-   - **Collection:** "Share your numbers — how many people have paid, total group size, and days until the deadline."
+   - **Group:** "Share your numbers — how many members have paid, total group size, and days until the deadline."
 3. "What channels have you been using to promote it?"
 
 ### /engage (Supporter Relationships)

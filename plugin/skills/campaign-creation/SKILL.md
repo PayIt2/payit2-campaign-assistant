@@ -14,7 +14,7 @@ version: 1.0.0
 
 # Campaign Creation
 
-Guide organizers through building a high-converting campaign page on PayIt2.com. Works for all three campaign types: fundraisers, events, and group collections. Every element — title, description, visuals, goal/pricing — directly impacts whether the campaign reaches its target.
+Guide organizers through building a high-converting campaign page on PayIt2.com. Works for all three campaign types: fundraisers, events, and groups. Every element — title, description, visuals, goal/pricing — directly impacts whether the campaign reaches its target.
 
 ## Step 1: Story / Details Interview
 
@@ -35,7 +35,7 @@ Conduct a structured interview adapted to campaign type. Ask questions one at a 
 4. **What will attendees experience?** Agenda, speakers, activities, food/drink, entertainment.
 5. **What do attendees need to know?** Dress code, what to bring, accessibility, age restrictions, refund policy.
 
-### Collection Interview
+### Group Interview
 1. **What's the collection for?** Specific purpose — team jerseys, cabin rental, birthday gift, club dues, etc.
 2. **How many people are in the group?** Exact or estimated headcount.
 3. **What's the total amount needed?** Real number including buffer for fees.
@@ -64,7 +64,7 @@ Titles must be under 60 characters. Always include at least one option with the 
 - "[Group] Annual [Type]" — e.g., "Springfield Soccer Club Annual Banquet"
 - "[Descriptor] [Event Type]" — e.g., "Summer Block Party & Cookout"
 
-**Collection title formulas:**
+**Group title formulas:**
 - "[Group Name] [Purpose] Collection" — e.g., "Soccer Team Spring Jersey Order"
 - "[Group] [Purpose] Fund" — e.g., "Johnson Family Reunion Cabin Fund"
 - "[Purpose] for [Group]" — e.g., "Trip Costs for Class of 2010 Reunion"
@@ -91,7 +91,7 @@ Target 100-150 words. Shorter descriptions convert better than long ones.
 
 Use bullet points and headers for scannability. Target under 200 words.
 
-### Collection: Purpose → Amount → Deadline → How to Pay (~75 words)
+### Group: Purpose → Amount → Deadline → How to Pay (~75 words)
 1. **Purpose** (1-2 sentences): What this collection is for, clearly.
 2. **Amount** (1-2 sentences): How much each person owes and what it covers.
 3. **Deadline** (1 sentence): When payment is due and why (ties to a real constraint).
@@ -113,9 +113,9 @@ Keep it under 100 words. Collections are transactional — clarity beats storyte
 - **Branded graphics**: Date and location on every graphic.
 - **Speaker/performer headshots**: If lineup sells the event, show the faces.
 
-### Collection
+### Group
 - **Hero image**: Group photo or relevant visual (jersey, cabin, trophy). Friendly > formal.
-- Keep visuals simple — collections are functional. Don't over-invest in production.
+- Keep visuals simple — group campaigns are functional. Don't over-invest in production.
 
 ## Step 5: Goal / Pricing Setup
 
@@ -125,7 +125,7 @@ Keep it under 100 words. Collections are transactional — clarity beats storyte
 - Start conservative — can always increase after hitting milestones (social proof accelerates)
 - Compare to category: Legal defense $5K-$25K average; medical $10K-$50K average; emergency $2K-$8K average
 
-### Event Ticket Tier Design
+### Event Ticket Type Design
 - Design **2-4 tiers** with **20-25% price gaps** between them
 - **Early bird**: 25-30% off regular price, first 30% of capacity, 7-14 day window
 - **Group discounts**: 5+ tickets = 10% off; 10+ tickets = 15% off; 20+ tickets = 20% off
@@ -137,7 +137,7 @@ Keep it under 100 words. Collections are transactional — clarity beats storyte
 | Regular | Base price | Standard access |
 | VIP/Premium | 50-100% above regular | Priority access, perks, exclusivity |
 
-### Collection Cost Models
+### Group Cost Models
 - **Fixed split**: Total ÷ headcount = per-person amount. Round up $1-2 to buffer fees.
 - **Tiered options**: Different levels for different participation (room types, meal choices, activity packages).
 - **Flexible/voluntary**: Set a suggested amount prominently. Best for group gifts.
@@ -163,7 +163,7 @@ Keep it under 100 words. Collections are transactional — clarity beats storyte
 - [ ] Confirmation email content customized
 - [ ] Refund/cancellation policy is stated
 
-### Collection
+### Group
 - [ ] Title is specific and clear (not "Please Pay")
 - [ ] Description states purpose, amount per person, and deadline
 - [ ] Goal amount matches total needed
@@ -179,7 +179,7 @@ Keep it under 100 words. Collections are transactional — clarity beats storyte
 - Week-1 momentum (20-30% raised): success **80% more likely** (fundraisers)
 - Early bird tiers: sell 30% of capacity before regular pricing opens (events)
 - Events promoted 4-6 weeks out: sell **70% more tickets** (events)
-- Group discounts: increase average order value **40-60%** (events/collections)
+- Group discounts: increase average order value **40-60%** (events/groups)
 
 ## Additional Resources
 

@@ -6,7 +6,7 @@ description: >
   content calendar", "schedule posts", "write emails for my campaign", "how do I
   get more donations", "sell more tickets", "increase visibility", "campaign
   marketing", "share my fundraiser", or needs multi-channel promotion guidance
-  for fundraisers, events, or group collections on PayIt2. Also triggers on
+  for fundraisers, events, or groups on PayIt2. Also triggers on
   "social media strategy", "campaign sharing", "email outreach", "press release",
   "community posting", or "event promotion".
 version: 1.0.0
@@ -14,7 +14,7 @@ version: 1.0.0
 
 # Campaign Promotion
 
-Guide organizers through multi-channel promotion for any campaign type. Under-promotion is the #1 reason campaigns fail. This skill turns promotion into a systematic process for fundraisers, events, and group collections.
+Guide organizers through multi-channel promotion for any campaign type. Under-promotion is the #1 reason campaigns fail. This skill turns promotion into a systematic process for fundraisers, events, and groups.
 
 ## Core Principle: The 2.5x Rule
 
@@ -45,14 +45,14 @@ Each new sharing method used leads to a **2.5x increase in campaign visibility**
 | LinkedIn | Medium | Professional/industry events |
 | Partner cross-promotion | High | Other organizations with same audience |
 
-### Collection: Lead with Direct Messaging
+### Group: Lead with Direct Messaging
 | Channel | Priority | Why |
 |---------|----------|-----|
 | Group text / WhatsApp group | High | Where the group already communicates |
 | Email | High | Formal, easy to reply and ask questions |
 | Slack / Teams | High | Work or club groups |
 | Facebook Group | Medium | If the group has one |
-| Social media | Low | Collections are private; public posts have low ROI |
+| Social media | Low | Group campaigns are private; public posts have low ROI |
 
 ## Content Calendar Frameworks
 
@@ -97,7 +97,7 @@ Each new sharing method used leads to a **2.5x increase in campaign visibility**
 
 **Phase 3 — Social Proof (3 weeks out)**
 - "X tickets sold" posts
-- Testimonials from past attendees or registrants
+- Testimonials from past attendees
 - Speaker/performer spotlights
 
 **Phase 4 — Last Chance (1-2 weeks out)**
@@ -114,7 +114,7 @@ Each new sharing method used leads to a **2.5x increase in campaign visibility**
 - Photo gallery within 1 week
 - Next event teaser
 
-### Collection: 5 Phases over 2-3 Weeks
+### Group: 5 Phases over 2-3 Weeks
 
 **Phase 1 — Launch (Day 0)**
 - Send to all group channels: brief, friendly, link + deadline
@@ -134,22 +134,22 @@ Each new sharing method used leads to a **2.5x increase in campaign visibility**
 **Phase 5 — Deadline (Day of)**
 - "Last day!" — short, no guilt, just facts + link
 
-*Max 5-6 total messages to full group. Private follow-ups only after deadline.*
+*Max 5-6 total messages to the group. Private follow-ups with unpaid members only after deadline.*
 
 ## Content Rotation Angles
 
 Rotate through these 8 angles to keep promotion fresh (all types have equivalents):
 
-| Angle | Fundraiser | Event | Collection |
+| Angle | Fundraiser | Event | Group |
 |-------|-----------|-------|-----------|
 | Story / Announcement | Full situation explanation | What, when, where, why it matters | What this is for and how it works |
 | Person / Lineup | Humanize the beneficiary | Speakers, performers, organizers | Group context, who's involved |
 | Progress | Milestone celebrations | Tickets sold milestones | Payment progress ("12 of 20 paid!") |
-| Gratitude | Thanking donors publicly | Thanking registrants and partners | Thanking those who've paid |
+| Gratitude | Thanking donors publicly | Thanking attendees and partners | Thanking members who've paid |
 | Urgency | Deadline / remaining gap | Countdown / scarcity | Deadline / payment needed |
 | Impact | How funds are being used | What attendees will experience | What the collected funds enable |
 | Ask | Direct donation request | Direct ticket purchase prompt | Direct payment request |
-| Share | Ask supporters to spread word | Ask registrants to bring friends | N/A (collections are private) |
+| Share | Ask supporters to spread word | Ask attendees to bring friends | N/A (group campaigns are private) |
 
 ## Platform-Specific Formatting
 
@@ -172,7 +172,7 @@ Rotate through these 8 angles to keep promotion fresh (all types have equivalent
 
 ## SEO & Amplification
 
-For campaigns that benefit from discovery (fundraisers and events, not collections):
+For campaigns that benefit from discovery (fundraisers and events, not groups):
 - Use 3-5 searchable keywords naturally in the page description and social posts
 - Cross-post to relevant community groups (Nextdoor, Reddit, Facebook Groups, local forums)
 - For newsworthy campaigns: write a press release, pitch local TV/newspaper, reach out to relevant bloggers/podcasters
@@ -184,9 +184,9 @@ For campaigns that benefit from discovery (fundraisers and events, not collectio
 - 6+ sharing methods = **3x more donations** (fundraisers)
 - **61% of millennials** discover events through social media (events)
 - Events promoted 4-6 weeks out sell **70% more tickets** than 2-week promotions (events)
-- Max **5-6 messages** to full group before diminishing returns (collections)
+- Max **5-6 messages** to full group before diminishing returns (group campaigns)
 
 ## Additional Resources
 
 - **`references/post-templates.md`** — Ready-to-customize social post templates for all types and platforms
-- **`references/email-sequences.md`** — Drip sequences for all types (launch, updates, final push, event countdown, collection reminders)
+- **`references/email-sequences.md`** — Drip sequences for all types (launch, updates, final push, event countdown, group reminders)
