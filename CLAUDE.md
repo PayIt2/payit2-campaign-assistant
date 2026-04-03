@@ -1,8 +1,8 @@
 # Org-Wide Standards
 
-> This repo follows the PayIt2 Platform Standards. For all org-wide rules covering security, testing, AWS, notifications, images, git workflow, and terminology, see:
-> **`../payit2-business/PLATFORM-STANDARDS.md`**
-> Rules in that document apply here without repetition. What follows are rules specific to this repo.
+> **MANDATORY SESSION START:** Read `../payit2-business/PLATFORM-STANDARDS.md` in full before any work. Clone if not present: `git clone https://github.com/PayIt2/payit2-business.git` from parent directory. Also run `git pull` and read `OPEN_ITEMS.md` before starting.
+
+All org-wide rules (security, testing, AWS, notifications, images, git workflow, terminology) are in PLATFORM-STANDARDS.md. What follows is specific to this repo.
 
 ---
 
@@ -48,7 +48,12 @@ This creates `payit2-campaign-coach.zip` in the repo root. Upload it to Claude v
 
 ## Git Workflow
 
-1. Edit files inside `plugin/` (skills, agents, commands, or manifest)
-2. Run `./build-plugin.sh` to rebuild the zip
-3. Commit both the changed source files and the updated zip
-4. Upload the zip to Claude
+1. Create a feature branch: `git checkout -b feat/<description>` (or `fix/`, `chore/`, `docs/`)
+2. Edit files inside `plugin/` (skills, agents, commands, or manifest)
+3. Run `./build-plugin.sh` to rebuild the zip
+4. Commit both the changed source files and the updated zip (no Co-Authored-By)
+5. Push the branch: `git push -u origin <branch>`
+6. Open a PR: `gh pr create`
+7. Merge the PR: `gh pr merge`
+8. Post-merge cleanup: `git checkout main && git pull && git branch -d <branch>`
+9. Verify clean state: `git status` (clean tree, up to date) and `git branch` (no stale branches)
