@@ -1,5 +1,7 @@
 # Open Items
 
+> **Platform roadmap:** See PLATFORM-STANDARDS.md Section 19 for the org-wide implementation phases.
+
 Outstanding work for the PayIt2 Campaign Coach Claude plugin.
 
 ---
