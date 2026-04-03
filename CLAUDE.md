@@ -48,12 +48,8 @@ This creates `payit2-campaign-coach.zip` in the repo root. Upload it to Claude v
 
 ## Git Workflow
 
-1. Create a feature branch: `git checkout -b feat/<description>` (or `fix/`, `chore/`, `docs/`)
-2. Edit files inside `plugin/` (skills, agents, commands, or manifest)
-3. Run `./build-plugin.sh` to rebuild the zip
-4. Commit both the changed source files and the updated zip (no Co-Authored-By)
-5. Push the branch: `git push -u origin <branch>`
-6. Open a PR: `gh pr create`
-7. Merge the PR: `gh pr merge`
-8. Post-merge cleanup: `git checkout main && git pull && git branch -d <branch>`
-9. Verify clean state: `git status` (clean tree, up to date) and `git branch` (no stale branches)
+See PLATFORM-STANDARDS.md Section 15 for the full git workflow. Repo-specific additions:
+
+1. Edit files inside `plugin/` (skills, agents, commands, or manifest)
+2. Run `./build-plugin.sh` to rebuild the zip
+3. Commit both the changed source files and the updated zip
