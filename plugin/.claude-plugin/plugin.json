@@ -1,5 +1,5 @@
 {
-  "name": "PayIt2 Campaign Coach",
+  "name": "payit2-campaign-coach",
   "version": "1.2.0",
   "description": "AI-powered campaign coach for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get coaching, generate content, and engage supporters through conversation with Claude.",
   "author": {
@@ -18,8 +18,8 @@
     "event-ticketing",
     "cost-splitting"
   ],
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json",
+  "hooks": "../hooks/hooks.json",
+  "mcpServers": "../.mcp.json",
   "userConfig": {
     "payit2_api_key": {
       "description": "Your PayIt2 API key (found in PayIt2 dashboard > Settings > API)",
