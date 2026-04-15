@@ -23,10 +23,8 @@ plugin/
     promote/SKILL.md               # /promote - promotion strategy (includes multi-channel playbooks)
     engage/SKILL.md                # /engage - supporter engagement (thank-yous, re-engagement, reminders, outreach)
     campaign-context/SKILL.md      # Shared context-gathering engine
-  agents/                       # 3 autonomous agents
+  agents/                       # 1 autonomous agent
     campaign-assistant.md             # Deep campaign health analysis and strategy
-    content-generator.md          # Batch content generation
-    supporter-outreach.md         # Personalized supporter comms
 ```
 
 Root-level files (`CLAUDE.md`, `README.md`, `LICENSE`, `build-plugin.sh`) are NOT included in the zip.

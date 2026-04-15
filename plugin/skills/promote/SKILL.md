@@ -192,7 +192,7 @@ For campaigns that benefit from discovery (fundraisers and events, not groups):
 
 ### 9. Generate Batch Content
 
-Dispatch the content-generator agent to produce:
+Produce in-session:
 - 5-7 social media posts (platform-native, varied angles)
 - 2-3 email templates (appropriate to their tier/phase)
 - 2-3 text message templates (for inner circle or group)

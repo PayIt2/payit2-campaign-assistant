@@ -151,7 +151,7 @@ Prescribe 3-5 actions in priority order, organized by effort:
 
 ## 6. Generate Fresh Content
 
-If the bottleneck is traffic or engagement, dispatch the content-generator agent to produce:
+If the bottleneck is traffic or engagement, produce in-session:
 
 - 3-5 social posts for the coming week
 - 1 campaign update to post on the page

@@ -91,9 +91,7 @@ plugin/
 │   ├── check-in.md                   # Health check and diagnosis
 │   └── engage.md                     # Supporter communications
 └── agents/
-    ├── campaign-assistant.md         # Opus  — deep strategy and campaign analysis
-    ├── content-generator.md          # Sonnet — batch content across all platforms
-    └── supporter-outreach.md         # Sonnet — personalized supporter comms at scale
+    └── campaign-assistant.md         # Opus: deep strategy and campaign analysis
 ```
 
 ### Components
@@ -102,7 +100,7 @@ plugin/
 
 **Commands** (`commands/`) — Four slash commands for common workflows. Direct entry points without needing to describe what you want.
 
-**Agents** (`agents/`) — Three autonomous subagents for heavier tasks. Claude spawns these automatically for batch work, deep analysis, or large-scale content generation.
+**Agents** (`agents/`) -- One autonomous subagent (`campaign-assistant`) for deep strategy and health analysis. Content generation now happens inline using the plugin's skills plus optional MCP prompts when the PayIt2 MCP server is connected.
 
 ### Reference files
 

@@ -201,6 +201,6 @@ When MCP tools are available, use them to pull real supporter data instead of as
 
 **Outreach:**
 - Call `send_supporter_message` to deliver messages directly through the platform
-- For batch personalization across many supporters, dispatch the supporter-outreach agent
+- For batch personalization, loop through `search_supporters` results and invoke the `thank_you_message` prompt per supporter, then call `save_thank_you` for each
 
 These MCP tools are optional. The skill works fully without them by asking the organizer for supporter details directly.
