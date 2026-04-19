@@ -37,8 +37,10 @@ Ask questions one at a time, building on each answer. Adapt to the campaign type
 1. **What type of event is it?** Category (conference, party, concert, reunion, etc.) and brief description.
 2. **When and where?** Date, start/end time, timezone, venue name and address (or virtual platform).
 3. **What's the capacity?** Max attendees. Separate by tier if applicable.
-4. **What will attendees experience?** Agenda, speakers, activities, food/drink, entertainment.
-5. **What do attendees need to know?** Dress code, what to bring, accessibility, age restrictions, refund policy.
+4. **Is there a registration deadline?** Date after which no new registrations are accepted. Many events set this 24-48 hours before the event.
+5. **Is it free or paid?** If paid: ticket prices and tiers. If free: confirm attendees just RSVP at no charge.
+6. **What will attendees experience?** Agenda, speakers, activities, food/drink, entertainment.
+7. **What do attendees need to know?** Dress code, what to bring, accessibility, age restrictions, refund policy.
 
 ### Group Interview
 1. **What's the collection for?** Specific purpose: team jerseys, cabin rental, birthday gift, club dues, etc.
@@ -156,6 +158,10 @@ Recommend a goal amount using these guidelines and explain the reasoning.
 | Regular | Base price | Standard access |
 | VIP/Premium | 50-100% above regular | Priority access, perks, exclusivity |
 
+**Free events:** Use a single $0 option (e.g., "Free RSVP" or "General Admission — Free"). Attendees complete registration without entering payment info.
+
+**Add-ons:** Items like T-shirts, parking, or meal upgrades should be separate options with `pick_any` so attendees can add them independently.
+
 Present a pricing table for the user's event.
 
 ### Group Cost Models
@@ -183,7 +189,8 @@ Run through the type-specific checklist below. Flag anything missing.
 ### Event
 - [ ] Date, time, and timezone are correct
 - [ ] Location is complete with address and directions
-- [ ] All ticket tiers configured with correct prices and capacities
+- [ ] All ticket tiers configured with correct prices and capacities (free options use $0)
+- [ ] Registration deadline set if applicable
 - [ ] Description under 200 words with hook-details-CTA structure
 - [ ] Hero image uploaded and looks good at thumbnail size
 - [ ] Payment processing connected and tested
@@ -201,9 +208,9 @@ Run through the type-specific checklist below. Flag anything missing.
 
 ## Step 8: Create the Campaign on PayIt2
 
-If the PayIt2 MCP server is connected, use `create_campaign` to create the campaign directly on PayIt2 with the finalized title, mode, description, and goal. Confirm with the organizer and share the campaign ID returned.
+If the PayIt2 MCP server is connected, follow the MCP-Enhanced Flow below. This creates the campaign, its ticket options, registration deadline, and cover image in one session — no manual setup required.
 
-If MCP is not connected, direct the organizer to sign up or log in at payit2.com to create their campaign. Share the finalized title, description, and goal so they can paste it in when setting up their campaign page on PayIt2.
+If MCP is not connected, direct the organizer to sign up or log in at payit2.com to create their campaign. Share the finalized title, description, goal, and pricing so they can paste it in when setting up their campaign page on PayIt2.
 
 ---
 
@@ -240,6 +247,33 @@ If MCP is not available, complete Steps 1-7 as normal, then at Step 8 direct the
 After completing Steps 1-7:
 
 1. **Ask for confirmation.** "Ready to create this campaign on your PayIt2 account?"
-2. **Create the campaign.** Call `create_campaign` with the finalized title, mode (`fundraiser`, `registration`, or `group_payment`), description, and goal amount. Save the returned campaign ID.
-3. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
-4. **Confirm success.** Let the organizer know their campaign is live as a draft on PayIt2 and remind them to add a photo and review before sharing.
+
+2. **Create the campaign.** Call `create_campaign` with all finalized details. Always include:
+   - `title`, `mode`, `description`, `blurb`
+   - `publish` (default `false` — creates as draft)
+
+   Add these based on campaign type:
+
+   **Fundraiser:**
+   - `goalAmount` (dollars)
+
+   **Event (registration):**
+   - `eventStartDate`, `eventEndDate` (ISO 8601)
+   - `eventVenueName`, `eventAddress`, `eventCity`, `eventState`, `eventZipCode`
+   - `registrationDeadline` (ISO 8601) if a cutoff date was set
+   - `options` — build from the ticket tiers decided in Step 6:
+     - Ticket tiers go in a group: `groupTitle: "Tickets"`, `groupMode: "pick_one"`, `isRequired: true`
+     - Free RSVP: `{ title: "General Admission", amount: 0, groupTitle: "Tickets", groupMode: "pick_one", isRequired: true }`
+     - Add-ons (T-shirt, parking, meal): separate group with `groupMode: "pick_any"`, `isRequired: false`
+
+   **Group payment:**
+   - `goalAmount` (total needed)
+   - `options` — use for tiered amounts (room types, meal choices, activity levels). Standalone if just one price.
+
+   Save the campaign ID and URL from the response.
+
+3. **Upload cover image (if available).** If the organizer provides an image (file path or pasted image), call `upload_campaign_image` with the `campaignId` and the base64-encoded image data. Supported formats: JPEG, PNG, WebP.
+
+4. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
+
+5. **Confirm success.** Share the campaign URL from the `create_campaign` response. Let the organizer know the campaign is live as a draft and remind them to review and publish when ready.
