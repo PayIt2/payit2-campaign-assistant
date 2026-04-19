@@ -199,9 +199,11 @@ Run through the type-specific checklist below. Flag anything missing.
 
 ---
 
-## Step 8: Save the Launch Package
+## Step 8: Create the Campaign on PayIt2
 
-Write a markdown file called `[campaign-title]-launch-package.md` in the workspace with: final title, description, goal/pricing setup, visual strategy notes, and pre-publish checklist results.
+If the PayIt2 MCP server is connected, use `create_campaign` to create the campaign directly on PayIt2 with the finalized title, mode, description, and goal. Confirm with the organizer and share the campaign ID returned.
+
+If MCP is not connected, direct the organizer to sign up or log in at payit2.com to create their campaign. Share the finalized title, description, and goal so they can paste it in when setting up their campaign page on PayIt2.
 
 ---
 
@@ -229,16 +231,15 @@ Write a markdown file called `[campaign-title]-launch-package.md` in the workspa
 
 ## If the PayIt2 MCP server is connected
 
-If the `payit2` MCP server is configured in this session (you will see tools like `list_my_campaigns`, `get_campaign_overview`, and prompts like `campaign_story`), offer the enhanced flow below. If MCP is not available, proceed with the standalone workflow above: gather details conversationally, generate content in-session, and output markdown for the user to copy into PayIt2 manually.
+If the `payit2` MCP server is configured in this session (you will see tools like `list_my_campaigns`, `create_campaign`, and `save_campaign_story`), use the enhanced flow below. This is the preferred path - it creates the campaign directly on PayIt2 without any manual copy-paste.
+
+If MCP is not available, complete Steps 1-7 as normal, then at Step 8 direct the organizer to payit2.com to create their campaign and paste in the finalized content.
 
 ### MCP-Enhanced Flow
 
-After completing the story interview and generating the campaign description:
+After completing Steps 1-7:
 
-1. **Ask if the user wants to connect to their PayIt2 account.** "Would you like me to save this directly to your PayIt2 campaign?"
-2. **Confirm the campaign exists.** Use `list_my_campaigns` to check. If the campaign is already created on PayIt2, proceed. If not, instruct the user to create the campaign shell on PayIt2 first, then return.
-3. **Generate a data-embedded story.** Use the `campaign_story` prompt to produce a polished campaign story that incorporates the interview answers, title, and description structure from the steps above.
-4. **Save the story.** Call `save_campaign_story` with the campaign ID and generated story content to persist it directly to the campaign page.
-5. **Confirm success.** Let the user know the story is live and remind them to review it on PayIt2 before sharing.
-
-This MCP path is optional. The full standalone workflow (Steps 1-8 above) produces the same quality output; the MCP integration simply removes the manual copy step.
+1. **Ask for confirmation.** "Ready to create this campaign on your PayIt2 account?"
+2. **Create the campaign.** Call `create_campaign` with the finalized title, mode (`fundraiser`, `registration`, or `group_payment`), description, and goal amount. Save the returned campaign ID.
+3. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
+4. **Confirm success.** Let the organizer know their campaign is live as a draft on PayIt2 and remind them to add a photo and review before sharing.
