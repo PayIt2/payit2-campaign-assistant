@@ -265,6 +265,13 @@ After completing Steps 1-7:
      - Ticket tiers go in a group: `groupTitle: "Tickets"`, `groupMode: "pick_one"`, `isRequired: true`
      - Free RSVP: `{ title: "General Admission", amount: 0, groupTitle: "Tickets", groupMode: "pick_one", isRequired: true }`
      - Add-ons (T-shirt, parking, meal): separate group with `groupMode: "pick_any"`, `isRequired: false`
+     - **Platform note:** PayIt2 renders a built-in quantity selector for every option. Do NOT add `questions` to collect quantity for options (e.g. "How many Medium T-shirts?") — this creates redundant fields. Only use questions for information the option selector cannot capture (e.g. size preferences, names, dietary restrictions).
+   - `questions` — use sparingly. One question per distinct piece of information needed. Never add two questions that ask for the same thing (e.g. do not add both "Who will be attending?" and "Who will be coming with you?" — pick one). If adding questions in multiple calls, call `list_campaign_questions` first to see what already exists and avoid duplicates.
+
+3. **Managing existing questions.** The MCP provides three tools for question management after creation:
+   - `list_campaign_questions` — returns all questions with their IDs. Always call this before updating or deleting.
+   - `delete_campaign_question` — removes a question by ID.
+   - `update_campaign_question` — edits question text, type, choices, or option binding by ID. Supports `paymentOptionTitle` for re-linking.
 
    **Group payment:**
    - `goalAmount` (total needed)
