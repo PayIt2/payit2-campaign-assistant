@@ -287,10 +287,34 @@ After completing Steps 1-7:
 
    - `questions` — use sparingly. One question per distinct piece of information needed. Never add two questions that ask for the same thing (e.g. do not add both "Who will be attending?" and "Who will be coming with you?" — pick one). If adding questions in multiple calls, call `list_campaign_questions` first to see what already exists and avoid duplicates.
 
+   **Question types:** Choose the type that best fits the information being collected.
+
+   | `questionType` | When to use | Example |
+   |---------------|-------------|---------|
+   | `text` | Short single-line answer | "What is your T-shirt name?" |
+   | `textarea` | Multi-line or longer answer | "Any special accommodations or notes?" |
+   | `select` | Pick exactly one from a list (dropdown) | "Meal preference: Chicken / Fish / Vegetarian" |
+   | `multi_select` | Pick any number from a list | "Which sessions will you attend?" |
+   | `checkbox` | Single yes/no acknowledgment | "I agree to the waiver" |
+   | `radio` | Pick exactly one (visible radio buttons) | "Shirt size: S / M / L / XL" |
+
+   **Question flags:** Each question supports four boolean settings.
+
+   | Flag | Default | Meaning |
+   |------|---------|---------|
+   | `isRequired` | `true` | Participant must answer before completing checkout |
+   | `isPublic` | `false` | Answer is visible on the public campaign page |
+   | `perGuest` | `false` | Collects a separate answer per guest in the order (events only) |
+   | `isActive` | `true` | Question appears at checkout — set `false` to hide without deleting |
+
+   Use `perGuest: true` for questions like "What is each attendee's name?" on event registrations where a single payer covers multiple guests.
+
 3. **Managing existing questions.** The MCP provides three tools for question management after creation:
-   - `list_campaign_questions` — returns all questions with their IDs. Always call this before updating or deleting.
-   - `delete_campaign_question` — removes a question by ID.
-   - `update_campaign_question` — edits question text, type, choices, or option binding by ID. Supports `paymentOptionTitle` for re-linking.
+   - `list_campaign_questions` — returns all questions with their IDs, types, flags, and any linked option. Always call this before updating or deleting.
+   - `update_campaign_question` — edits question text, type, choices, flags, or option binding by ID. Supports `paymentOptionTitle` for re-linking to a specific ticket tier.
+   - `delete_campaign_question` — permanently removes a question by ID.
+
+   **To temporarily hide a question** without losing it, use `update_campaign_question` with `isActive: false` rather than deleting it. The organizer can re-enable it later.
 
    **Group payment:**
    - `goalAmount` (total needed)
