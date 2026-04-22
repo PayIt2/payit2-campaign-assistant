@@ -1,7 +1,7 @@
 {
   "name": "payit2-campaign-assistant",
   "version": "1.5.0",
-  "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage supporters through conversation with Claude.",
+  "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage participants through conversation with Claude.",
   "author": {
     "name": "Brian Anderson, PayIt2 Founder"
   },
@@ -12,7 +12,7 @@
     "crowdfunding",
     "payit2",
     "campaigns",
-    "supporter-engagement",
+    "participant-engagement",
     "content-generation",
     "campaign-health-check",
     "event-ticketing",

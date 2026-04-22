@@ -219,9 +219,9 @@ Write all content to `[campaign-title]-promotion-[date].md` in the workspace, or
 
 When the MCP server is available, the promotion workflow gains two additional capabilities:
 
-1. **Progress update posts via `update_post` prompt**: Use this prompt to generate campaign update content that reflects real-time campaign data (current amount raised, supporter count, milestone progress). The prompt produces platform-ready posts that incorporate live stats rather than placeholders.
+1. **Progress update posts via `update_post` prompt**: Use this prompt to generate campaign update content that reflects real-time campaign data (current amount raised, participant count, milestone progress). The prompt produces platform-ready posts that incorporate live stats rather than placeholders.
 
-2. **Save updates via `save_update_post` tool**: After generating an update post, use this tool to save it directly to the campaign's update feed on PayIt2. This publishes the update to all existing supporters and makes it visible on the campaign page.
+2. **Save updates via `save_update_post` tool**: After generating an update post, use this tool to save it directly to the campaign's update feed on PayIt2. This publishes the update to all existing participants and makes it visible on the campaign page.
 
 **Enhanced workflow when MCP is connected:**
 - After building the content calendar (step 4), check if the campaign has live data available through MCP

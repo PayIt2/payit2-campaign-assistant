@@ -1,15 +1,15 @@
 ---
 name: engage
-description: Manage supporter relationships - thank-yous, updates, re-engagement, and advocacy asks
+description: Manage participant relationships - thank-yous, updates, re-engagement, and advocacy asks
 allowed-tools: Read, Write
 argument-hint: "[optional: what you want to do - thank donors, post update, re-engage, etc.]"
 ---
 
-Manage supporter engagement for your campaign: $ARGUMENTS
+Manage participant engagement for your campaign: $ARGUMENTS
 
-Build lasting supporter relationships across all campaign types. Engaged supporters share, re-engage, and recruit, giving organizers a massive competitive advantage.
+Build lasting participant relationships across all campaign types. Engaged participants share, re-engage, and recruit, giving organizers a massive competitive advantage.
 
-## The Supporter Lifecycle
+## The Participant Lifecycle
 
 ```
 FIRST ACTION -> THANK YOU -> UPDATE -> RE-ENGAGE -> ADVOCATE
@@ -19,11 +19,11 @@ FIRST ACTION -> THANK YOU -> UPDATE -> RE-ENGAGE -> ADVOCATE
 ## Workflow
 
 1. **Identify the Action**: Use the campaign-context skill to establish campaign type, then determine what the organizer wants to do:
-   - **Thank supporters** (donors, attendees, members who paid)
+   - **Thank participants** (donors, attendees, members who paid)
    - **Post a campaign update** (milestone, story update, impact report)
-   - **Re-engage lapsed supporters** (bring back dormant donors, reach non-attendees, follow up with unpaid members)
+   - **Re-engage lapsed participants** (bring back dormant donors, reach non-attendees, follow up with unpaid members)
    - **Send payment reminders** (group campaigns: cadence-based collection messages)
-   - **Ask for shares** (turn supporters into advocates)
+   - **Ask for shares** (turn participants into advocates)
 
 2. **Gather What's Needed**: Ask the organizer for the information you need:
    - For thank-yous: How many people? Do you have names and amounts? What channel (email, text, social, in-campaign post)?
@@ -68,7 +68,7 @@ FIRST ACTION -> THANK YOU -> UPDATE -> RE-ENGAGE -> ADVOCATE
 5. **Extend**: Fundraisers: ask for a share (optional). Events: ask them to bring a friend. Groups: celebrate they're in.
 
 ### Public Gratitude Posts
-- Name supporters by first name (with permission) or anonymously ("A generous friend just donated $50!")
+- Name participants by first name (with permission) or anonymously ("A generous friend just donated $50!")
 - Show progress bar movement: "Thanks to 12 amazing people, we're now at 35%!"
 - Keep it authentic. Performative gratitude backfires.
 
@@ -174,33 +174,33 @@ See `references/reminder-templates.md` for full templates by channel (text, emai
 
 ---
 
-## Supporter-to-Advocate Conversion
+## Participant-to-Advocate Conversion
 
 ### Conversion Tactics
 1. **Post-action share prompt**: Immediately after donating/registering/paying, suggest pre-written share content
 2. **Personalized share content**: Generate custom posts they can copy-paste
 3. **Co-organizer invitation**: Top donors and enthusiastic attendees make great co-organizers (3x success rate)
 4. **Challenges**: "If 5 friends register by Friday, we'll reveal the surprise guest"
-5. **Thank-and-tag**: Public thank-yous that tag the supporter (with permission)
+5. **Thank-and-tag**: Public thank-yous that tag the participant (with permission)
 
 ---
 
 ## If the PayIt2 MCP server is connected
 
-When MCP tools are available, use them to pull real supporter data instead of asking the organizer. This makes messages more accurate and saves the organizer time.
+When MCP tools are available, use them to pull real participant data instead of asking the organizer. This makes messages more accurate and saves the organizer time.
 
 **Data gathering (use before generating messages):**
-- Call `search_supporters(name_or_email)` to look up a specific supporter's details
-- Call `list_supporters` to get actual names, amounts, and payment status for batch thank-yous
+- Call `search_participants(name_or_email)` to look up a specific participant's details
+- Call `list_participants` to get actual names, amounts, and payment status for batch thank-yous
 - Call `get_payment_summary` to see who has and hasn't paid (group campaigns)
 - Call `get_campaign_stats` for current progress numbers (updates and re-engagement)
 
 **Thank-you generation:**
-- Use the `thank_you_message` prompt to generate tier-appropriate thank-yous with real supporter data
+- Use the `thank_you_message` prompt to generate tier-appropriate thank-yous with real participant data
 - Call `save_thank_you` to record that a thank-you was sent, preventing duplicates
 
 **Outreach:**
-- Call `send_supporter_message` to deliver messages directly through the platform
-- For batch personalization, loop through `search_supporters` results and invoke the `thank_you_message` prompt per supporter, then call `save_thank_you` for each
+- Call `send_participant_message` to deliver messages directly through the platform
+- For batch personalization, loop through `search_participants` results and invoke the `thank_you_message` prompt per participant, then call `save_thank_you` for each
 
-These MCP tools are optional. The skill works fully without them by asking the organizer for supporter details directly.
+These MCP tools are optional. The skill works fully without them by asking the organizer for participant details directly.

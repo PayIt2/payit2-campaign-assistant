@@ -87,7 +87,7 @@ Run through all 3 diagnostic stages:
 **If traffic is fine but conversion is low**: Problem is the page. Reference campaign skill.
 
 ### Stage 3: Engagement Diagnosis
-**Question**: Are supporters becoming advocates?
+**Question**: Are participants becoming advocates?
 
 - Fundraiser: donor-to-sharer ratio (target >15%), update frequency
 - Event: attendee-to-sharer ratio (target: 1 in 5), re-share content posted
@@ -175,7 +175,7 @@ When the MCP server is available, enhance the check-in with live data. This sect
 ### Enhanced data gathering
 
 1. Call `get_campaign_health` with the campaign ID to pull real-time health metrics instead of asking the organizer to self-report numbers.
-2. Call `get_payment_summary` to retrieve donation/payment totals, velocity, and supporter counts directly from the platform.
+2. Call `get_payment_summary` to retrieve donation/payment totals, velocity, and participant counts directly from the platform.
 
 Use the live data to populate the health score formula in Step 2 automatically. Compare live metrics against the KPI benchmarks in Step 4 and highlight any that fall below the warning threshold.
 

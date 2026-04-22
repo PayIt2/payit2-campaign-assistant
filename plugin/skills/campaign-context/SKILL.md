@@ -64,9 +64,9 @@ Ask in order:
    - **Group:** "Share your numbers — how many members have paid, total group size, and days until the deadline."
 3. "What channels have you been using to promote it?"
 
-### /engage (Supporter Relationships)
+### /engage (Participant Relationships)
 1. "What type of campaign is it?"
-2. "What would you like to do — thank supporters, post an update, re-engage lapsed supporters, or ask for shares?"
+2. "What would you like to do — thank participants, post an update, re-engage lapsed participants, or ask for shares?"
 3. Follow up with only what's needed for that action.
 
 ## MCP Tool Reference

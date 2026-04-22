@@ -1,6 +1,6 @@
 # PayIt2 Campaign Assistant
 
-> An AI plugin for Claude that helps you run fundraisers, events, and groups on PayIt2. Create campaigns, sell tickets, collect payments from groups, generate promotion content, engage supporters, and optimize performance - all through natural conversation.
+> An AI plugin for Claude that helps you run fundraisers, events, and groups on PayIt2. Create campaigns, sell tickets, collect payments from groups, generate promotion content, engage participants, and optimize performance - all through natural conversation.
 
 **Works with:** [Claude desktop app](https://claude.ai/download) (free) · Claude Code CLI
 
@@ -28,7 +28,7 @@ Once installed, the plugin gives Claude four skills you can invoke directly:
 | `/campaign` | Walks you through building any campaign from scratch - fundraiser, event, or group - with story, title, goal, ticketing, cost-splitting, and launch strategy |
 | `/promote` | Generates a complete promotion package: platform-specific social posts, email sequences, content calendar, and SEO recommendations |
 | `/check-in` | Health check on any active campaign with a score, diagnosis, and specific action items |
-| `/engage` | Generates personalized messages for supporters - thank-yous, updates, re-engagement, share requests, and unpaid member follow-ups |
+| `/engage` | Generates personalized messages for participants - thank-yous, updates, re-engagement, share requests, and unpaid member follow-ups |
 
 You can also just describe your situation in plain language - Claude will figure out which skills to use.
 
@@ -84,7 +84,7 @@ plugin/
 │   │   └── references/
 │   │       ├── post-templates.md
 │   │       └── email-sequences.md
-│   └── engage/                       # /engage - supporter engagement (thank-yous, re-engagement, reminders)
+│   └── engage/                       # /engage - participant engagement (thank-yous, re-engagement, reminders)
 │       ├── SKILL.md
 │       └── references/
 │           ├── thank-you-templates.md
@@ -118,7 +118,7 @@ Each skill pulls from reference documents that encode research and best practice
 - [benchmark-data.md](plugin/skills/check-in/references/benchmark-data.md) -- Category benchmarks and KPIs
 - [optimization-checklist.md](plugin/skills/check-in/references/optimization-checklist.md) -- Full optimization checklist
 
-**Supporter engagement (within engage):**
+**Participant engagement (within engage):**
 - [thank-you-templates.md](plugin/skills/engage/references/thank-you-templates.md) -- Thank-you messages by tier and campaign type
 - [update-templates.md](plugin/skills/engage/references/update-templates.md) -- Campaign update templates
 - [reminder-templates.md](plugin/skills/engage/references/reminder-templates.md) -- Group reminder cadences, re-engagement, and celebration templates

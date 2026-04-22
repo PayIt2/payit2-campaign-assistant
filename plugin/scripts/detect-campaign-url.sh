@@ -19,5 +19,5 @@ if echo "$PROMPT" | grep -qiE 'payit2\.com/(fundraiser|event|group)/[a-zA-Z0-9_-
   echo "If the organizer hasn't said what they want, ask which command to run:"
   echo "  /check-in  — health score + prioritized action plan"
   echo "  /promote   — promotion strategy and content calendar"
-  echo "  /engage    — supporter messages (thank-yous, updates, re-engagement)"
+  echo "  /engage    — participant messages (thank-yous, updates, re-engagement)"
 fi
