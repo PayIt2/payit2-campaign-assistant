@@ -116,23 +116,74 @@ Keep it under 100 words. Collections are transactional: clarity beats storytelli
 
 ---
 
+## Content Formatting Rules
+
+PayIt2 fields fall into two categories. Use the wrong format and the output will display raw tags or broken layout.
+
+### HTML fields (use HTML, never markdown or plain text)
+These fields back a rich-text editor on the campaign page:
+- `description` (campaign page body)
+- `save_campaign_story` content
+- `save_update_post` content
+- `save_thank_you` content
+
+Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`.
+
+### Plain-text fields (no HTML, no markdown)
+These fields render as-is:
+- `title`
+- `blurb`
+- `eventVenueName`, `eventAddress`, `eventCity`, `eventState`
+- Option `title` and `description`
+- Question `questionText` and `details`
+- Any other short label or metadata field
+
+---
+
 ## Step 5: Visual Strategy
 
-### Fundraiser
-- **Primary photo**: Beneficiary's face. Authentic > polished. Appears in every share preview.
-- **Supporting photos**: Before/after, family moments, community support.
-- **Video**: 60-90 second personal appeal increases donations by up to 4x. Offer to write the script.
+### Cover Photo (required -- always source and upload during campaign creation)
 
-### Event
-- **Hero image**: Single most compelling photo or graphic. Must convey energy at thumbnail size.
-- **Event photos**: Past event photos showing crowds and real moments.
-- **Venue photos**: Help attendees visualize where they're going.
-- **Branded graphics**: Date and location on every graphic.
-- **Speaker/performer headshots**: If lineup sells the event, show the faces.
+Templates provide structure only. They never include a cover image. A cover photo must be sourced and uploaded on every campaign before publishing. Do not skip this step or treat it as optional follow-up -- a page without a cover image converts significantly worse.
 
-### Group
-- **Hero image**: Group photo or relevant visual (jersey, cabin, trophy). Friendly > formal.
-- Keep visuals simple. Group campaigns are functional, so don't over-invest in production.
+**Photo sourcing sequence:**
+
+1. Ask: "Do you have a photo you'd like to use? If not, I can find one from a free source."
+2. If the user provides a URL or file, upload it directly via `upload_campaign_image`.
+3. If no photo is available, search Unsplash using WebSearch or WebFetch:
+   - Search query: `site:unsplash.com [keywords matching campaign topic]`
+   - Fetch the results page and extract 3-5 specific image src URLs (images.unsplash.com or plus.unsplash.com)
+   - Present the options with brief descriptions and let the user pick
+   - Upload the chosen image via `upload_campaign_image` using the `imageUrl` parameter
+
+**Unsplash URL format for upload (always add quality params):**
+- `https://images.unsplash.com/photo-[ID]?w=1280&q=80`
+- `https://plus.unsplash.com/premium_photo-[ID]?w=1280&q=80`
+
+All Unsplash images (including plus.unsplash.com) are free for commercial use under the Unsplash License.
+
+**Search keywords by campaign type:**
+
+| Campaign type | Good search terms |
+|---|---|
+| Medical / health fundraiser | patient recovery, healthcare support, hospital hope |
+| Legal defense fundraiser | courthouse, justice, legal support |
+| Emergency / disaster fundraiser | community support, helping hands, rebuilding |
+| Event: workshop / conference | workshop collaboration, team learning, professional seminar |
+| Event: social / celebration | celebration gathering, community party, event crowd |
+| Event: sports / run | race finish line, community run, team sport |
+| Collection: group / team | team group photo, club members, community together |
+
+### What makes a strong cover image
+
+**Fundraiser**: Beneficiary's face. Authentic beats polished. This image appears in every share preview -- it is the first thing potential donors see.
+
+**Event**: Single most compelling photo that conveys energy at thumbnail size. Past event photos showing real crowds outperform generic stock. If no past event photos exist, use a stock image that matches the mood and setting.
+
+**Group**: Group photo or a relevant object (jersey, cabin, trophy). Friendly beats formal.
+
+### Video (fundraisers)
+A 60-90 second personal appeal increases donations by up to 4x. Offer to write the script once the story interview is complete.
 
 ---
 
@@ -179,8 +230,8 @@ Run through the type-specific checklist below. Flag anything missing.
 
 ### Fundraiser
 - [ ] Title contains a name or specific situation (under 60 chars)
-- [ ] Description is under 150 words
-- [ ] Primary photo shows a face
+- [ ] Description is under 150 words and formatted as HTML
+- [ ] Cover image uploaded (beneficiary's face preferred)
 - [ ] Goal is achievable (can be raised later)
 - [ ] Category is correctly assigned
 - [ ] At least one co-organizer added (3x success rate)
@@ -191,15 +242,16 @@ Run through the type-specific checklist below. Flag anything missing.
 - [ ] Location is complete with address and directions
 - [ ] All ticket tiers configured with correct prices and capacities (free options use $0)
 - [ ] Registration deadline set if applicable
-- [ ] Description under 200 words with hook-details-CTA structure
-- [ ] Hero image uploaded and looks good at thumbnail size
+- [ ] Description under 200 words, formatted as HTML, with hook-details-CTA structure
+- [ ] Cover image uploaded and looks good at thumbnail size
 - [ ] Payment processing connected and tested
 - [ ] Confirmation email content customized
 - [ ] Refund/cancellation policy is stated
 
 ### Group
 - [ ] Title is specific and clear (not "Please Pay")
-- [ ] Description states purpose, amount per person, and deadline
+- [ ] Description states purpose, amount per person, and deadline -- formatted as HTML
+- [ ] Cover image uploaded (group photo or relevant object)
 - [ ] Goal amount matches total needed
 - [ ] Deadline is set to a date with a real constraint
 - [ ] At least one co-organizer assigned to help with follow-up
@@ -328,7 +380,7 @@ After completing Steps 1-7:
 
    Save the campaign ID and URL from the response.
 
-4. **Upload cover image (if available).** The `upload_campaign_image` tool accepts either `imageUrl` (preferred) or `imageBase64`. Always prefer `imageUrl` - base64 payloads blow past the ~25K token Read limit for anything above ~300KB, while any public URL is fetched server-side with no size penalty.
+4. **Upload cover image (required).** If the organizer provided a photo, use it. If not, proactively search Unsplash (see Step 5 sourcing sequence), present 3-5 options, and upload the chosen one -- do not skip this or leave the campaign without a cover. The `upload_campaign_image` tool accepts either `imageUrl` (preferred) or `imageBase64`. Always prefer `imageUrl` - base64 payloads blow past the ~25K token Read limit for anything above ~300KB, while any public URL is fetched server-side with no size penalty.
 
    **Before you upload, verify the source is actually high-resolution:**
    ```bash
