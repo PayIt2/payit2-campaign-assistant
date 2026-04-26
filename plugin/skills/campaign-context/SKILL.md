@@ -73,9 +73,31 @@ Ask in order:
 
 | Data needed | MCP tool |
 |-------------|----------|
-| Campaign details (type, title, goal, timeline) | `get_campaign(id_or_slug)` |
-| Financial stats (raised, donors, goal progress) | `get_campaign_stats(campaign_id)` |
-| Recent activity (last 30 events) | `get_campaign_activity(campaign_id)` |
-| Organizer's campaign list | `list_campaigns()` |
-| Past coaching sessions | `get_conversation_history(campaign_id)` |
-| Organizer profile | `get_organizer_profile()` |
+| Campaign details (title, goal, status, theme, organizer Verified badge) | `get_campaign_overview(campaignId)` |
+| Health analysis (pace, daily rate needed, recent activity) | `get_campaign_health(campaignId)` |
+| Financial summary (totals, averages, payout status) | `get_payment_summary(campaignId)` |
+| Forecast (projected final amount by end date) | `get_campaign_health(campaignId)` plus `forecast_campaign(campaignId)` |
+| Organizer's campaign list (filterable by status) | `list_my_campaigns(filter)` |
+| Side-by-side comparison of 2-5 campaigns | `compare_campaigns(campaignIds)` |
+| Participant insights (top contributors, averages, engagement) | `get_participant_insights(campaignId)` |
+| Search participants by name/email | `search_participants(query, campaignId?)` |
+| Available campaign templates | `list_templates()` |
+| Available theme presets (12 total: classic-green default + legal-defense, memorial, wedding, reunion, sports-team, birthday, charity-walk, school, faith, medical, animal) | `list_theme_presets()` |
+| Existing payment options + groups on a campaign | `list_campaign_option_groups(campaignId)` |
+| Custom registration questions | `list_campaign_questions(campaignId)` |
+
+### Mutation tools (write actions)
+
+| Action | MCP tool |
+|--------|----------|
+| Create a new campaign (optionally from a template) | `create_campaign(...)` |
+| Update title, description, goal, end date, theme, or theme color overrides | `update_campaign_settings(...)` |
+| Add payment options (tickets, add-ons, giving levels) | `add_campaign_options(...)` |
+| Reorder option groups | `reorder_campaign_option_groups(...)` |
+| Add / update / delete custom registration questions | `add_campaign_questions`, `update_campaign_question`, `delete_campaign_question` |
+| Upload a cover image | `upload_campaign_image(...)` |
+| Persist generated story / thank-you / update post / improvement notes | `save_campaign_story`, `save_thank_you`, `save_update_post`, `save_improvement_notes` |
+
+### Notes on the Verified badge
+
+`get_campaign_overview` includes a `Verified organizer` line when the organizer's Stripe Connect account is fully verified AND the business type is non-individual (company, non_profit, or government_entity). The badge is driven entirely by Stripe state — there is no separate verification flow. If an organizer asks how to get verified, the answer is to complete Stripe Connect onboarding under a non-individual business type. Individual accounts are silent (no badge, no "Unverified" label).

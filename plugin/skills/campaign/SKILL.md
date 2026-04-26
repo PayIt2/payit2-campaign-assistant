@@ -413,4 +413,10 @@ After completing Steps 1-7:
 
 5. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
 
-6. **Confirm success.** Share the campaign URL from the `create_campaign` response. Let the organizer know the campaign is live as a draft and remind them to review and publish when ready.
+6. **Pick a theme (optional but recommended).** Call `list_theme_presets` to see the 12 available presets (`classic-green` default, plus `legal-defense`, `memorial`, `wedding`, `reunion`, `sports-team`, `birthday`, `charity-walk`, `school`, `faith`, `medical`, `animal`). Each preset has a slug, a use-case hint, and four color tokens (primary accent, button, header band, page background). Match the campaign's mode and category to a preset's `useCases` and recommend one or two:
+
+   > "Based on this fundraiser for medical bills, I'd suggest `medical` (calm teal/cream — built for medical fundraisers) or stick with `classic-green` (the default). Want me to apply one?"
+
+   Apply the chosen preset by calling `update_campaign_settings` with `themeId: "<slug>"`. If the organizer wants a custom color (e.g., to match their nonprofit's brand), pass `themeAccentColor`, `themeButtonColor`, or `themePageBgColor` as 6-digit hex strings (e.g., `#1E3A5F`). Pass `null` on any of those override fields to clear back to the preset's value. Text colors are auto-derived for WCAG AA contrast — don't try to set them manually.
+
+7. **Confirm success.** Share the campaign URL from the `create_campaign` response. Let the organizer know the campaign is live as a draft and remind them to review and publish when ready. If they have a Stripe Connect account that's fully verified with a non-individual business type (LLC, non-profit, government entity), a "Verified" badge will appear next to their organizer name on the public page automatically — no extra step needed.
