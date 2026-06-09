@@ -32,8 +32,7 @@ _(None outstanding. Q1 — REST API timing — was resolved by cancelling B-1; s
 
 ### Engineering Health — plugin is live; hygiene stays continuous
 
-**Operational Hygiene** — content audits, cosmetic copy work
-B-2 Body-copy terminology audit (9 `supporter` matches across 7 files)
+_(none — B-2 terminology audit closed 2026-06-09; see COMPLETED_ITEMS.md)_
 
 ### Launch Gates
 
@@ -59,19 +58,7 @@ _(None. All open work in this repo is post-V2-dev-complete cosmetic / discovery 
 **Verified 2026-06-05:** ✅ Real. The plugin IS installable today via PayIt2's own marketplace (`/plugin marketplace add PayIt2/payit2-plugins-marketplace` + `/plugin install payit2-campaign-assistant`) but is NOT in Anthropic's central Discover tab. Submission to Anthropic is a separate process that hasn't been initiated.
 **Classification rationale:** Marketing/discovery enhancement. Allows users to find PayIt2 Campaign Assistant without first knowing about PayIt2's marketplace. Backlog — not on the V2 dev-complete path.
 
-### B-2. Body-copy terminology audit — 7 files referencing "supporter"
-**Source:** original OPEN_ITEMS item.
-**Verified 2026-06-05:** ✅ Real. Verified 9 total `supporter` matches across the 7 named files:
-- `CLAUDE.md` — 1 match
-- `plugin/skills/check-in/references/optimization-checklist.md` — 2 matches
-- `plugin/skills/promote/SKILL.md` — 2 matches
-- `plugin/skills/promote/references/email-sequences.md` — 1 match
-- `plugin/skills/engage/SKILL.md` — 1 match (the *Never "Dear Supporter."* instructional line — keep as-is)
-- `plugin/skills/engage/references/thank-you-templates.md` — 1 match
-- `plugin/skills/engage/references/update-templates.md` — 1 match
-
-PLATFORM-STANDARDS Section 16 permits "supporter" in fundraiser-context copy, so some may be intentional.
-**Classification rationale:** Cosmetic copy audit. ~30 min work. Backlog.
+_(B-2 closed 2026-06-09 — see COMPLETED_ITEMS.md)_
 
 ---
 

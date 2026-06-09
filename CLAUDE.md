@@ -21,7 +21,7 @@ plugin/
     campaign/SKILL.md              # /campaign - create and launch (includes creation workflow)
     check-in/SKILL.md              # /check-in - weekly health check (includes analytics)
     promote/SKILL.md               # /promote - promotion strategy (includes multi-channel playbooks)
-    engage/SKILL.md                # /engage - supporter engagement (thank-yous, re-engagement, reminders, outreach)
+    engage/SKILL.md                # /engage - participant engagement (thank-yous, re-engagement, reminders, outreach)
     campaign-context/SKILL.md      # Shared context-gathering engine
   agents/                       # 1 autonomous agent
     campaign-assistant.md             # Deep campaign health analysis and strategy
