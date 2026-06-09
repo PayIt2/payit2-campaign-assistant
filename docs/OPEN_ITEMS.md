@@ -24,6 +24,28 @@ _(None outstanding. Q1 — REST API timing — was resolved by cancelling B-1; s
 
 ---
 
+## How items are organized — by "why we need to do this"
+
+> Added 2026-06-08 per CEO direction. Items grouped by motivation. Original B-numbered IDs preserve so cross-references still resolve; the sections below this index keep their chronological order.
+>
+> **Priority order**: Engineering Health first — plugin is live and installable today via PayIt2's own marketplace. Launch Gates empty — plugin is already shipped. Growth — distribution + discovery work.
+
+### Engineering Health — plugin is live; hygiene stays continuous
+
+**Operational Hygiene** — content audits, cosmetic copy work
+B-2 Body-copy terminology audit (9 `supporter` matches across 7 files)
+
+### Launch Gates
+
+_(none — plugin is already published in PayIt2's own marketplace and installable today)_
+
+### Growth — distribution + discovery; post-launch, compounds
+
+**Marketing & Content** — visibility, discovery
+B-1 Submit to Claude's central public Discover tab
+
+---
+
 ## Must-do before V2 dev-complete
 
 _(None. All open work in this repo is post-V2-dev-complete cosmetic / discovery work.)_
