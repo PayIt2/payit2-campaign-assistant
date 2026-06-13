@@ -1,6 +1,6 @@
 # Completed Items
 
-Items completed from docs/OPEN_ITEMS.md, with date and outcome.
+Items completed from OPEN_ITEMS.md, with date and outcome.
 
 ---
 
