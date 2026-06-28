@@ -1,3 +1,9 @@
+---
+title: "Completed Items"
+type: worklist
+doc_status: active
+owner: claude-maintained
+---
 # Completed Items
 
 Items completed from OPEN_ITEMS.md, with date and outcome.

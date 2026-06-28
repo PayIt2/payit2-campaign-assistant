@@ -1,3 +1,9 @@
+---
+title: "Social Media Post Templates"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Social Media Post Templates
 
 Ready-to-customize templates for every platform and content angle. Replace [bracketed items] with campaign-specific details.

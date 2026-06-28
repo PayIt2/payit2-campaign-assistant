@@ -1,3 +1,9 @@
+---
+title: "Org-Wide Standards"
+type: standard
+doc_status: active
+owner: claude-maintained
+---
 # Org-Wide Standards
 
 > **MANDATORY SESSION START:** Read `../payit2-business/PLATFORM-STANDARDS.md` in full before any work (note §36 Decision Index, the map of where every decision lives, and §14 Documentation governance). Clone if not present: `git clone https://github.com/PayIt2/payit2-business.git` from parent directory. Also run `git pull`, read `../payit2-business/docs/strategy/ceo-decisions-ledger.md` (the CEO-decision veto layer), and read `OPEN_ITEMS.md` before starting.

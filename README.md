@@ -1,3 +1,9 @@
+---
+title: "PayIt2 Campaign Assistant"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # PayIt2 Campaign Assistant
 
 > An AI plugin for Claude that helps you run fundraisers, events, and groups on PayIt2. Create campaigns, sell tickets, collect payments from groups, generate promotion content, engage participants, and optimize performance - all through natural conversation.

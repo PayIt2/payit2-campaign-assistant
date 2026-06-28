@@ -1,3 +1,9 @@
+---
+title: "Reminder Templates"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Reminder Templates
 
 Collection reminder cadence and re-engagement messages for all campaign types.

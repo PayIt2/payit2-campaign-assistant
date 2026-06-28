@@ -1,3 +1,9 @@
+---
+title: "Campaign Benchmark Data"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Campaign Benchmark Data
 
 ## Industry-Wide Statistics

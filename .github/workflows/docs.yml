@@ -1,0 +1,13 @@
+name: Docs
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Documentation governance (PLATFORM-STANDARDS §14, blocking per M4).
+      - name: Documentation index check
+        run: python3 scripts/docs_index.py check --strict .

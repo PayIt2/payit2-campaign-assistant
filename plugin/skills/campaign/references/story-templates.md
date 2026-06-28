@@ -1,3 +1,9 @@
+---
+title: "Story Templates by Campaign Category"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Story Templates by Campaign Category
 
 Ready-to-adapt templates following the Problem → Person → Plan → Ask framework.

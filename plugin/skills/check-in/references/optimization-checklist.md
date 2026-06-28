@@ -1,3 +1,9 @@
+---
+title: "Campaign Optimization Checklist"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Campaign Optimization Checklist
 
 ## Page Quality Audit

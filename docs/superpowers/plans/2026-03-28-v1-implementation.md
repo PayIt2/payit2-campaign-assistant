@@ -1,3 +1,9 @@
+---
+title: "Campaign Assistant v1.0.0 Implementation Plan"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Campaign Assistant v1.0.0 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
