@@ -1,3 +1,9 @@
+---
+title: "Thank-You Message Templates"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Thank-You Message Templates
 
 ## By Donation Tier

@@ -1,3 +1,9 @@
+---
+title: "Campaign Update Templates"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Campaign Update Templates
 
 ## Milestone Updates

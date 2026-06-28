@@ -1,3 +1,9 @@
+---
+title: "Email Drip Sequences"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Email Drip Sequences
 
 ## Launch Sequence (Days 1-7)

@@ -1,3 +1,9 @@
+---
+title: "Cost-Splitting Guide"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Cost-Splitting Guide
 
 Models, formulas, and fee transparency guidance for group collection campaigns on PayIt2.

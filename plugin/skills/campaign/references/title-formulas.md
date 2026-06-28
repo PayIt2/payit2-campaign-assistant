@@ -1,3 +1,9 @@
+---
+title: "Title Formulas & Optimization Guide"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Title Formulas & Optimization Guide
 
 ## Proven Title Formulas

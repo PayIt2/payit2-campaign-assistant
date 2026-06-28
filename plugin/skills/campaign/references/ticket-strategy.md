@@ -1,3 +1,9 @@
+---
+title: "Ticket Strategy"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Ticket Strategy
 
 Tier structure, pricing formulas, and group discount models for event campaigns on PayIt2.

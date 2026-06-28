@@ -1,3 +1,9 @@
+---
+title: "Open Items — payit2-campaign-coach"
+type: worklist
+doc_status: active
+owner: claude-maintained
+---
 # Open Items — payit2-campaign-coach
 
 > **Platform roadmap:** See `../../payit2-business/PLATFORM-STANDARDS.md` Section 19 for the org-wide implementation phases.

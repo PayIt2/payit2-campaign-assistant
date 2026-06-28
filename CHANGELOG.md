@@ -1,3 +1,9 @@
+---
+title: "Changelog"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # Changelog
 
 All notable changes to the PayIt2 Campaign Assistant plugin are documented here.
