@@ -20,6 +20,8 @@
   ],
   "userConfig": {
     "payit2_api_key": {
+      "type": "string",
+      "title": "PayIt2 API key",
       "description": "Your PayIt2 API key (found in PayIt2 dashboard > Settings > API)",
       "sensitive": true,
       "required": false

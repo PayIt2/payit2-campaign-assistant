@@ -1,58 +1,56 @@
 {
-  "SessionStart": [
-    {
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Session starting. If the PayIt2 MCP server is available AND the organizer has authenticated (you can see tools like list_my_campaigns), prepare context now: (1) Call list_my_campaigns to find the organizer's active campaigns. (2) For any campaign past 50% of its timeline OR below 30% of goal/capacity, call get_campaign_health to surface the top concern. Output a brief greeting (3-5 lines max) covering urgent campaign alerts by name with the top recommendation. If no campaigns exist, greet warmly and suggest /campaign to get started. If MCP is unavailable or no API key is configured, output nothing — do not greet, do not prompt to authenticate, do not mention MCP. The skills handle the standalone experience on their own."
-        }
-      ]
-    }
-  ],
-
-  "UserPromptSubmit": [
-    {
-      "hooks": [
-        {
-          "type": "command",
-          "command": "${CLAUDE_PLUGIN_ROOT}/scripts/detect-campaign-url.sh"
-        }
-      ]
-    }
-  ],
-
-  "PreToolUse": [
-    {
-      "matcher": "mcp__payit2__update_campaign_settings",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "update_campaign_settings is about to be called. Review the tool arguments and show the organizer a clear before/after summary of exactly what fields will change. Ask them to confirm before proceeding. If they have already confirmed in this conversation (said 'yes', 'go ahead', 'do it', 'confirm', or similar), output: APPROVED. Otherwise output: NEEDS_CONFIRMATION and list each field change as: [field]: '[old value]' → '[new value]'."
-        }
-      ]
-    }
-  ],
-
-  "SubagentStart": [
-    {
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "An agent is being launched in this session. Check the conversation for an active campaign (a campaign title, ID, or PayIt2 URL was mentioned). If found, output a compact 3-line context block: campaign name and type, current progress (amount raised / tickets sold / members paid), and days remaining. This context gets injected into the agent so it doesn't have to re-ask. If no campaign is active in this session, output: NO_ACTIVE_CAMPAIGN"
-        }
-      ]
-    }
-  ],
-
-  "Stop": [
-    {
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Review this conversation. If it included PayIt2 campaign assistance via /check-in, /promote, /engage, or /campaign: (1) state the campaign name and type, (2) list the top 3 specific recommendations made (be concrete — not 'improve your description' but 'rewrite the first paragraph to lead with the medical diagnosis'), (3) note any content that was generated. Output a concise markdown summary covering those 3 items. If this was NOT a campaign assistance session, output exactly: SKIP",
-          "command": "${CLAUDE_PLUGIN_ROOT}/scripts/save-summary.sh"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Session starting. If the PayIt2 MCP server is available AND the organizer has authenticated (you can see tools like list_my_campaigns), prepare context now: (1) Call list_my_campaigns to find the organizer's active campaigns. (2) For any campaign past 50% of its timeline OR below 30% of goal/capacity, call get_campaign_health to surface the top concern. Output a brief greeting (3-5 lines max) covering urgent campaign alerts by name with the top recommendation. If no campaigns exist, greet warmly and suggest /campaign to get started. If MCP is unavailable or no API key is configured, output nothing \u2014 do not greet, do not prompt to authenticate, do not mention MCP. The skills handle the standalone experience on their own."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/detect-campaign-url.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "mcp__payit2__update_campaign_settings",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "update_campaign_settings is about to be called. Review the tool arguments and show the organizer a clear before/after summary of exactly what fields will change. Ask them to confirm before proceeding. If they have already confirmed in this conversation (said 'yes', 'go ahead', 'do it', 'confirm', or similar), output: APPROVED. Otherwise output: NEEDS_CONFIRMATION and list each field change as: [field]: '[old value]' \u2192 '[new value]'."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "An agent is being launched in this session. Check the conversation for an active campaign (a campaign title, ID, or PayIt2 URL was mentioned). If found, output a compact 3-line context block: campaign name and type, current progress (amount raised / tickets sold / members paid), and days remaining. This context gets injected into the agent so it doesn't have to re-ask. If no campaign is active in this session, output: NO_ACTIVE_CAMPAIGN"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review this conversation. If it included PayIt2 campaign assistance via /check-in, /promote, /engage, or /campaign: (1) state the campaign name and type, (2) list the top 3 specific recommendations made (be concrete \u2014 not 'improve your description' but 'rewrite the first paragraph to lead with the medical diagnosis'), (3) note any content that was generated. Output a concise markdown summary covering those 3 items. If this was NOT a campaign assistance session, output exactly: SKIP",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/save-summary.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
