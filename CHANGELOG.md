@@ -9,6 +9,24 @@ owner: claude-maintained
 All notable changes to the PayIt2 Campaign Assistant plugin are documented here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Fixed
+
+- **The plugin manifest failed Claude Code's schema, so none of the five skills
+  registered.** `claude plugin validate` reported three errors, and any one of them is
+  enough for the loader to discard the plugin:
+  - `userConfig.payit2_api_key` declared no `type`. The schema requires one of
+    `string`, `number`, `boolean`, `directory`, `file`. It is now `string`.
+  - `userConfig.payit2_api_key` declared no `title`. It is now `PayIt2 API key`, which is
+    also what the config prompt shows the organizer.
+  - `hooks/hooks.json` put the event map at the top level. The loader wants it under a
+    `hooks` key (or `modules`). The file is now wrapped; every matcher, prompt, and
+    command is byte-for-byte what it was, verified by parsing both versions and comparing.
+
+  `claude plugin validate plugin` now passes. The diff on `hooks.json` looks large only
+  because wrapping reindents the whole file.
+
 ## [1.6.0] - 2026-04-28
 
 ### BREAKING
