@@ -13,6 +13,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- **The API key location was wrong.** The README and the key prompt said
+  Settings > API; the PayIt2 page is Settings > Developers (CEO question
+  2026-10-25, "Is the MCP and plugin information actually right?").
 - **The plugin manifest failed Claude Code's schema, so none of the five skills
   registered.** `claude plugin validate` reported three errors, and any one of them is
   enough for the loader to discard the plugin:

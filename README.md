@@ -43,7 +43,7 @@ You can also just describe your situation in plain language - Claude will figure
 The plugin runs in two modes:
 
 - **Standalone (default).** Anyone with Claude can install and use the plugin. Claude walks you through everything — story, title, goal, pricing, social posts, thank-yous — and hands you finished content to paste into payit2.com.
-- **PayIt2-connected.** If you have a PayIt2 account and add your API key (Settings > API), Claude can also pull your live campaign data and create or update campaigns directly. Same workflows, less copy-paste.
+- **PayIt2-connected.** If you have a PayIt2 account and add your API key (Settings > Developers in your PayIt2 dashboard), Claude can also pull your live campaign data and create or update campaigns directly. Same workflows, less copy-paste.
 
 You can start in standalone mode and connect later — there's nothing to reinstall.
 
