@@ -22,7 +22,7 @@
     "payit2_api_key": {
       "type": "string",
       "title": "PayIt2 API key",
-      "description": "Your PayIt2 API key (found in PayIt2 dashboard > Settings > API)",
+      "description": "Your PayIt2 API key (found in PayIt2 dashboard > Settings > Developers)",
       "sensitive": true,
       "required": false
     }
