@@ -27,6 +27,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 - **The server accepts two credentials.** It checks `x-api-key` first, then `Authorization: Bearer` (OAuth access token, then service JWT). An empty `x-api-key` header falls through to Bearer (`mcp-server/src/auth/authenticate.ts` in app-v2).
 - **The plugin bundles no MCP server.** `plugin.json` declares `userConfig.payit2_api_key`, but nothing reads it. The skills already describe a standalone mode and an MCP-connected mode, and every tool and prompt name they reference exists on the server today.
 - **One hook would break once a connector is bundled.** The `PreToolUse` matcher is `mcp__payit2__update_campaign_settings`. A plugin-bundled server's tools are named `mcp__plugin_payit2-campaign-assistant_payit2__<tool>`, so the confirmation hook would never fire.
+- **Content saved through the connector is invisible.** The four `save_*` tools (story, thank-you, update post, improvement notes) write to the `ai_content` table through `POST /api/v1/campaigns/:id/ai-content`, the only route on it. No API route returns that content, and no page shows it. The campaign feed is `/api/v1/campaigns/:id/updates`, which no connector tool calls. The `engage` and `promote` skills nonetheless say `save_update_post` publishes to the campaign feed, and `engage` and `check-in` say saved content shows in the organizer's dashboard.
 - **The public marketplace must stay public.** `PayIt2/payit2-plugins-marketplace` is public and payit2.com tells customers to add it. The claude.ai organization sync only accepts a private or internal marketplace repo on github.com, so the public repo cannot feed the team catalog. B-43 (2026-06-09) also says internal tooling should not be hosted in the public marketplace.
 - **Standards that apply** (PLATFORM-STANDARDS and POLICIES):
   - §3: tests never skip, and assert outcomes rather than strings.
@@ -46,6 +47,8 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 | D5 | Team marketplace contents | Campaign Assistant and the brand plugin from `payit2-business/plugins/payit2-brand` | The business copy is current (2026-09-03); the `payit2-brand-plugin` repo stopped in April |
 | D6 | Where the team uses it | Claude Code and the claude.ai organization catalog; Brian is the claude.ai admin | Brian's answer |
 | D7 | How it lands | PayIt2's git rules: draft PRs on `release/YYYY-MM-DD`, Thomas gives the merge signal | CHG-2 and §15 |
+| D8 | `release.sh` | Marketplace pin bumps go through draft PRs instead of direct pushes to `main` | §15; approved by Brian on spec review |
+| D9 | Saved content nobody sees | Test what is true today: the skills stop promising the feed and the dashboard, hand the organizer the text to post, and still call the save tools for the record. The story is checked through the campaign description. Making the save tools reach the feed is a separate app-v2 task. | Brian, 2026-10-27; posting to the public feed is a product call for Thomas |
 
 ## 4. Part A: The connector (plugin 1.7.0)
 
@@ -58,7 +61,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 | `plugin/hooks/hooks.json` | `PreToolUse` matcher becomes the regex `mcp__.*payit2.*__update_campaign_settings`; `SessionStart` prompt says "not signed in" instead of "no API key configured" |
 | `plugin/skills/campaign-context/SKILL.md` | Replace the "never mention" rule with the light mention (below); add the confirm-before-changing-settings rule |
 | `plugin/skills/campaign/SKILL.md` | Add the confirm-before-changing-settings rule to Step 8 |
-| `plugin/skills/check-in`, `promote`, `engage` `SKILL.md` | Replace API-key wording with signing in to PayIt2 |
+| `plugin/skills/check-in`, `promote`, `engage` `SKILL.md` | Replace API-key wording with signing in to PayIt2. Remove every claim that saved content appears in the campaign feed or the organizer's dashboard: the skill gives the organizer the finished text to post themselves, and calls the matching `save_*` tool to keep a record (D9). |
 | `README.md` | "Add your API key" becomes "Sign in to PayIt2"; describe where sign-in lives in each Claude surface |
 | `CHANGELOG.md` | 1.7.0 entry |
 | `payit2-campaign-assistant.zip` | Rebuilt with `./build-plugin.sh` |
@@ -125,6 +128,7 @@ Every test that writes refuses to start unless both URLs point at `dev.` hosts o
 | No drift | Every tool and prompt name referenced in `plugin/` (skills, agent, hooks, scripts) is in the server's `listTools` and `listPrompts`. A short allowlist covers backticked tokens that are not tool names, such as the filter value `needs_attention`. A failure names the missing tool and the file that references it. |
 | Read outcomes | `list_my_campaigns` returns the fixture campaign; `get_campaign_overview`, `get_campaign_health` and `get_payment_summary` report the same goal, amount raised and status as `GET /api/v1/campaigns/:id` on the dev API. |
 | Write round trip | `create_campaign` through the connector, as a draft, with the run marker in the title; the dev API returns that title, goal, end date and draft status; the campaign is then hard-deleted and a read returns 404. |
+| Save round trip | `save_update_post` on the fixture campaign with the run marker returns `Saved update_post content for campaign <id>.` and not `Failed to save content`. The tool's reply is the only observable outcome until the app-v2 follow-up gives saved content a read path. |
 | Sign-in path | `POST /mcp` with no credentials returns 401 with `resource_metadata` in `WWW-Authenticate`. |
 | Prod URL | Unauthenticated only: prod `/health` returns 200, and prod's `oauth-protected-resource` names `https://mcp.payit2.com/mcp`, the URL in `plugin/.mcp.json`. |
 
@@ -156,10 +160,10 @@ claude -p "<scenario prompt>" \
 | # | Scenario | Passes when |
 |---|---|---|
 | 1 | `/check-in` on the fixture campaign | `get_campaign_health` is called, and the reply states the amount raised that the dev API reports |
-| 2 | Post a progress update that includes the run marker | `save_update_post` is called, and the dev API lists an update containing the marker |
+| 2 | Draft a progress update that includes the run marker | `save_update_post` is called with content containing the marker and returns `Saved`; the reply gives the organizer the full update text with the marker; the reply does not claim the update was posted to the campaign feed |
 | 3 | Ask to change the fixture campaign's title, without confirming | The confirmation hook fires, and the dev API shows the title unchanged |
 | 4 | No dev connector; ask "how is my campaign doing?" | The plugin's bundled prod server shows as not signed in, and the reply contains exactly one sign-in mention followed by standalone questions |
-| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the fixture organizer with the marker title and requested goal, a saved story, and the chosen theme. The theme step passes the confirmation hook because the brief already said go ahead. |
+| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the fixture organizer with the marker title, the requested goal, the chosen theme, and a description of at least 400 characters that names the cause from the brief. The description is where the story appears on the campaign page (D9). The theme step passes the confirmation hook because the brief already said go ahead. |
 
 **CI later:** a dispatch-only workflow for the live run waits until Thomas adds a workload identity federation rule for this repo. It is a follow-up, because §33 says an automation is not done until it has one green run.
 
@@ -248,9 +252,9 @@ Other files mirror the public marketplace: `README.md` with the setup steps belo
 
 All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one opens. Each gets a review posted on it (CHG-3), and Thomas gives the merge signal (CHG-2). Commits are conventional, with no `Co-Authored-By` trailers (CHG-4).
 
-### Proposed in this written spec, not yet discussed
+### `release.sh` goes through PRs (D8, approved 2026-10-27)
 
-`release.sh` pushes its commits straight to `main` in both repos. §15 says every change reaches `main` through a PR. Since this work already edits `release.sh` to add the team marketplace, the proposal is that its marketplace pin bumps go to a `release/YYYY-MM-DD` branch with a draft PR in each marketplace repo, instead of a direct push. The plugin side keeps tagging `main` after PR 1 has merged. Brian decides whether this is in scope.
+`release.sh` pushed its commits straight to `main` in both repos, and §15 says every change reaches `main` through a PR. Since this work already edits `release.sh` to add the team marketplace, its marketplace pin bumps now go to a `release/YYYY-MM-DD` branch with a draft PR in each marketplace repo, instead of a direct push. The plugin side no longer commits: it refuses to run unless `main` already carries the release version, then tags `main`. PR 4 above is the first PR this produces.
 
 ### Brian's steps
 
@@ -276,6 +280,7 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 
 ## 9. Out of scope (follow-ups)
 
+- **app-v2: make saved content reach the organizer.** `save_update_post` should create a real campaign update (or a draft one) through the updates route, and saved stories, thank-yous and notes need a read path or a dashboard surface. Posting to the public feed may notify participants, so this is Thomas's product call. Once it lands, the skills can promise the feed again and the tests can read the content back.
 - The live run in CI, after Thomas adds the identity rule.
 - Archiving the `payit2-brand-plugin` repo.
 - The payit2.com AI assistant page, if it still tells organizers to add an API key (website repo).
@@ -292,4 +297,3 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 | The live run can be isolated from Brian's own plugins and MCP servers | The init check fails the run if anything else loads; options are `--bare` with a personal Anthropic key, or `--strict-mcp-config` with `--setting-sources` |
 | The `stream-json` event shapes for tool calls and hook results | Read from the first real run and pinned in the parser's tests |
 | The brand plugin passes the sync rules | `check-sources.sh` before PR 2 |
-| The dev API routes for listing update posts and reading saved stories and themes | Confirmed against `backend/src/routes` in app-v2 while writing the plan |
