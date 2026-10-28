@@ -89,4 +89,9 @@ describe("plugin copy", () => {
       expect(readFileSync(PLUGIN + rel, "utf8")).toMatch(/current and new value/i);
     }
   });
+
+  it("no skill tells Claude to stay silent about signing in", () => {
+    const hits = allText().filter(({ t }) => /without comment/i.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
 });

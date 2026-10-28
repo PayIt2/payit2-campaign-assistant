@@ -128,11 +128,9 @@ Keep it under 100 words. Collections are transactional: clarity beats storytelli
 PayIt2 fields fall into two categories. Use the wrong format and the output will display raw tags or broken layout.
 
 ### HTML fields (use HTML, never markdown or plain text)
-These fields back a rich-text editor on the campaign page:
-- `description` (campaign page body)
-- `save_campaign_story` content
-- `save_update_post` content
-- `save_thank_you` content
+These fields take HTML:
+- `description` (the campaign page body, shown in its rich-text editor)
+- `save_campaign_story`, `save_update_post` and `save_thank_you` content (kept as a record in the same format; not shown on the campaign page)
 
 Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`.
 

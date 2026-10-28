@@ -14,7 +14,7 @@ This skill works in two modes. See `campaign-context` for the operating-modes ov
 - **Standalone (default):** generate a full promotion package — channel strategy, content calendar, platform-specific posts, email templates — that the organizer can copy and paste into their channels. No PayIt2 account needed.
 - **Connected:** the same package, with live progress numbers (`get_payment_summary`, `get_campaign_health`) woven into update posts. Update posts are handed to the organizer to post on their campaign page; `save_update_post` keeps a record but does not publish anything.
 
-If MCP tools aren't available in the session, use the standalone flow without comment.
+If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
 
 ## Core Principle: The 2.5x Rule
 

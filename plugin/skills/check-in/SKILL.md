@@ -12,7 +12,7 @@ This skill works in two modes. See `campaign-context` for the operating-modes ov
 - **Standalone (default):** ask the organizer for current numbers (raised, donors, days active, etc.) and run the diagnostic against benchmarks below.
 - **Connected:** pull live `get_campaign_health` and `get_payment_summary` data instead of asking. Give the organizer the action plan in your reply, and keep a record of it with `save_improvement_notes`. The saved notes do not appear in their dashboard.
 
-If MCP tools aren't available in the session, use the standalone flow below without comment.
+If PayIt2 tools aren't available in the session, use the standalone flow below. See `campaign-context` for the one sign-in mention.
 
 Follow this diagnostic workflow:
 
