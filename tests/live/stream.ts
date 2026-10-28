@@ -1,6 +1,7 @@
 export interface InitInfo { plugins: string[]; mcpServers: { name: string; status: string }[]; tools: string[]; version: string }
 export interface ToolUse { id: string; name: string; input: Record<string, unknown> }
 export interface ToolResult { toolUseId: string; text: string; isError: boolean }
+export interface FailedMcpServer { name: string; error: string }
 export interface HookEvent { event: string; name: string; outcome: string; output: string }
 export interface StreamSummary {
   init: InitInfo | null;
@@ -11,6 +12,9 @@ export interface StreamSummary {
   // Every text block Claude wrote, in order. `resultText` is only the last message, so a reply that
   // came before a closing tool call (for example a save) is in here and not in `resultText`.
   assistantText: string[];
+  // MCP servers Claude Code reported as failed to connect (not merely signed out). The CLI attaches
+  // this to a ToolSearch result as `tool_use_result.failed_mcp_servers`.
+  failedMcpServers: FailedMcpServer[];
   resultText: string;
   isError: boolean;
   costUsd: number;
@@ -30,7 +34,7 @@ export function replyText(s: StreamSummary): string {
 }
 
 export function parseStream(jsonl: string): StreamSummary {
-  const s: StreamSummary = { init: null, toolUses: [], toolResults: [], hooks: [], denials: [], assistantText: [], resultText: "", isError: false, costUsd: 0 };
+  const s: StreamSummary = { init: null, toolUses: [], toolResults: [], hooks: [], denials: [], assistantText: [], failedMcpServers: [], resultText: "", isError: false, costUsd: 0 };
   for (const line of jsonl.split("\n")) {
     let e: Record<string, any>;
     try { e = JSON.parse(line); } catch { continue; }
@@ -49,6 +53,9 @@ export function parseStream(jsonl: string): StreamSummary {
         else if (b.type === "text" && String(b.text ?? "").trim()) s.assistantText.push(String(b.text));
       }
     } else if (e.type === "user") {
+      for (const m of (e.tool_use_result?.failed_mcp_servers ?? []) as { name?: string; error?: string }[]) {
+        s.failedMcpServers.push({ name: String(m.name ?? ""), error: String(m.error ?? "") });
+      }
       for (const b of (e.message?.content ?? []) as Block[]) {
         if (b.type === "tool_result") s.toolResults.push({ toolUseId: String(b.tool_use_id), text: blockText(b.content), isError: Boolean(b.is_error) });
       }

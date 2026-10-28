@@ -18,6 +18,31 @@ const calls = (s: StreamSummary, name: string) => s.toolUses.filter((u) => u.nam
 const resultFor = (s: StreamSummary, id: string) => s.toolResults.find((r) => r.toolUseId === id);
 const NOT_HERE = "The organizer is not available to answer questions; use what the tools return and finish.";
 
+const BUNDLED = "plugin:payit2-campaign-assistant:payit2";
+const SIGN_IN = /\bsign(?:ing)?[ -]in\b/i;
+
+// Scenario 4: the bundled prod connector is present but the organizer has not signed in.
+export function checkNotSignedIn(s: StreamSummary): string[] {
+  const f: string[] = [];
+  const server = s.init?.mcpServers.find((m) => m.name === BUNDLED);
+  if (!server) f.push("the bundled connector did not load");
+  else if (server.status === "connected") f.push("the bundled connector is unexpectedly signed in");
+  // A server that failed to connect is not the same as one waiting for sign-in: the organizer could not
+  // start signing in at all. Name it instead of letting a reply that happens to read well hide it.
+  const failed = s.failedMcpServers.find((m) => m.name === BUNDLED);
+  if (failed) f.push(`the bundled connector failed to connect instead of showing signed out: ${failed.error.replace(/\s+/g, " ").slice(0, 200)}`);
+  if (s.toolUses.some((u) => u.name.includes("payit2"))) f.push("Claude called a PayIt2 tool while not signed in");
+  const reply = replyText(s);
+  const paragraphs = reply.split(/\n\s*\n/).filter((p) => SIGN_IN.test(p));
+  if (paragraphs.length !== 1) f.push(`expected the sign-in mention in exactly one paragraph, found ${paragraphs.length}`);
+  // After the one mention, Claude must carry on standalone: ask for the organizer's numbers, by question or by request.
+  const afterMention = SIGN_IN.test(reply) ? reply.slice(reply.search(SIGN_IN)) : "";
+  const asks = /\?|\b(?:tell me|share|give me|send me|let me know|paste)\b/i.test(afterMention);
+  const names = /\b(?:raised|donors?|donations?|supporters?|goal|numbers|stats|figures)\b/i.test(afterMention);
+  if (!asks || !names) f.push("after the sign-in mention, the reply does not ask the organizer for their numbers");
+  return f;
+}
+
 export const SCENARIOS: Scenario[] = [
   {
     name: "check-in",
@@ -77,15 +102,7 @@ export const SCENARIOS: Scenario[] = [
     maxBudgetUsd: 0.75,
     prompt: () => `How is my PayIt2 campaign doing this week? It's the Spring Legal Defense Fund.`,
     async check(s) {
-      const f: string[] = [];
-      const server = s.init?.mcpServers.find((m) => m.name === "plugin:payit2-campaign-assistant:payit2");
-      if (!server) f.push("the bundled connector did not load");
-      else if (server.status === "connected") f.push("the bundled connector is unexpectedly signed in");
-      if (s.toolUses.some((u) => u.name.includes("payit2"))) f.push("Claude called a PayIt2 tool while not signed in");
-      const paragraphs = replyText(s).split(/\n\s*\n/).filter((p) => /\bsign(?:ing)?[ -]in\b/i.test(p));
-      if (paragraphs.length !== 1) f.push(`expected the sign-in mention in exactly one paragraph, found ${paragraphs.length}`);
-      if (!replyText(s).includes("?")) f.push("reply does not ask the organizer for their numbers");
-      return f;
+      return checkNotSignedIn(s);
     },
   },
   {
