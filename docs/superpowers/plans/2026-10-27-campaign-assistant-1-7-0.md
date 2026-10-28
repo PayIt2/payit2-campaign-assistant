@@ -816,7 +816,7 @@ git commit -m "test: parse connector output and collect the plugin's tool refere
 
 ### Task 5: Layer 1, the connector check against dev
 
-**Precondition:** the fixture organizer's dev key is in the Keychain item `payit2-e2e-fixture-api-key` (Brian, done interactively) and `curl` against dev returns 200 (see Step 1).
+**Precondition:** the dev key of the plugin's dedicated test account (spec D11) is in the Keychain item `payit2-e2e-fixture-api-key` (Brian, done interactively) and `curl` against dev returns 200 (see Step 1).
 
 **Files:**
 - Create: `tests/lib/mcp.ts`, `tests/lib/api.ts`, `tests/lib/fixture.ts`, `tests/connector/drift.connector.test.ts`, `tests/connector/reads.connector.test.ts`, `tests/connector/writes.connector.test.ts`, `tests/connector/auth.connector.test.ts`, `tests/README.md`
@@ -1153,12 +1153,12 @@ Three suites, all against dev. Nothing here writes to production.
 | Command | What it runs | Needs |
 |---|---|---|
 | `npm test` | Offline checks of the plugin files and the test helpers | Nothing |
-| `npm run connector` | Layer 1: the plugin's tools exist on dev, read tools match dev's API, a draft campaign round trip, the sign-in challenge, and the production URL (unauthenticated) | The fixture organizer's dev key |
+| `npm run connector` | Layer 1: the plugin's tools exist on dev, read tools match dev's API, a draft campaign round trip, the sign-in challenge, and the production URL (unauthenticated) | The test account's dev key |
 | `npm run live` | Layer 2: headless Claude runs the plugin against dev in five scenarios | The dev key and a Claude token |
 
 ## Keys
 
-The dev key belongs to the fixture organizer (`payit2/dev/e2e-fixture-organizer`). The tests read
+The dev key belongs to a dev account used only by these tests (spec D11). The tests read
 `E2E_FIXTURE_API_KEY`, or on a Mac the Keychain item `payit2-e2e-fixture-api-key`:
 
     security add-generic-password -U -a "$USER" -s payit2-e2e-fixture-api-key -w
@@ -1626,7 +1626,7 @@ export const SCENARIOS: Scenario[] = [
       if (mine.length !== 1) return [...f, `expected one new campaign with the marker on dev, found ${mine.length}`];
       const d = (await api.getCampaign(mine[0].id))!;
       if (d.status !== "draft") f.push(`status is ${d.status}, not draft`);
-      if (d.role !== "owner") f.push("the fixture organizer does not own the new campaign");
+      if (d.role !== "owner") f.push("the test account does not own the new campaign");
       if (toNumber(d.goalAmount) !== 15000) f.push(`goal is ${d.goalAmount}, not 15000`);
       if ((d.description ?? "").length < 400) f.push(`description is ${(d.description ?? "").length} characters, under 400`);
       if (!/Maria/.test(d.description ?? "")) f.push("description does not name the cause from the brief");

@@ -50,6 +50,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 | D8 | `release.sh` | Marketplace pin bumps go through draft PRs instead of direct pushes to `main` | §15; approved by Brian on spec review |
 | D9 | Saved content nobody sees | Test what is true today: the skills stop promising the feed and the dashboard, hand the organizer the text to post, and still call the save tools for the record. The story is checked through the campaign description. Making the save tools reach the feed is a separate app-v2 task. | Brian, 2026-10-27; posting to the public feed is a product call for Thomas |
 | D10 | Hooks that never worked | Found by a headless probe while planning. `SessionStart` becomes a command hook (prompt hooks are rejected there). The `update_campaign_settings` check becomes a command hook that returns `permissionDecision: "ask"`, so Claude Code asks the organizer to approve every settings change and a headless run denies it. `SubagentStart` and `Stop` are removed with `save-summary.sh`: both were prompt hooks that needed a conversation the hook model never sees, and Stop piped its output into a script, which hooks cannot do. | Probe on CLI 2.1.252, 2026-10-27; same intent, working mechanism |
+| D11 | Which dev account the tests use | A dedicated dev account Brian created for the plugin tests, not the app-v2 suite's fixture organizer (whose password Brian does not hold) and not his own account | Brian, 2026-10-27; keeps test drafts out of personal dev data and off a shared fixture |
 
 ## 4. Part A: The connector (plugin 1.7.0)
 
@@ -109,7 +110,7 @@ tests/
 
 | Variable | Default | Notes |
 |---|---|---|
-| `E2E_FIXTURE_API_KEY` | none, required | Read and write dev key for the fixture organizer. Missing key fails the run; tests never skip. |
+| `E2E_FIXTURE_API_KEY` | none, required | Read and write dev key for the plugin's dedicated dev test account. Missing key fails the run; tests never skip. |
 | `E2E_MCP_URL` | `https://dev.mcp.payit2.com/mcp` | |
 | `E2E_API_URL` | `https://dev.api.payit2.com` | |
 
@@ -117,7 +118,7 @@ Every test that writes refuses to start unless both URLs point at `dev.` hosts o
 
 ### Fixture data and cleanup
 
-- **Organizer:** the existing dev fixture organizer (`payit2/dev/e2e-fixture-organizer` in Secrets Manager).
+- **Organizer:** a dev account used only by these tests, which Brian created for the plugin (D11). It needs no Stripe setup, because the tests only create drafts. The tests never sign in with a person's own login (ledger 2026-08-10).
 - **Fixture campaign:** one campaign named `Campaign Assistant e2e fixture`, found by exact title or created once through the REST API.
 - **Run marker:** every write carries a run marker (`[e2e <run id>]`) in a title or body.
 - **Cleanup:** campaigns created by a run are hard-deleted with `DELETE /api/v1/campaigns/:id/permanent` when the run ends, and update posts with `DELETE .../updates/:updateId`. Each run also starts with a sweep that removes leftover `[e2e` drafts and update posts from crashed runs.
@@ -165,7 +166,7 @@ claude -p "<scenario prompt>" \
 | 2 | Draft a progress update that includes the run marker | `save_update_post` is called with content containing the marker and returns `Saved`; the reply gives the organizer the full update text with the marker; the reply does not claim the update was posted to the campaign feed |
 | 3 | Ask to change the fixture campaign's title, confirming in the prompt | `update_campaign_settings` is attempted, the confirmation hook runs, the call is denied because nobody can approve it headless, and the dev API shows the title unchanged |
 | 4 | No dev connector; ask "how is my campaign doing?" | The plugin's bundled prod server shows as not signed in, and the reply contains exactly one sign-in mention followed by standalone questions |
-| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the fixture organizer with the marker title, the requested goal, the chosen theme, and a description of at least 400 characters that names the cause from the brief. The description is where the story appears on the campaign page (D9). If Claude tries to apply the theme, that settings change is held for the organizer's approval (denied headless), not applied silently. |
+| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the test account with the marker title, the requested goal, the chosen theme, and a description of at least 400 characters that names the cause from the brief. The description is where the story appears on the campaign page (D9). If Claude tries to apply the theme, that settings change is held for the organizer's approval (denied headless), not applied silently. |
 
 **CI later:** a dispatch-only workflow for the live run waits until Thomas adds a workload identity federation rule for this repo. It is a follow-up, because §33 says an automation is not done until it has one green run.
 
@@ -260,7 +261,7 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 
 ### Brian's steps
 
-1. Mint a read-and-write dev API key for the fixture organizer. Store it in Secrets Manager with the fixture identity, and as the `E2E_FIXTURE_API_KEY` Actions secret on `payit2-campaign-assistant`.
+1. Create the plugin's dedicated dev test account (D11), mint a read-and-write dev API key on it, and store it in his Keychain (`payit2-e2e-fixture-api-key`) and as the `E2E_FIXTURE_API_KEY` Actions secret on `payit2-campaign-assistant`.
 2. Run the live suite himself, or let Claude run it on his login.
 3. Complete the claude.ai setup after PR 2 merges.
 4. Run the prod smoke check after release.
