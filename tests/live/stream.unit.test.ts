@@ -37,4 +37,20 @@ describe("parseStream", () => {
     expect(s.resultText).toBe("Your goal is $5,000.");
     expect(s.costUsd).toBe(0.12);
   });
+
+  it("flags failed results and failed tool calls", () => {
+    const failing = [
+      { type: "assistant", message: { content: [
+        { type: "tool_use", id: "t9", name: "mcp__payit2__update_campaign_settings", input: {} },
+      ] } },
+      { type: "user", message: { content: [
+        { type: "tool_result", tool_use_id: "t9", is_error: true, content: "Campaign not found" },
+      ] } },
+      { type: "result", subtype: "error_during_execution", result: "The campaign could not be found.", is_error: true, total_cost_usd: 0.03, permission_denials: [] },
+    ].map((l) => JSON.stringify(l)).join("\n");
+    const s = parseStream(failing);
+    expect(s.isError).toBe(true);
+    expect(s.toolResults).toEqual([{ toolUseId: "t9", text: "Campaign not found", isError: true }]);
+    expect(s.resultText).toBe("The campaign could not be found.");
+  });
 });

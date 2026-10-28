@@ -13,12 +13,14 @@ export interface RunOptions {
   maxBudgetUsd: number;
   model: string;
   auth: { CLAUDE_CODE_OAUTH_TOKEN?: string; ANTHROPIC_API_KEY?: string };
+  timeoutMs?: number;
 }
 
 // Runs `claude -p` with a throwaway HOME and working folder, so only the plugin under test
 // (and, when given, the dev connector) loads. The MCP config holds the dev key, so it lives
 // in the throwaway folder with mode 0600 and is deleted afterwards.
 export async function runClaude(o: RunOptions): Promise<{ jsonl: string; stderr: string; exitCode: number }> {
+  mkdirSync(o.outDir, { recursive: true });
   const scratch = mkdtempSync(join(tmpdir(), "payit2-e2e-"));
   const home = join(scratch, "home");
   const cwd = join(scratch, "cwd");
@@ -50,10 +52,26 @@ export async function runClaude(o: RunOptions): Promise<{ jsonl: string; stderr:
       const child = spawn("claude", args, { cwd, env, stdio: ["ignore", "pipe", "pipe"] });
       let jsonl = "";
       let stderr = "";
+      let timedOut = false;
+      const limitMs = o.timeoutMs ?? 10 * 60_000;
+      // A hung run gets SIGTERM at the limit, then SIGKILL 5 seconds later if it has not exited.
+      let killTimer: NodeJS.Timeout | undefined;
+      const timer = setTimeout(() => {
+        timedOut = true;
+        child.kill("SIGTERM");
+        killTimer = setTimeout(() => child.kill("SIGKILL"), 5_000);
+      }, limitMs);
       child.stdout.on("data", (d) => { jsonl += d; });
       child.stderr.on("data", (d) => { stderr += d; });
-      child.on("error", reject);
+      child.on("error", (err) => {
+        clearTimeout(timer);
+        clearTimeout(killTimer);
+        reject(err);
+      });
       child.on("close", (code) => {
+        clearTimeout(timer);
+        clearTimeout(killTimer);
+        if (timedOut) stderr += `\n[runClaude] timed out after ${limitMs / 1000}s`;
         writeFileSync(join(o.outDir, `${o.name}.jsonl`), jsonl);
         resolve({ jsonl, stderr, exitCode: code ?? -1 });
       });
