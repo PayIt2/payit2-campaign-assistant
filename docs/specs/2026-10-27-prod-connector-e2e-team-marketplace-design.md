@@ -49,6 +49,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 | D7 | How it lands | PayIt2's git rules: draft PRs on `release/YYYY-MM-DD`, Thomas gives the merge signal | CHG-2 and §15 |
 | D8 | `release.sh` | Marketplace pin bumps go through draft PRs instead of direct pushes to `main` | §15; approved by Brian on spec review |
 | D9 | Saved content nobody sees | Test what is true today: the skills stop promising the feed and the dashboard, hand the organizer the text to post, and still call the save tools for the record. The story is checked through the campaign description. Making the save tools reach the feed is a separate app-v2 task. | Brian, 2026-10-27; posting to the public feed is a product call for Thomas |
+| D10 | Hooks that never worked | Found by a headless probe while planning. `SessionStart` becomes a command hook (prompt hooks are rejected there). The `update_campaign_settings` check becomes a command hook that returns `permissionDecision: "ask"`, so Claude Code asks the organizer to approve every settings change and a headless run denies it. `SubagentStart` and `Stop` are removed with `save-summary.sh`: both were prompt hooks that needed a conversation the hook model never sees, and Stop piped its output into a script, which hooks cannot do. | Probe on CLI 2.1.252, 2026-10-27; same intent, working mechanism |
 
 ## 4. Part A: The connector (plugin 1.7.0)
 
@@ -58,7 +59,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 |---|---|
 | `plugin/.mcp.json` (new) | One server, `payit2`: `{"type": "http", "url": "https://mcp.payit2.com/mcp"}`, no headers |
 | `plugin/.claude-plugin/plugin.json` | Remove `userConfig`; version `1.7.0` |
-| `plugin/hooks/hooks.json` | `PreToolUse` matcher becomes the regex `mcp__.*payit2.*__update_campaign_settings`; `SessionStart` prompt says "not signed in" instead of "no API key configured" |
+| `plugin/hooks/hooks.json` | `PreToolUse` matcher becomes the regex `mcp__.*payit2.*__update_campaign_settings` and runs `scripts/confirm-settings-change.sh`; `SessionStart` runs `scripts/session-start.sh`; `SubagentStart` and `Stop` are removed, with `scripts/save-summary.sh` (D10) |
 | `plugin/skills/campaign-context/SKILL.md` | Replace the "never mention" rule with the light mention (below); add the confirm-before-changing-settings rule |
 | `plugin/skills/campaign/SKILL.md` | Add the confirm-before-changing-settings rule to Step 8 |
 | `plugin/skills/check-in`, `promote`, `engage` `SKILL.md` | Replace API-key wording with signing in to PayIt2. Remove every claim that saved content appears in the campaign feed or the organizer's dashboard: the skill gives the organizer the finished text to post themselves, and calls the matching `save_*` tool to keep a record (D9). |
@@ -127,7 +128,7 @@ Every test that writes refuses to start unless both URLs point at `dev.` hosts o
 |---|---|
 | No drift | Every tool and prompt name referenced in `plugin/` (skills, agent, hooks, scripts) is in the server's `listTools` and `listPrompts`. A short allowlist covers backticked tokens that are not tool names, such as the filter value `needs_attention`. A failure names the missing tool and the file that references it. |
 | Read outcomes | `list_my_campaigns` returns the fixture campaign; `get_campaign_overview`, `get_campaign_health` and `get_payment_summary` report the same goal, amount raised and status as `GET /api/v1/campaigns/:id` on the dev API. |
-| Write round trip | `create_campaign` through the connector, as a draft, with the run marker in the title; the dev API returns that title, goal, end date and draft status; the campaign is then hard-deleted and a read returns 404. |
+| Write round trip | `create_campaign` through the connector, as a draft, with the run marker in the title; the dev API returns that title, goal, description and draft status (`create_campaign` takes no end date); the campaign is then hard-deleted and a read returns 404. |
 | Save round trip | `save_update_post` on the fixture campaign with the run marker returns `Saved update_post content for campaign <id>.` and not `Failed to save content`. The tool's reply is the only observable outcome until the app-v2 follow-up gives saved content a read path. |
 | Sign-in path | `POST /mcp` with no credentials returns 401 with `resource_metadata` in `WWW-Authenticate`. |
 | Prod URL | Unauthenticated only: prod `/health` returns 200, and prod's `oauth-protected-resource` names `https://mcp.payit2.com/mcp`, the URL in `plugin/.mcp.json`. |
@@ -153,23 +154,24 @@ claude -p "<scenario prompt>" \
   --max-turns <cap>
 ```
 
-- **Init check:** before any scenario counts, the `system/init` event must show the plugin loaded with no `plugin_errors`, the dev `payit2` server connected, and no other plugins or MCP servers loaded. The run fails if Brian's own plugins or servers leak in.
-- **Where it runs:** locally on Brian's own Claude login, as §33 expects for interactive sessions.
+- **Isolation:** each run gets a throwaway home folder and working folder, so only the plugin under test (and the dev connector, when the scenario uses one) loads. The dev connector's config, which holds the key, lives in that throwaway folder with mode 0600 and is deleted after the run.
+- **Init check:** before any scenario counts, the `system/init` event must show exactly the plugin under test and exactly the expected MCP server: `payit2` (dev) for scenarios 1 to 3 and 5, the bundled `plugin:payit2-campaign-assistant:payit2` for scenario 4.
+- **Where it runs:** locally on Brian's own Claude subscription, as §33 expects for interactive use. A throwaway home folder hides his login, so the runner uses a long-lived token from `claude setup-token`, stored in his Keychain, or `ANTHROPIC_API_KEY`.
 - **Output:** transcripts and a JSON summary go to `tests/live/.runs/<timestamp>/` (gitignored). The summary is attached to PR 1.
 
 | # | Scenario | Passes when |
 |---|---|---|
-| 1 | `/check-in` on the fixture campaign | `get_campaign_health` is called, and the reply states the amount raised that the dev API reports |
+| 1 | `/check-in` on the fixture campaign | `get_campaign_health` is called, and the reply states the goal that the dev API reports (the fixture has no payments, so $0 raised proves nothing) |
 | 2 | Draft a progress update that includes the run marker | `save_update_post` is called with content containing the marker and returns `Saved`; the reply gives the organizer the full update text with the marker; the reply does not claim the update was posted to the campaign feed |
-| 3 | Ask to change the fixture campaign's title, without confirming | The confirmation hook fires, and the dev API shows the title unchanged |
+| 3 | Ask to change the fixture campaign's title, confirming in the prompt | `update_campaign_settings` is attempted, the confirmation hook runs, the call is denied because nobody can approve it headless, and the dev API shows the title unchanged |
 | 4 | No dev connector; ask "how is my campaign doing?" | The plugin's bundled prod server shows as not signed in, and the reply contains exactly one sign-in mention followed by standalone questions |
-| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the fixture organizer with the marker title, the requested goal, the chosen theme, and a description of at least 400 characters that names the cause from the brief. The description is where the story appears on the campaign page (D9). The theme step passes the confirmation hook because the brief already said go ahead. |
+| 5 | `/campaign` with a complete brief (a legal defense fund with goal, end date and theme, "go ahead and create it as a draft", no cover image) | The dev API shows a new draft owned by the fixture organizer with the marker title, the requested goal, the chosen theme, and a description of at least 400 characters that names the cause from the brief. The description is where the story appears on the campaign page (D9). If Claude tries to apply the theme, that settings change is held for the organizer's approval (denied headless), not applied silently. |
 
 **CI later:** a dispatch-only workflow for the live run waits until Thomas adds a workload identity federation rule for this repo. It is a follow-up, because §33 says an automation is not done until it has one green run.
 
 ### Prod smoke (manual, at release)
 
-After release, Brian installs 1.7.0, signs in as the prod smoke organizer (ledger 2026-10-18) and runs `/check-in`. This is added to the release checklist in the README. No prod credential is used in CI.
+After release, Brian installs 1.7.0, signs in as the prod smoke organizer (ledger 2026-10-18) and runs `/check-in`, then asks for a title change and declines the permission prompt. This is added to the release steps in the repo's `CLAUDE.md`. No prod credential is used in CI.
 
 ## 6. Part C: The team marketplace
 
@@ -292,8 +294,7 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 | Unknown | How it is settled |
 |---|---|
 | The regex matcher fires for the plugin-prefixed tool name | Scenario 3 |
-| The existing `PreToolUse` prompt hook's reply format blocks the call when unconfirmed (its prompt asks for `APPROVED` or `NEEDS_CONFIRMATION`, which may not be the reply format prompt hooks expect) | Scenario 3; reword the hook prompt if it does not block |
-| `--mcp-config` expands environment variables in headers | If it does not, the runner writes a temporary config outside the repo at run time and never logs it |
-| The live run can be isolated from Brian's own plugins and MCP servers | The init check fails the run if anything else loads; options are `--bare` with a personal Anthropic key, or `--strict-mcp-config` with `--setting-sources` |
-| The `stream-json` event shapes for tool calls and hook results | Read from the first real run and pinned in the parser's tests |
+| A command hook's `ask` is denied in a headless `dontAsk` run, even with the tool in `--allowedTools` | Scenario 3 |
+| A long-lived token from `claude setup-token` authenticates a run with a throwaway home folder | The plan's probe step; the fallback (shared home, `--setting-sources project`, `--strict-mcp-config`) is written into the plan |
+| Tool-call event shapes in `stream-json` (the init and hook shapes were probed on 2026-10-27) | The first real run; the parser's unit test is updated to match |
 | The brand plugin passes the sync rules | `check-sources.sh` before PR 2 |
