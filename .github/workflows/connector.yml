@@ -1,0 +1,44 @@
+name: Connector check
+
+on:
+  pull_request:
+    paths:
+      - "plugin/**"
+      - "tests/**"
+      - ".github/workflows/connector.yml"
+  workflow_dispatch:
+  schedule:
+    # Mondays 13:00 UTC. Catches a tool renamed in app-v2, which no plugin PR would trigger.
+    - cron: "0 13 * * 1"
+
+concurrency:
+  group: connector-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  connector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tests
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - name: Connector check against dev
+        run: npm run connector
+        env:
+          E2E_FIXTURE_API_KEY: ${{ secrets.E2E_FIXTURE_API_KEY }}
+      - name: Validate the plugin
+        working-directory: .
+        run: npx --yes @anthropic-ai/claude-code@2.1.252 plugin validate plugin --strict
