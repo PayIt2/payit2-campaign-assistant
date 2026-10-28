@@ -124,6 +124,9 @@ for i in "${!MARKETPLACES[@]}"; do
   if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
     run git switch "$BRANCH"
     run git pull --ff-only
+  elif git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+    # a run that died before its push left this branch behind; reuse it
+    run git switch "$BRANCH"
   else
     run git switch --no-track -c "$BRANCH" "origin/$default"
   fi
