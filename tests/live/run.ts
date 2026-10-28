@@ -43,28 +43,46 @@ const selected = wanted.length ? SCENARIOS.filter((s) => wanted.includes(s.name)
 if (wanted.length && selected.length !== wanted.length) throw new Error(`Unknown scenario in: ${wanted.join(", ")}`);
 
 const results: { name: string; passed: boolean; failures: string[]; costUsd: number; version: string }[] = [];
+// Hoisted so the finally block can protect the standing fixture even when the run dies early.
+let fixtureId: string | undefined;
 try {
   await sweepLeftovers(api);
-  const fixtureId = await ensureFixtureCampaign(mcp, api);
+  const id = await ensureFixtureCampaign(mcp, api);
+  fixtureId = id;
   const devConfig = { mcpServers: { payit2: { type: "http", url: cfg.mcpUrl, headers: { "x-api-key": cfg.apiKey } } } };
   for (const sc of selected) {
-    const ctx = { fixtureId, marker, api };
-    const run = await runClaude({
-      name: sc.name, prompt: sc.prompt(ctx), pluginDir: PLUGIN, outDir,
-      mcpConfig: sc.connector === "dev" ? devConfig : undefined,
-      maxTurns: sc.maxTurns, maxBudgetUsd: sc.maxBudgetUsd, model: MODEL, auth,
-    });
-    const s = parseStream(run.jsonl);
-    const failures = [...initFailures(sc, s), ...(s.isError ? [`Claude ended with an error: ${s.resultText}`] : []), ...(await sc.check(s, ctx))];
-    results.push({ name: sc.name, passed: failures.length === 0, failures, costUsd: s.costUsd, version: s.init?.version ?? "" });
-    console.log(`${failures.length === 0 ? "PASS" : "FAIL"}  ${sc.name}  ($${s.costUsd.toFixed(2)})`);
+    let failures: string[];
+    let costUsd = 0;
+    let version = "";
+    // One scenario crashing (a throw from the runner, the parser or a check) must not stop the others.
+    try {
+      const ctx = { fixtureId: id, marker, api };
+      const run = await runClaude({
+        name: sc.name, prompt: sc.prompt(ctx), pluginDir: PLUGIN, outDir,
+        mcpConfig: sc.connector === "dev" ? devConfig : undefined,
+        maxTurns: sc.maxTurns, maxBudgetUsd: sc.maxBudgetUsd, model: MODEL, auth,
+      });
+      const s = parseStream(run.jsonl);
+      costUsd = s.costUsd;
+      version = s.init?.version ?? "";
+      failures = [...initFailures(sc, s), ...(s.isError ? [`Claude ended with an error: ${s.resultText}`] : []), ...(await sc.check(s, ctx))];
+    } catch (err) {
+      failures = [`scenario crashed: ${err instanceof Error ? err.message : String(err)}`];
+    }
+    results.push({ name: sc.name, passed: failures.length === 0, failures, costUsd, version });
+    console.log(`${failures.length === 0 ? "PASS" : "FAIL"}  ${sc.name}  ($${costUsd.toFixed(2)})`);
     for (const line of failures) console.log(`      - ${line}`);
   }
 } finally {
-  // If scenario 3 ever renames the fixture, restore it first: its new title starts with the
-  // marker, so the sweep would otherwise hard-delete the standing fixture.
-  const renamed = (await api.listMyCampaigns(marker)).find((c) => c.title === `${marker} renamed`);
-  if (renamed) await mcp.callText("update_campaign_settings", { campaignId: renamed.id, title: FIXTURE_TITLE });
+  // Restore the standing fixture by id before the sweep. If a scenario ever renamed it, the new
+  // title could start with "[e2e " and the sweep would hard-delete the fixture.
+  if (fixtureId) {
+    const fixture = await api.getCampaign(fixtureId);
+    if (!fixture) console.log(`The standing fixture ${fixtureId} is gone from dev; the next run will create a new one.`);
+    else if (fixture.title !== FIXTURE_TITLE) {
+      await mcp.callText("update_campaign_settings", { campaignId: fixtureId, title: FIXTURE_TITLE });
+    }
+  }
   await sweepLeftovers(api);
   await mcp.close();
   writeFileSync(join(outDir, "summary.json"), JSON.stringify({ marker, model: MODEL, results }, null, 2));
