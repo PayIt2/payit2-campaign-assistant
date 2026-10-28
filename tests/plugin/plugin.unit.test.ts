@@ -52,3 +52,41 @@ describe("shipped plugin files", () => {
     expect(existsSync(PLUGIN + "scripts/save-summary.sh")).toBe(false);
   });
 });
+
+import { readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
+
+function textFiles(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    if (statSync(path).isDirectory()) return textFiles(path);
+    return /\.(md|sh|json)$/.test(name) ? [path] : [];
+  });
+}
+const allText = () => textFiles(PLUGIN).map((f) => ({ f, t: readFileSync(f, "utf8") }));
+
+describe("plugin copy", () => {
+  it("never promises that saved content reaches the feed or the dashboard (D9)", () => {
+    const bad = /(campaign(?:'s)? (?:update )?feed|show(?:s)? up in the organizer's dashboard|appear in the organizer's dashboard|notifies existing participants)/i;
+    const hits = allText().filter(({ t }) => bad.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
+
+  it("no longer asks for an API key", () => {
+    const hits = allText().filter(({ t }) => /API key/i.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
+
+  it("tells the organizer how to sign in exactly where the light mention lives", () => {
+    const ctx = readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8");
+    expect(ctx).toMatch(/once per conversation/i);
+    expect(ctx).toMatch(/\/mcp/);
+    expect(ctx).toMatch(/Connectors/);
+  });
+
+  it("states the confirm-before-changing rule in the skills (claude.ai chat ignores hooks)", () => {
+    for (const rel of ["skills/campaign-context/SKILL.md", "skills/campaign/SKILL.md"]) {
+      expect(readFileSync(PLUGIN + rel, "utf8")).toMatch(/current and new value/i);
+    }
+  });
+});

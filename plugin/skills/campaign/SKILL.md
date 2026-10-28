@@ -14,9 +14,9 @@ Guide organizers through building a high-converting campaign page on PayIt2.com.
 This skill works in two modes. See `campaign-context` for the operating-modes overview.
 
 - **Standalone (default):** complete the full creation workflow (Steps 1-7) and hand the organizer the finalized title, description, goal, ticket tiers, and image plan. They paste it into payit2.com to create the campaign themselves.
-- **MCP-connected:** Steps 1-7 stay the same, then Step 8 creates the campaign directly on the organizer's PayIt2 account via `create_campaign`, attaches the cover image via `upload_campaign_image`, persists the story via `save_campaign_story`, and applies a theme via `update_campaign_settings`. The organizer ends with a published draft, no copy-paste required.
+- **Connected:** Steps 1-7 stay the same, then Step 8 creates the campaign as a draft on the organizer's PayIt2 account with `create_campaign`. The full story goes in the campaign `description`, which is what the campaign page shows. Step 8 also attaches the cover image with `upload_campaign_image` and applies a theme with `update_campaign_settings`.
 
-If MCP tools aren't available in the session, run the standalone flow without comment. Do not prompt the organizer to authenticate.
+If PayIt2 tools aren't available in the session, run the standalone flow. See `campaign-context` for the one sign-in mention.
 
 Work through this launch workflow step by step:
 
@@ -418,11 +418,13 @@ After completing Steps 1-7:
 
    After a successful upload, confirm the image is attached and mention it in the final recap.
 
-5. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
+5. **Put the story on the page.** The campaign `description` is the story the campaign page shows. Make sure the final story from Step 3 is the `description` you passed to `create_campaign`; if the story changed after creation, show the organizer the current and new description and, after a clear yes, update it with `update_campaign_settings`. Then call `save_campaign_story` to keep a record. The saved copy does not appear on the page or in the dashboard.
 
 6. **Pick a theme (optional but recommended).** Call `list_theme_presets` to see the 12 available presets (`classic-green` default, plus `legal-defense`, `memorial`, `wedding`, `reunion`, `sports-team`, `birthday`, `charity-walk`, `school`, `faith`, `medical`, `animal`). Each preset has a slug, a use-case hint, and four color tokens (primary accent, button, header band, page background). Match the campaign's mode and category to a preset's `useCases` and recommend one or two:
 
    > "Based on this fundraiser for medical bills, I'd suggest `medical` (calm teal/cream — built for medical fundraisers) or stick with `classic-green` (the default). Want me to apply one?"
+
+   Before calling `update_campaign_settings`, show the organizer each field's current and new value and get a clear yes. Claude Code will also ask them to approve the call.
 
    Apply the chosen preset by calling `update_campaign_settings` with `themeId: "<slug>"`. If the organizer wants a custom color (e.g., to match their nonprofit's brand), pass `themeAccentColor`, `themeButtonColor`, or `themePageBgColor` as 6-digit hex strings (e.g., `#1E3A5F`). Pass `null` on any of those override fields to clear back to the preset's value. Text colors are auto-derived for WCAG AA contrast — don't try to set them manually.
 

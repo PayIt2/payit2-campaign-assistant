@@ -11,10 +11,14 @@ Gather the minimum context needed for the current command through natural conver
 
 This plugin works in two modes. Both are first-class — pick whichever is available:
 
-- **Standalone mode (no MCP).** The default. Works for anyone using this plugin in Claude without a PayIt2 account or API key. Gather context by asking the organizer directly. Generate content, recommendations, and copy they can paste into payit2.com manually. Every skill in this plugin has a complete standalone workflow.
-- **MCP-connected mode.** If the `payit2` MCP server is configured AND the organizer has authenticated with their PayIt2 API key, you also get live campaign data, the ability to create and modify campaigns directly, and persistence of generated content (stories, thank-yous, updates) back to the platform. This unlocks substantially more — but it's an enhancement, not a requirement.
+- **Standalone mode.** The default. Works for anyone using this plugin in Claude, with or without a PayIt2 account. Gather context by asking the organizer directly. Generate content, recommendations, and copy they can paste into payit2.com. Every skill in this plugin has a complete standalone workflow.
+- **Connected mode.** If the organizer has signed in to PayIt2 through the plugin's `payit2` connector, you also get live campaign data and can create and update campaigns directly. Content you generate (stories, thank-yous, update posts, improvement notes) can be saved to their PayIt2 account as a record with the `save_*` tools, but saved content does not appear on the campaign page, in the campaign's updates, or in their dashboard. Always hand the organizer the finished text to post or send themselves. Connected mode is an enhancement, not a requirement.
 
-**How to detect which mode you're in:** check whether MCP tools like `list_my_campaigns`, `get_campaign_overview`, or `create_campaign` are available in the current session. If they are, you're in MCP-connected mode. If not, default cleanly to standalone mode without prompting the organizer to install or authenticate anything — they came here for help, not setup.
+**How to detect which mode you're in:** check whether tools like `list_my_campaigns`, `get_campaign_overview`, or `create_campaign` are available in the current session. If they are, you're in connected mode. If not, use standalone mode.
+
+**The one sign-in mention.** If the organizer asks about their own live numbers (amount raised, payments, participants, how their campaign is doing) and PayIt2 tools are not available, say once per conversation, in one or two sentences, that signing in to PayIt2 lets you pull those numbers automatically: in Claude Code, type `/mcp`, choose `payit2` and sign in; in claude.ai, connect PayIt2 under Connectors in Settings. Then carry on in standalone mode by asking for the numbers. Never mention sign-in at any other time, and never more than once per conversation.
+
+**Before changing any campaign setting** (title, description, goal, end date, theme or colors), show the organizer each field's current and new value and wait for a clear yes. Claude Code also asks them to approve the change; claude.ai chat does not, so this rule is what protects them there.
 
 ## Context Model
 
@@ -39,7 +43,7 @@ When the PayIt2 MCP server is connected, use it to eliminate manual questions an
 2. **For /check-in**, also call `get_campaign_health` for pace and run-rate analysis and `get_payment_summary` for financial detail — these tell you whether the campaign has momentum or has stalled.
 3. **Only ask the organizer to fill gaps** — information not returned by MCP tools. Never re-ask data already fetched.
 
-If MCP is not available, skip this section entirely and use the manual context-gathering rules below. Do not mention MCP, do not prompt the organizer to authenticate — just proceed with the standalone flow.
+If PayIt2 tools are not available, skip this section and use the manual context-gathering rules below, apart from the one sign-in mention described under Operating Modes.
 
 ## Context-Gathering Rules
 
@@ -105,7 +109,7 @@ Ask in order:
 | Reorder option groups | `reorder_campaign_option_groups(...)` |
 | Add / update / delete custom registration questions | `add_campaign_questions`, `update_campaign_question`, `delete_campaign_question` |
 | Upload a cover image | `upload_campaign_image(...)` |
-| Persist generated story / thank-you / update post / improvement notes | `save_campaign_story`, `save_thank_you`, `save_update_post`, `save_improvement_notes` |
+| Keep a record of a generated story, thank-you, update post or improvement notes (not shown on the campaign page or dashboard) | `save_campaign_story`, `save_thank_you`, `save_update_post`, `save_improvement_notes` |
 
 ### Notes on the Verified badge
 

@@ -11,6 +11,22 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **The plugin now ships with the PayIt2 connector.** Organizers sign in to PayIt2 once
+  (`/mcp` in Claude Code, Connectors in claude.ai) instead of pasting an API key. The unused
+  API-key setting is gone.
+- **End-to-end tests.** `tests/` holds a connector check that runs in CI against dev and a
+  live run of the plugin with Claude. See `tests/README.md`.
+
+### Changed
+
+- **No more promises that saved content shows up on the campaign.** The connector's save tools
+  keep a record only; nothing reads it yet. The skills now hand the organizer the finished
+  text to post, and a campaign's story goes in its description, which the page shows.
+- **When PayIt2 isn't connected, Claude mentions signing in once** if the organizer asks about
+  their live numbers, then carries on without it.
+
 ### Fixed
 
 - **The API key location was wrong.** The README and the key prompt said
@@ -29,6 +45,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
   `claude plugin validate plugin` now passes. The diff on `hooks.json` looks large only
   because wrapping reindents the whole file.
+
+- **The startup greeting never ran.** Claude Code rejects prompt-type hooks on SessionStart.
+  It is now a command hook.
+- **The confirmation before changing campaign settings never fired.** Its matcher used the
+  wrong tool name, and its prompt asked a hook model to read a conversation it never sees.
+  It is now a command hook that asks the organizer to approve every settings change.
+- **Two hooks that could not work are removed.** SubagentStart and Stop were prompt hooks that
+  needed the conversation, and the Stop hook piped into a script, which hooks cannot do.
 
 ## [1.6.0] - 2026-04-28
 

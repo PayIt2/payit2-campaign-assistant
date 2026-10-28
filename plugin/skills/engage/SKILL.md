@@ -190,9 +190,9 @@ See `references/reminder-templates.md` for full templates by channel (text, emai
 This skill works in either mode. See `campaign-context` for the full operating-modes overview.
 
 - **Standalone (default):** ask the organizer for participant names, amounts, and payment status, then generate messages they can copy into email, text, or the campaign page directly.
-- **MCP-connected:** pull live participant data and persist generated thank-yous / updates back to the campaign so they show up in the organizer's dashboard.
+- **Connected:** pull live participant data, and keep a record of generated thank-yous and updates with the `save_*` tools. Saved content is not shown in the organizer's account, so always hand them the finished text to send or post.
 
-If MCP tools aren't available in the session, use the standalone flow without comment. Do not prompt the organizer to authenticate.
+If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
 
 ## If the PayIt2 MCP server is connected
 
@@ -206,6 +206,6 @@ When MCP tools are available, use them to pull real participant data instead of 
 
 **Persisting generated content:**
 - Call `save_thank_you(campaignId, content)` to record a generated thank-you against the campaign. The organizer still sends it through their preferred channel (email, text, social).
-- Call `save_update_post(campaignId, content)` to publish a campaign update directly to the campaign feed — this is visible to all existing participants.
+- Call `save_update_post(campaignId, content)` to keep a record of a generated update. It does not publish anything: give the organizer the text to post on their campaign page.
 
 These MCP tools are optional enhancements. The skill generates the same quality content in standalone mode by asking the organizer for participant details directly.
