@@ -51,6 +51,8 @@ This creates `payit2-campaign-assistant.zip` in the repo root. Upload it to Clau
 
 See PLATFORM-STANDARDS.md Section 15 for the full git workflow. Repo-specific additions:
 
-1. Edit files inside `plugin/` (skills, agents, or manifest)
-2. Run `./build-plugin.sh` to rebuild the zip
-3. Commit both the changed source files and the updated zip
+1. Edit files inside `plugin/` (skills, agents, hooks, scripts, manifest) on a `release/YYYY-MM-DD` branch.
+2. Run `cd tests && npm test`, then `./build-plugin.sh` to rebuild the zip.
+3. Commit both the changed source files and the updated zip, and open a PR.
+4. To release, land the version bump and a `## [X.Y.Z]` CHANGELOG heading through that PR, then run `./release.sh vX.Y.Z "<title>"` from `main`. It tags `main` and opens draft pin PRs in `payit2-plugins-marketplace` and `payit2-team-plugins`; it never pushes to `main`.
+5. After the release, run the prod smoke check: install the released plugin, sign in to PayIt2 through `/mcp` as the prod smoke organizer, run `/payit2-campaign-assistant:check-in` on one of that organizer's campaigns, then ask for a title change and decline the permission prompt. No prod credential ever goes into CI.
