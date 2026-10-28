@@ -48,6 +48,17 @@ describe("shipped plugin files", () => {
     expect(out).not.toMatch(/[—–]/);
   });
 
+  it("session-start.sh keeps Claude helping in standalone mode after the one sign-in mention", () => {
+    // Without this, a signed-out organizer who asks 'how is my campaign doing?' got only 'sign in and ask again'.
+    const out = execFileSync(PLUGIN + "scripts/session-start.sh", { input: "{}", encoding: "utf8" });
+    expect(out).toMatch(/campaign-context skill/);
+    expect(out).toMatch(/signing in to PayIt2 lets you pull those numbers/);
+    expect(out).toMatch(/\/mcp/);
+    expect(out).toMatch(/Connectors/);
+    expect(out).toMatch(/ask for their numbers/i);
+    expect(out).toMatch(/never stop at the sign-in message/i);
+  });
+
   it("drops the Stop hook's orphaned script", () => {
     expect(existsSync(PLUGIN + "scripts/save-summary.sh")).toBe(false);
   });
