@@ -8,6 +8,9 @@ export interface StreamSummary {
   toolResults: ToolResult[];
   hooks: HookEvent[];
   denials: string[];
+  // Every text block Claude wrote, in order. `resultText` is only the last message, so a reply that
+  // came before a closing tool call (for example a save) is in here and not in `resultText`.
+  assistantText: string[];
   resultText: string;
   isError: boolean;
   costUsd: number;
@@ -21,8 +24,13 @@ function blockText(content: unknown): string {
   return (content as Block[]).filter((b) => b.type === "text").map((b) => String(b.text ?? "")).join("\n");
 }
 
+// Everything the organizer would have seen Claude say during the run, not only its final message.
+export function replyText(s: StreamSummary): string {
+  return s.assistantText.join("\n\n");
+}
+
 export function parseStream(jsonl: string): StreamSummary {
-  const s: StreamSummary = { init: null, toolUses: [], toolResults: [], hooks: [], denials: [], resultText: "", isError: false, costUsd: 0 };
+  const s: StreamSummary = { init: null, toolUses: [], toolResults: [], hooks: [], denials: [], assistantText: [], resultText: "", isError: false, costUsd: 0 };
   for (const line of jsonl.split("\n")) {
     let e: Record<string, any>;
     try { e = JSON.parse(line); } catch { continue; }
@@ -38,6 +46,7 @@ export function parseStream(jsonl: string): StreamSummary {
     } else if (e.type === "assistant") {
       for (const b of (e.message?.content ?? []) as Block[]) {
         if (b.type === "tool_use") s.toolUses.push({ id: String(b.id), name: String(b.name), input: (b.input ?? {}) as Record<string, unknown> });
+        else if (b.type === "text" && String(b.text ?? "").trim()) s.assistantText.push(String(b.text));
       }
     } else if (e.type === "user") {
       for (const b of (e.message?.content ?? []) as Block[]) {

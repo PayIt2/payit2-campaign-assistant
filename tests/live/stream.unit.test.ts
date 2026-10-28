@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseStream } from "./stream.js";
+import { parseStream, replyText } from "./stream.js";
 
 const lines = [
   { type: "system", subtype: "hook_response", hook_event: "SessionStart", hook_name: "SessionStart:startup", outcome: "success", output: "" },
@@ -35,7 +35,25 @@ describe("parseStream", () => {
     expect(s.hooks.map((h) => h.event)).toEqual(["SessionStart", "PreToolUse"]);
     expect(s.denials).toEqual(["mcp__payit2__update_campaign_settings"]);
     expect(s.resultText).toBe("Your goal is $5,000.");
+    expect(s.assistantText).toEqual(["Checking."]);
     expect(s.costUsd).toBe(0.12);
+  });
+
+  it("keeps a reply that came before a closing tool call (the result is only the last message)", () => {
+    // Shape of the first live check-in run: the full reply, then save_improvement_notes, then a one-line close.
+    const closing = [
+      { type: "assistant", message: { content: [{ type: "thinking", thinking: "Planning." }] } },
+      { type: "assistant", message: { content: [{ type: "text", text: "## Weekly Check-In\n\n| Raised | $0 of $5,000 goal |" }] } },
+      { type: "assistant", message: { content: [{ type: "tool_use", id: "t5", name: "mcp__payit2__save_improvement_notes", input: { campaignId: "c1", content: "notes" } }] } },
+      { type: "user", message: { role: "user", content: [{ type: "tool_result", tool_use_id: "t5", content: [{ type: "text", text: "Saved improvement_suggestions content for campaign c1." }] }] } },
+      { type: "assistant", message: { content: [{ type: "text", text: "Notes saved. That is the full check-in." }] } },
+      { type: "result", subtype: "success", result: "Notes saved. That is the full check-in.", is_error: false, total_cost_usd: 0.14, permission_denials: [] },
+    ].map((l) => JSON.stringify(l)).join("\n");
+    const s = parseStream(closing);
+    expect(s.resultText).not.toContain("$5,000");
+    expect(s.assistantText).toEqual(["## Weekly Check-In\n\n| Raised | $0 of $5,000 goal |", "Notes saved. That is the full check-in."]);
+    expect(replyText(s)).toContain("$0 of $5,000 goal");
+    expect(replyText(s)).toContain("Notes saved.");
   });
 
   it("flags failed results and failed tool calls", () => {

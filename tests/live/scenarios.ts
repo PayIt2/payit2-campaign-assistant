@@ -1,7 +1,7 @@
 import type { DevApi } from "../lib/api.js";
 import { toNumber } from "../lib/api.js";
 import { FIXTURE_TITLE } from "../lib/fixture.js";
-import type { StreamSummary } from "./stream.js";
+import { replyText, type StreamSummary } from "./stream.js";
 
 export interface Ctx { fixtureId: string; marker: string; api: DevApi }
 export interface Scenario {
@@ -30,7 +30,7 @@ export const SCENARIOS: Scenario[] = [
       const f: string[] = [];
       if (calls(s, "get_campaign_health").length === 0) f.push("get_campaign_health was not called");
       const goal = toNumber((await api.getCampaign(fixtureId))!.goalAmount).toLocaleString("en-US");
-      if (!s.resultText.includes(goal)) f.push(`reply does not state the goal dev reports ($${goal})`);
+      if (!replyText(s).includes(goal)) f.push(`reply does not state the goal dev reports ($${goal})`);
       return f;
     },
   },
@@ -46,8 +46,8 @@ export const SCENARIOS: Scenario[] = [
       const saves = calls(s, "save_update_post").filter((u) => String(u.input.content ?? "").includes(marker));
       if (saves.length === 0) f.push("save_update_post was not called with the marker");
       else if (!resultFor(s, saves[0].id)?.text.startsWith("Saved update_post content")) f.push("save_update_post did not report a saved record");
-      if (!s.resultText.includes(marker)) f.push("reply does not give the organizer the update text with the marker");
-      if (/(posted|published|is live) (?:it )?(?:to|on) (?:your|the) (?:campaign(?:'s)? )?(?:update )?(?:feed|page)/i.test(s.resultText)) {
+      if (!replyText(s).includes(marker)) f.push("reply does not give the organizer the update text with the marker");
+      if (/(posted|published|is live) (?:it )?(?:to|on) (?:your|the) (?:campaign(?:'s)? )?(?:update )?(?:feed|page)/i.test(replyText(s))) {
         f.push("reply claims the update was posted to the campaign");
       }
       return f;
@@ -82,9 +82,9 @@ export const SCENARIOS: Scenario[] = [
       if (!server) f.push("the bundled connector did not load");
       else if (server.status === "connected") f.push("the bundled connector is unexpectedly signed in");
       if (s.toolUses.some((u) => u.name.includes("payit2"))) f.push("Claude called a PayIt2 tool while not signed in");
-      const paragraphs = s.resultText.split(/\n\s*\n/).filter((p) => /\bsign(?:ing)?[ -]in\b/i.test(p));
+      const paragraphs = replyText(s).split(/\n\s*\n/).filter((p) => /\bsign(?:ing)?[ -]in\b/i.test(p));
       if (paragraphs.length !== 1) f.push(`expected the sign-in mention in exactly one paragraph, found ${paragraphs.length}`);
-      if (!s.resultText.includes("?")) f.push("reply does not ask the organizer for their numbers");
+      if (!replyText(s).includes("?")) f.push("reply does not ask the organizer for their numbers");
       return f;
     },
   },
