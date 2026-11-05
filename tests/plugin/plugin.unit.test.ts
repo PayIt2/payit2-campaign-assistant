@@ -119,6 +119,12 @@ describe("plugin copy", () => {
     expect(hits).toEqual([]);
   });
 
+  it("each skill an organizer runs carries the no-em-dash rule, since campaign-context may not load", () => {
+    for (const skill of ["campaign", "check-in", "promote", "engage", "campaign-context"]) {
+      expect(readFileSync(PLUGIN + `skills/${skill}/SKILL.md`, "utf8")).toMatch(/No em dashes in anything you write for the organizer/);
+    }
+  });
+
   it("no skill tells Claude to stay silent about signing in", () => {
     const hits = allText().filter(({ t }) => /without comment/i.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
     expect(hits).toEqual([]);

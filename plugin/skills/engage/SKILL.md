@@ -190,9 +190,11 @@ See `references/reminder-templates.md` for full templates by channel (text, emai
 This skill works in either mode. See `campaign-context` for the full operating-modes overview.
 
 - **Standalone (default):** ask the organizer for participant names, amounts, and payment status, then generate messages they can copy into email, text, or the campaign page directly.
-- **Connected:** pull live participant data, and save generated thank-yous and updates with the `save_*` tools. They wait on the campaign's page in the organizer's PayIt2 account; saving never sends or posts anything, so the organizer still sends each thank-you their own way.
+- **Connected:** pull live participant data, and save generated thank-yous and updates with the `save_*` tools. They wait on the campaign's page in the organizer's PayIt2 account; saving never sends or posts anything, so the organizer still sends each thank-you their own way. Show the organizer the text in your reply too, and tell them where the saved copy is.
 
 If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
+
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 ## If the PayIt2 MCP server is connected
 

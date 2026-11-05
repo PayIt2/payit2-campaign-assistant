@@ -66,11 +66,15 @@ export const SCENARIOS: Scenario[] = [
     maxBudgetUsd: 1.5,
     prompt: ({ fixtureId, marker }) =>
       `/payit2-campaign-assistant:engage My campaign ID is ${fixtureId}. Write a short progress update for my supporters and save it. Put this exact tag on its own line in the update: ${marker}. ${NOT_HERE}`,
-    async check(s, { marker }) {
+    async check(s, { marker, fixtureId, api }) {
       const f: string[] = [];
       const saves = calls(s, "save_update_post").filter((u) => String(u.input.content ?? "").includes(marker));
       if (saves.length === 0) f.push("save_update_post was not called with the marker");
       else if (!resultFor(s, saves[0].id)?.text.startsWith("Saved update_post content")) f.push("save_update_post did not report a saved record");
+      // The skills tell the organizer the draft waits on the campaign's page, so check the page's API has it.
+      if (!(await api.listSavedContent(fixtureId)).some((i) => i.type === "update_post" && i.content.includes(marker))) {
+        f.push("the saved draft is not waiting on the campaign's page");
+      }
       if (!replyText(s).includes(marker)) f.push("reply does not give the organizer the update text with the marker");
       if (/(posted|published|is live) (?:it )?(?:to|on) (?:your|the) (?:campaign(?:'s)? )?(?:update )?(?:feed|page)/i.test(replyText(s))) {
         f.push("reply claims the update was posted to the campaign");

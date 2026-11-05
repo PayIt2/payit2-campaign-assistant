@@ -14,6 +14,8 @@ This skill works in two modes. See `campaign-context` for the operating-modes ov
 
 If PayIt2 tools aren't available in the session, use the standalone flow below. See `campaign-context` for the one sign-in mention.
 
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
+
 Follow this diagnostic workflow:
 
 ## 1. Gather Context
