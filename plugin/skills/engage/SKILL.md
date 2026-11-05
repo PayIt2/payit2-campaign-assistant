@@ -190,7 +190,7 @@ See `references/reminder-templates.md` for full templates by channel (text, emai
 This skill works in either mode. See `campaign-context` for the full operating-modes overview.
 
 - **Standalone (default):** ask the organizer for participant names, amounts, and payment status, then generate messages they can copy into email, text, or the campaign page directly.
-- **Connected:** pull live participant data, and keep a record of generated thank-yous and updates with the `save_*` tools. Saved content is not shown in the organizer's account, so always hand them the finished text to send or post.
+- **Connected:** pull live participant data, and save generated thank-yous and updates with the `save_*` tools. They wait on the campaign's page in the organizer's PayIt2 account; saving never sends or posts anything, so the organizer still sends each thank-you their own way.
 
 If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
 
@@ -205,7 +205,7 @@ When MCP tools are available, use them to pull real participant data instead of 
 - Call `get_campaign_health(campaignId)` for pace and momentum, useful for milestone-driven re-engagement triggers.
 
 **Persisting generated content:**
-- Call `save_thank_you(campaignId, content)` to record a generated thank-you against the campaign. The organizer still sends it through their preferred channel (email, text, social).
-- Call `save_update_post(campaignId, content)` to keep a record of a generated update. It does not publish anything: give the organizer the text to post on their campaign page.
+- Call `save_thank_you(campaignId, content)` to save a generated thank-you to the campaign's page in the organizer's PayIt2 account. Saving sends nothing: the organizer sends it through their preferred channel (email, text, social).
+- Call `save_update_post(campaignId, content, title)` to save a generated update as a draft on the campaign's page. Nothing is posted or emailed until the organizer posts it there.
 
 These MCP tools are optional enhancements. The skill generates the same quality content in standalone mode by asking the organizer for participant details directly.

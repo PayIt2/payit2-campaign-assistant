@@ -16,11 +16,13 @@ owner: claude-maintained
 
 This plugin works inside **Claude**, Anthropic's free AI assistant. You don't need any technical experience to use it.
 
-1. Download the free [Claude desktop app](https://claude.ai/download) - or open [payit2.com](https://www.payit2.com) and start a campaign there
-2. In Claude, type `/plugin marketplace add PayIt2/payit2-plugins-marketplace` to add the PayIt2 plugin marketplace
-3. Type `/plugin install payit2-campaign-assistant`
+1. Download the free [Claude desktop app](https://claude.ai/download), or open [claude.ai](https://claude.ai) in your browser
+2. Open **Customize > Plugins**, select **Add > Add marketplace** and enter `PayIt2/payit2-plugins-marketplace`
+3. Find **PayIt2 Campaign Assistant** in the list and add it
 4. Say *"Help me create a fundraising campaign"* and Claude will guide you from there
 
+> Using Claude Code instead? Run `/plugin marketplace add PayIt2/payit2-plugins-marketplace`, then `/plugin install payit2-campaign-assistant@payit2`.
+>
 > The plugin is distributed through PayIt2's own marketplace (step 2), not Claude's central Discover tab. [Create a free PayIt2 account](https://www.payit2.com/register) to put it to work on a real campaign.
 
 ---
@@ -43,7 +45,7 @@ You can also just describe your situation in plain language - Claude will figure
 The plugin runs in two modes:
 
 - **Standalone (default).** Anyone with Claude can install and use the plugin. Claude walks you through everything — story, title, goal, pricing, social posts, thank-yous — and hands you finished content to paste into payit2.com.
-- **PayIt2-connected.** If you have a PayIt2 account, sign in once and Claude can pull your live campaign data and create or update campaigns directly. In Claude Code, type `/mcp`, choose `payit2` and sign in. In claude.ai or Claude Desktop, connect PayIt2 under Connectors in Settings. Same workflows, less copy-paste. Claude always asks before changing a campaign's settings.
+- **PayIt2-connected.** If you have a PayIt2 account, sign in once and Claude can pull your live campaign data and create or update campaigns directly. In the Claude desktop app or claude.ai, open **Customize > Plugins**, choose **PayIt2 Campaign Assistant** and connect PayIt2 on its **Connectors** tab. Signing in from Claude Code is coming soon; until then the plugin works standalone there. Same workflows, less copy-paste. Claude always asks before changing a campaign's settings.
 
 You can start in standalone mode and connect later — there's nothing to reinstall.
 
@@ -70,7 +72,8 @@ git clone https://github.com/PayIt2/payit2-campaign-assistant.git
 claude --plugin-dir ./payit2-campaign-assistant/plugin
 
 # Or install to your user scope permanently
-claude plugin install payit2-campaign-assistant@marketplace
+claude plugin marketplace add PayIt2/payit2-plugins-marketplace
+claude plugin install payit2-campaign-assistant@payit2
 ```
 
 ### Directory layout

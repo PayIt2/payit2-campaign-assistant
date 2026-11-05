@@ -13,17 +13,24 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- **The plugin now ships with the PayIt2 connector.** Organizers sign in to PayIt2 once
-  (`/mcp` in Claude Code, Connectors in claude.ai) instead of pasting an API key. The unused
-  API-key setting is gone.
+- **The plugin now ships with the PayIt2 connector.** Organizers sign in to PayIt2 once, on the
+  plugin's Connectors tab in the Claude desktop app or claude.ai, instead of pasting an API key.
+  The unused API-key setting is gone. Signing in from Claude Code waits on a PayIt2 server fix;
+  until then the plugin works standalone there.
+- **Install steps for the Claude desktop app and claude.ai.** The README's install steps were
+  Claude Code commands. They now walk through Customize > Plugins, with the Claude Code commands
+  kept as a short aside.
 - **End-to-end tests.** `tests/` holds a connector check that runs in CI against dev and a
   live run of the plugin with Claude. See `tests/README.md`.
 
 ### Changed
 
-- **No more promises that saved content shows up on the campaign.** The connector's save tools
-  keep a record only; nothing reads it yet. The skills now hand the organizer the finished
-  text to post, and a campaign's story goes in its description, which the page shows.
+- **What Claude saves now reaches the organizer, and the skills say so.** Since PayIt2's
+  2026-11-04 release, an update draft waits on the campaign's page for the organizer to post,
+  and stories, thank-yous and improvement notes show in its From Claude card. Saving never
+  posts, emails or changes the public page. The skills tell the organizer where to find what
+  was saved and list the new `list_saved_content` tool. A campaign's story still goes in its
+  description, which the page shows.
 - **When PayIt2 isn't connected, Claude mentions signing in once** if the organizer asks about
   their live numbers, then carries on without it.
 

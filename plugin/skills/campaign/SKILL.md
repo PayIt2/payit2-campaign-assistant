@@ -130,7 +130,7 @@ PayIt2 fields fall into two categories. Use the wrong format and the output will
 ### HTML fields (use HTML, never markdown or plain text)
 These fields take HTML:
 - `description` (the campaign page body, shown in its rich-text editor)
-- `save_campaign_story`, `save_update_post` and `save_thank_you` content (kept as a record in the same format; not shown on the campaign page)
+- `save_campaign_story`, `save_update_post` and `save_thank_you` content (shown to the organizer on the campaign's page in their PayIt2 account, so use the same format)
 
 Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`.
 
@@ -416,7 +416,7 @@ After completing Steps 1-7:
 
    After a successful upload, confirm the image is attached and mention it in the final recap.
 
-5. **Put the story on the page.** The campaign `description` is the story the campaign page shows. Make sure the final story from Step 3 is the `description` you passed to `create_campaign`; if the story changed after creation, show the organizer the current and new description and, after a clear yes, update it with `update_campaign_settings`. Then call `save_campaign_story` to keep a record. The saved copy does not appear on the page or in the dashboard.
+5. **Put the story on the page.** The campaign `description` is the story the campaign page shows. Make sure the final story from Step 3 is the `description` you passed to `create_campaign`; if the story changed after creation, show the organizer the current and new description and, after a clear yes, update it with `update_campaign_settings`. Do not also call `save_campaign_story` for the story that is already the description; it would only put a duplicate in the From Claude card. Use it for another version the organizer wants to keep, which they can later use as the description from the campaign's page in their PayIt2 account.
 
 6. **Pick a theme (optional but recommended).** Call `list_theme_presets` to see the 12 available presets (`classic-green` default, plus `legal-defense`, `memorial`, `wedding`, `reunion`, `sports-team`, `birthday`, `charity-walk`, `school`, `faith`, `medical`, `animal`). Each preset has a slug, a use-case hint, and four color tokens (primary accent, button, header band, page background). Match the campaign's mode and category to a preset's `useCases` and recommend one or two:
 

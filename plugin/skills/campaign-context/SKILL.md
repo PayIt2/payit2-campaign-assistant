@@ -12,13 +12,13 @@ Gather the minimum context needed for the current command through natural conver
 This plugin works in two modes. Both are first-class — pick whichever is available:
 
 - **Standalone mode.** The default. Works for anyone using this plugin in Claude, with or without a PayIt2 account. Gather context by asking the organizer directly. Generate content, recommendations, and copy they can paste into payit2.com. Every skill in this plugin has a complete standalone workflow.
-- **Connected mode.** If the organizer has signed in to PayIt2 through the plugin's `payit2` connector, you also get live campaign data and can create and update campaigns directly. Content you generate (stories, thank-yous, update posts, improvement notes) can be saved to their PayIt2 account as a record with the `save_*` tools, but saved content does not appear on the campaign page, in the campaign's updates, or in their dashboard. Always hand the organizer the finished text to post or send themselves. Connected mode is an enhancement, not a requirement.
+- **Connected mode.** If the organizer has signed in to PayIt2 through the plugin's `payit2` connector, you also get live campaign data and can create and update campaigns directly. Content you generate can be saved to the campaign with the `save_*` tools, and the organizer finds it on the campaign's page in their PayIt2 account: an update draft they review and post, or a story, thank-you or set of notes in the From Claude card. Saving never posts, emails or changes the public page. Tell the organizer where to find what you saved, and give them the text in your reply too. Connected mode is an enhancement, not a requirement.
 
 **How to detect which mode you're in:** check whether tools like `list_my_campaigns`, `get_campaign_overview`, or `create_campaign` are available in the current session. If they are, you're in connected mode. If not, use standalone mode.
 
-**The one sign-in mention.** If the organizer asks about their own live numbers (amount raised, payments, participants, how their campaign is doing) and PayIt2 tools are not available, say once per conversation, in one or two sentences, that signing in to PayIt2 lets you pull those numbers automatically: in Claude Code, type `/mcp`, choose `payit2` and sign in; in claude.ai, connect PayIt2 under Connectors in Settings. Then carry on in standalone mode by asking for the numbers. Never mention sign-in at any other time, and never more than once per conversation.
+**The one sign-in mention.** If the organizer asks about their own live numbers (amount raised, payments, participants, how their campaign is doing) and PayIt2 tools are not available, say once per conversation, in one or two sentences, that signing in to PayIt2 lets you pull those numbers automatically: in the Claude desktop app or claude.ai, open Customize > Plugins, choose PayIt2 Campaign Assistant and connect PayIt2 on its Connectors tab. In Claude Code, signing in to PayIt2 is not available yet, so say it is coming. Then carry on in standalone mode by asking for the numbers. Never mention sign-in at any other time, and never more than once per conversation.
 
-**Before changing any campaign setting** (title, description, goal, end date, theme or colors), show the organizer each field's current and new value and wait for a clear yes. Claude Code also asks them to approve the change; claude.ai chat does not, so this rule is what protects them there.
+**Before changing any campaign setting** (title, description, goal, end date, theme or colors), show the organizer each field's current and new value and wait for a clear yes. Claude Code and Cowork also ask them to approve the change; chat does not, so this rule is what protects them there.
 
 ## Context Model
 
@@ -109,7 +109,8 @@ Ask in order:
 | Reorder option groups | `reorder_campaign_option_groups(...)` |
 | Add / update / delete custom registration questions | `add_campaign_questions`, `update_campaign_question`, `delete_campaign_question` |
 | Upload a cover image | `upload_campaign_image(...)` |
-| Keep a record of a generated story, thank-you, update post or improvement notes (not shown on the campaign page or dashboard) | `save_campaign_story`, `save_thank_you`, `save_update_post`, `save_improvement_notes` |
+| Save a generated story, thank-you, update draft or improvement notes to the campaign's page in the organizer's PayIt2 account (nothing is posted or sent) | `save_campaign_story`, `save_thank_you`, `save_update_post`, `save_improvement_notes` |
+| Read back what was saved earlier, newest first | `list_saved_content` |
 
 ### Notes on the Verified badge
 

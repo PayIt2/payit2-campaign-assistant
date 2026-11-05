@@ -48,8 +48,9 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 | D6 | Where the team uses it | Claude Code and the claude.ai organization catalog; Brian is the claude.ai admin | Brian's answer |
 | D7 | How it lands | PayIt2's git rules: draft PRs on `release/YYYY-MM-DD`, Thomas gives the merge signal | CHG-2 and §15 |
 | D8 | `release.sh` | Marketplace pin bumps go through draft PRs instead of direct pushes to `main` | §15; approved by Brian on spec review |
-| D9 | Saved content nobody sees | Test what is true today: the skills stop promising the feed and the dashboard, hand the organizer the text to post, and still call the save tools for the record. The story is checked through the campaign description. Making the save tools reach the feed is a separate app-v2 task. | Brian, 2026-10-27; posting to the public feed is a product call for Thomas |
+| D9 | Saved content nobody sees | Test what is true today: the skills stop promising the feed and the dashboard, hand the organizer the text to post, and still call the save tools for the record. The story is checked through the campaign description. Making the save tools reach the feed is a separate app-v2 task. **Amended 2026-11-04:** that task shipped to prod the same day (app-v2 #1844, B-352). An update draft now waits on the campaign's page for the organizer to post, stories, thank-yous and notes show in a From Claude card, and `list_saved_content` reads them back. The skills say where saved content goes and that saving never posts or sends; the campaign-creation check still reads the story from the description. | Brian, 2026-10-27; posting to the public feed is a product call for Thomas. Amendment: a controller ruling, since the copy had to match prod |
 | D10 | Hooks that never worked | Found by a headless probe while planning. `SessionStart` becomes a command hook (prompt hooks are rejected there). The `update_campaign_settings` check becomes a command hook that returns `permissionDecision: "ask"`, so Claude Code asks the organizer to approve every settings change and a headless run denies it. `SubagentStart` and `Stop` are removed with `save-summary.sh`: both were prompt hooks that needed a conversation the hook model never sees, and Stop piped its output into a script, which hooks cannot do. | Probe on CLI 2.1.252, 2026-10-27; same intent, working mechanism |
+| D12 | Release gate | One real sign-in from the Claude desktop app against prod (the plugin's Connectors tab, then a check-in) on PR 1's zip before `release.sh` runs. Claude Code sign-in is a follow-up for Thomas, and the skills and README say it is coming instead of sending anyone to `/mcp`. | Brian, 2026-10-28: the Claude desktop app is the main install path. Prod accepts `claude.ai` and `claude.com` redirects; its edge answers any registration carrying a `http://localhost` redirect with an HTML 403, so Claude Code cannot sign in yet |
 | D11 | Which dev account the tests use | A dedicated dev account Brian created for the plugin tests, not the app-v2 suite's fixture organizer (whose password Brian does not hold) and not his own account | Brian, 2026-10-27; keeps test drafts out of personal dev data and off a shared fixture |
 
 ## 4. Part A: The connector (plugin 1.7.0)
@@ -249,7 +250,7 @@ Other files mirror the public marketplace: `README.md` with the setup steps belo
 | 3 | `payit2-business` | Part C housekeeping |
 | 4 | `payit2-plugins-marketplace` | Public pin moves to 1.7.0 |
 
-1. PR 1 merges first.
+1. Brian passes the desktop gate (D12) on PR 1's zip, and PR 1 merges.
 2. `release.sh v1.7.0` then tags the release and pins both marketplaces to the merged commit on `main`. A pin to a branch commit would break once that branch is squashed away.
 3. PR 2 merges after that, then Brian completes the claude.ai setup.
 
@@ -264,26 +265,29 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 1. Create the plugin's dedicated dev test account (D11), mint a read-and-write dev API key on it, and store it in his Keychain (`payit2-e2e-fixture-api-key`) and as the `E2E_FIXTURE_API_KEY` Actions secret on `payit2-campaign-assistant`.
 2. Run the live suite himself, or let Claude run it on his login.
 3. Complete the claude.ai setup after PR 2 merges.
-4. Run the prod smoke check after release.
+4. Pass the desktop gate (D12) before release, and run the prod smoke check after it.
 5. Send Thomas a heads-up. Claude drafts it in Brian's voice for him to edit. It covers:
    - the public plugin now ships with the prod connector (a GOV-1 product call)
    - B-125 moved forward
    - the Claude GitHub App reading `payit2-business`
    - a merge signal for PRs 1 to 4
    - a workload identity rule so the live run can move to CI
+   - the Claude Code sign-in fix on prod (loopback redirects at the edge and in `OAUTH_ALLOWED_REDIRECT_HOSTS`), the implicit-flow registrations prod accepts, and the two `probe-no-register` clients to delete
 
 ## 8. Done when
 
 - `claude plugin validate plugin --strict` is clean.
 - The connector check is green in CI on PR 1.
-- The live run passes all five scenarios locally, with the summary attached to PR 1.
+- The live run passes locally, with the summary attached to PR 1. Scenario 4 (not signed in) stays red until prod accepts Claude Code's loopback redirect; the other four pass.
+- The desktop gate passes: Brian signs in from the Claude desktop app on prod and a check-in returns his campaign's real numbers (D12).
 - 1.7.0 is released, both marketplaces pin it, and the prod smoke check passes.
 - The claude.ai organization catalog shows the team marketplace synced with no warnings.
-- A fresh Claude Code install from `@payit2-team` loads both plugins, and the connector signs in.
+- A fresh Claude Code install from `@payit2-team` loads both plugins, and the connector signs in from the Claude desktop app.
 
 ## 9. Out of scope (follow-ups)
 
-- **app-v2: make saved content reach the organizer.** `save_update_post` should create a real campaign update (or a draft one) through the updates route, and saved stories, thank-yous and notes need a read path or a dashboard surface. Posting to the public feed may notify participants, so this is Thomas's product call. Once it lands, the skills can promise the feed again and the tests can read the content back.
+- ~~**app-v2: make saved content reach the organizer.**~~ Done: app-v2 #1844 on prod 2026-11-04 (see the D9 amendment). A connector test that reads saved content back through `list_saved_content` is still open.
+- **app-v2 and the edge: Claude Code sign-in on prod.** Allow loopback redirects (`localhost`, `127.0.0.1`) in the edge rule for `POST /register` and in prod `OAUTH_ALLOWED_REDIRECT_HOSTS` (RFC 8252). The same review covers prod accepting implicit-flow registrations and deleting the two `probe-no-register` clients. When it ships, the plugin puts the `/mcp` sign-in step back and scenario 4 goes green.
 - The live run in CI, after Thomas adds the identity rule.
 - Archiving the `payit2-brand-plugin` repo.
 - The payit2.com AI assistant page, if it still tells organizers to add an API key (website repo).
@@ -299,3 +303,4 @@ All PRs open as drafts on `release/YYYY-MM-DD` branches dated the day each one o
 | A long-lived token from `claude setup-token` authenticates a run with a throwaway home folder | The plan's probe step; the fallback (shared home, `--setting-sources project`, `--strict-mcp-config`) is written into the plan |
 | Tool-call event shapes in `stream-json` (the init and hook shapes were probed on 2026-10-27) | The first real run; the parser's unit test is updated to match |
 | The brand plugin passes the sync rules | `check-sources.sh` before PR 2 |
+| Signing in from the Claude desktop app reaches prod and returns live data | The desktop gate (D12), Brian, before release |

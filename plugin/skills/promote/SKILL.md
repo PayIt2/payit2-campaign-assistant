@@ -12,7 +12,7 @@ Under-promotion is the #1 reason campaigns fail. This skill turns promotion into
 This skill works in two modes. See `campaign-context` for the operating-modes overview.
 
 - **Standalone (default):** generate a full promotion package — channel strategy, content calendar, platform-specific posts, email templates — that the organizer can copy and paste into their channels. No PayIt2 account needed.
-- **Connected:** the same package, with live progress numbers (`get_payment_summary`, `get_campaign_health`) woven into update posts. Update posts are handed to the organizer to post on their campaign page; `save_update_post` keeps a record but does not publish anything.
+- **Connected:** the same package, with live progress numbers (`get_payment_summary`, `get_campaign_health`) woven into update posts. Update posts are saved as drafts with `save_update_post`: each draft waits on the campaign's page in the organizer's PayIt2 account, and nothing is posted or emailed until they post it there.
 
 If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
 
@@ -228,9 +228,9 @@ When the MCP server is available, the promotion workflow gains two additional ca
 
 1. **Live progress data for update posts**: Call `get_payment_summary(campaignId)` and `get_campaign_health(campaignId)` to retrieve current totals, donor count, daily run rate, and pace. Use the real numbers in update content instead of placeholders, e.g. "We just crossed 50% — thank you to all 47 donors who got us here" instead of "We're X% to goal."
 
-2. **Keep a record with `save_update_post`**: After generating an update post, give the organizer the finished text to post on their campaign page, then call `save_update_post(campaignId, content)` to keep a record. Saving does not publish the update or notify anyone.
+2. **Save update drafts with `save_update_post`**: After generating an update post, call `save_update_post(campaignId, content, title)` with a short headline as the title. The draft waits on the campaign's page in the organizer's PayIt2 account; nothing is posted or emailed until they review it and post it there. Tell them where to find it, and include the text in your reply.
 
 **Enhanced workflow when MCP is connected:**
 - After building the content calendar (step 4), pull live campaign numbers via `get_payment_summary` / `get_campaign_health` and weave them into the milestone update posts.
-- Hand the organizer each finished update to post, and keep a record with `save_update_post`.
+- Save each finished update as a draft with `save_update_post`, and tell the organizer it is waiting on their campaign's page.
 - The standalone workflow (steps 1-10 above) is the default and works fully without MCP; the items above are additive enhancements.

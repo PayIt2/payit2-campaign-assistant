@@ -409,6 +409,8 @@ Private Claude plugin marketplace for the PayIt2 team. Customers use the public
 ## In claude.ai and Claude Desktop
 
 Nothing to install. An org admin syncs this marketplace into the organization's plugin catalog.
+To use the Campaign Assistant with your PayIt2 account, open it from Customize > Plugins and
+connect PayIt2 on its Connectors tab.
 
 ## In Claude Code (once per person)
 
@@ -424,8 +426,9 @@ Nothing to install. An org admin syncs this marketplace into the organization's 
    (`claude plugin list` shows where each came from). With two copies enabled, one copy's
    hooks are silently dropped, including the Campaign Assistant's confirmation before it
    changes campaign settings.
-5. Sign in to PayIt2 for the Campaign Assistant: type `/mcp`, choose the `payit2` server
-   and sign in.
+5. Signing in to PayIt2 from Claude Code is not available yet; it waits on a PayIt2 server
+   fix. Until then the Campaign Assistant works standalone here, and you sign in from the
+   Claude desktop app instead.
 
 ## Changing a pin
 
@@ -577,8 +580,8 @@ Run the `gh release create … -R PayIt2/payit2-plugins-marketplace` command tha
 
 - [ ] **Step 1: claude.ai.** Give the Claude GitHub App read access to `payit2-team-plugins`, `payit2-campaign-assistant` and `payit2-business`. In the organization's plugin settings, add the `PayIt2/payit2-team-plugins` marketplace. Confirm the sync shows no warnings; if it does, send Claude the warning text.
 - [ ] **Step 2: Claude Code.** Follow the README's Claude Code steps on your own machine, including uninstalling any other copy of `payit2-brand` or the Campaign Assistant. `claude plugin list` should show both plugins from `@payit2-team` only.
-- [ ] **Step 3: Prod smoke.** In Claude Code, `/mcp`, `payit2`, sign in as the prod smoke organizer, then run `/payit2-campaign-assistant:check-in` on one of that organizer's campaigns. Pass: the reply uses that campaign's real numbers. Then ask Claude to change the campaign's title and decline the permission prompt: the title must stay the same.
-- [ ] **Step 4: claude.ai chat.** In a claude.ai chat with the org plugin enabled, connect PayIt2 from Connectors and ask about a campaign. Pass: live numbers come back.
+- [ ] **Step 3: Prod smoke.** In a Cowork task in the Claude desktop app, open the Campaign Assistant from Customize > Plugins, connect PayIt2 on its Connectors tab as the prod smoke organizer, then run `/payit2-campaign-assistant:check-in` on one of that organizer's campaigns. Pass: the reply uses that campaign's real numbers. Then ask Claude to change the campaign's title and decline the permission prompt: the title must stay the same.
+- [ ] **Step 4: claude.ai chat.** In a claude.ai chat with the org plugin enabled, connect PayIt2 on the plugin's Connectors tab and ask about a campaign. Pass: live numbers come back.
 
 ---
 
