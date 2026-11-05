@@ -20,16 +20,16 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 > Thank you for being part of [Name]'s support system. ❤️
 
 ### Milestone Update
-> UPDATE: We've raised $[amount] — that's [X]% of our goal! 🎉
+> UPDATE: We've raised $[amount], that's [X]% of our goal! 🎉
 >
-> [Name] is so grateful for the [X] people who've donated so far. [Brief emotional update — how they're doing, what's happening next].
+> [Name] is so grateful for the [X] people who've donated so far. [Brief emotional update: how they're doing, what's happening next].
 >
 > We still need $[remaining] to reach our goal. Can you help us get there? [Link]
 >
-> If you've already donated — THANK YOU. If you haven't yet, today is a great day. And sharing is just as powerful as giving.
+> If you've already donated, THANK YOU. If you haven't yet, today is a great day. And sharing is just as powerful as giving.
 
 ### Urgency Post
-> [Deadline detail — "The court date is in X days" / "Treatment starts on [date]"].
+> [Deadline detail: "The court date is in X days" / "Treatment starts on [date]"].
 >
 > We're at $[amount] of our $[goal] goal. We need $[gap] more to [specific outcome].
 >
@@ -42,7 +42,7 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 >
 > [X] people have given, and we've raised $[amount]. [Brief impact statement].
 >
-> To [list 2-3 donor first names] and everyone else — you are making a real difference in someone's life. [Name] asked me to tell you how much it means.
+> To [list 2-3 donor first names] and everyone else, you are making a real difference in someone's life. [Name] asked me to tell you how much it means.
 >
 > Not too late to join them: [Link]
 
@@ -51,7 +51,7 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 ### Launch Caption
 > [Name] needs our help. [One-sentence hook.]
 >
-> [2-3 sentences about the situation — shorter than Facebook].
+> [2-3 sentences about the situation, shorter than Facebook].
 >
 > Link in bio to donate. Even $5 helps. Sharing helps even more. 🙏
 >
@@ -81,9 +81,9 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 > 🧵 Thread: Why I'm asking for help for the first time.
 >
 > 1/ [Name] is [situation]. Here's what happened...
-> 2/ [The circumstances — keep each tweet focused on one point]
-> 3/ [The need — specific costs]
-> 4/ [The ask — link + donate/share]
+> 2/ [The circumstances: keep each tweet focused on one point]
+> 3/ [The need: specific costs]
+> 4/ [The ask: link + donate/share]
 > 5/ Thank you for reading this. Even sharing this thread helps [Name].
 
 ### Milestone Tweet
@@ -98,7 +98,7 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 ### Professional Network Post
 > I'm sharing something personal today.
 >
-> [Name], [professional context — colleague, family member, community member], is facing [situation]. [1-2 sentences on the circumstances].
+> [Name], [professional context: colleague, family member, community member], is facing [situation]. [1-2 sentences on the circumstances].
 >
 > I've organized a fundraiser to help cover [costs]. If you're able to contribute or share with your network, it would mean the world.
 >
@@ -115,7 +115,7 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 >
 > I'm reaching out because [Name] is going through [situation], and I'm helping raise funds to cover [specific costs].
 >
-> I know you [connection — "know [Name] through..." / "would care about this because..."]. Would you consider donating $[suggested amount based on relationship]?
+> I know you [connection: "know [Name] through..." / "would care about this because..."]. Would you consider donating $[suggested amount based on relationship]?
 >
 > Here's the link: [Link]
 >
@@ -133,7 +133,7 @@ Ready-to-customize templates for every platform and content angle. Replace [brac
 >
 > [2-3 sentences with more detail].
 >
-> Any amount helps — even $10 or $20 makes a difference. And sharing the link is just as valuable.
+> Any amount helps. Even $10 or $20 makes a difference. And sharing the link is just as valuable.
 >
 > [Link]
 >

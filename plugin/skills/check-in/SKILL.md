@@ -10,9 +10,11 @@ Run a campaign health check: $ARGUMENTS
 This skill works in two modes. See `campaign-context` for the operating-modes overview.
 
 - **Standalone (default):** ask the organizer for current numbers (raised, donors, days active, etc.) and run the diagnostic against benchmarks below.
-- **MCP-connected:** pull live `get_campaign_health` and `get_payment_summary` data instead of asking, and persist `save_improvement_notes` back to the campaign so the action plan shows up in the organizer's dashboard.
+- **Connected:** pull live `get_campaign_health` and `get_payment_summary` data instead of asking. Give the organizer the action plan in your reply, and save it with `save_improvement_notes` so it also waits for them on the campaign's page in their PayIt2 account.
 
-If MCP tools aren't available in the session, use the standalone flow below without comment.
+If PayIt2 tools aren't available in the session, use the standalone flow below. See `campaign-context` for the one sign-in mention.
+
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 Follow this diagnostic workflow:
 
@@ -189,6 +191,6 @@ Use the live data to populate the health score formula in Step 2 automatically. 
 ### AI-powered improvement plan
 
 3. Invoke the `campaign_improvements` prompt with the health data to generate a tailored improvement plan that accounts for the campaign's specific category, age, and performance trajectory.
-4. After the organizer reviews and approves the recommendations, call `save_improvement_notes` to persist the action items back to the campaign record so they appear in the organizer's dashboard.
+4. After the organizer reviews and approves the recommendations, call `save_improvement_notes` to save the action items. Tell the organizer they will also find the plan on the campaign's page in their PayIt2 account.
 
 The MCP-enhanced flow replaces manual data entry with live metrics but follows the same diagnostic structure: health score, bottleneck diagnosis, prioritized actions.

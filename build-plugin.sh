@@ -24,4 +24,4 @@ cd ..
 
 echo ""
 echo "Built $ZIP_NAME ($(du -h "$ZIP_NAME" | cut -f1))"
-echo "Upload this file to Claude > Settings > Plugins > Update"
+echo "To try it in the Claude desktop app or claude.ai: Customize > Plugins > Add > Upload plugin"

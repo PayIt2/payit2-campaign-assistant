@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "payit2": {
+      "type": "http",
+      "url": "https://mcp.payit2.com/mcp"
+    }
+  }
+}

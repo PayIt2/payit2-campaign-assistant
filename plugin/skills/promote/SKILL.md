@@ -11,10 +11,12 @@ Under-promotion is the #1 reason campaigns fail. This skill turns promotion into
 
 This skill works in two modes. See `campaign-context` for the operating-modes overview.
 
-- **Standalone (default):** generate a full promotion package — channel strategy, content calendar, platform-specific posts, email templates — that the organizer can copy and paste into their channels. No PayIt2 account needed.
-- **MCP-connected:** the same package, plus the ability to publish update posts directly to the campaign feed via `save_update_post` and to inject live progress numbers (`get_payment_summary`, `get_campaign_health`) into update content.
+- **Standalone (default):** generate a full promotion package (channel strategy, content calendar, platform-specific posts, email templates) that the organizer can copy and paste into their channels. No PayIt2 account needed.
+- **Connected:** the same package, with live progress numbers (`get_payment_summary`, `get_campaign_health`) woven into update posts. Update posts are saved as drafts with `save_update_post`: each draft waits on the campaign's page in the organizer's PayIt2 account, and nothing is posted or emailed until they post it there.
 
-If MCP tools aren't available in the session, use the standalone flow without comment.
+If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
+
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 ## Core Principle: The 2.5x Rule
 
@@ -226,11 +228,11 @@ Write all content to `[campaign-title]-promotion-[date].md` in the workspace, or
 
 When the MCP server is available, the promotion workflow gains two additional capabilities:
 
-1. **Live progress data for update posts**: Call `get_payment_summary(campaignId)` and `get_campaign_health(campaignId)` to retrieve current totals, donor count, daily run rate, and pace. Use the real numbers in update content instead of placeholders, e.g. "We just crossed 50% — thank you to all 47 donors who got us here" instead of "We're X% to goal."
+1. **Live progress data for update posts**: Call `get_payment_summary(campaignId)` and `get_campaign_health(campaignId)` to retrieve current totals, donor count, daily run rate, and pace. Use the real numbers in update content instead of placeholders, e.g. "We just crossed 50%, thank you to all 47 donors who got us here" instead of "We're X% to goal."
 
-2. **Publish updates directly via `save_update_post`**: After generating an update post, call `save_update_post(campaignId, content)` to publish it to the campaign's update feed on PayIt2. This makes the update visible on the campaign page and notifies existing participants.
+2. **Save update drafts with `save_update_post`**: After generating an update post, call `save_update_post(campaignId, content, title)` with a short headline as the title. The draft waits on the campaign's page in the organizer's PayIt2 account; nothing is posted or emailed until they review it and post it there. Tell them where to find it, and include the text in your reply.
 
 **Enhanced workflow when MCP is connected:**
 - After building the content calendar (step 4), pull live campaign numbers via `get_payment_summary` / `get_campaign_health` and weave them into the milestone update posts.
-- Use `save_update_post` to publish updates directly, so the organizer does not need to copy/paste into the platform manually.
+- Save each finished update as a draft with `save_update_post`, and tell the organizer it is waiting on their campaign's page.
 - The standalone workflow (steps 1-10 above) is the default and works fully without MCP; the items above are additive enhancements.

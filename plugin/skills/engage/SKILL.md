@@ -190,9 +190,11 @@ See `references/reminder-templates.md` for full templates by channel (text, emai
 This skill works in either mode. See `campaign-context` for the full operating-modes overview.
 
 - **Standalone (default):** ask the organizer for participant names, amounts, and payment status, then generate messages they can copy into email, text, or the campaign page directly.
-- **MCP-connected:** pull live participant data and persist generated thank-yous / updates back to the campaign so they show up in the organizer's dashboard.
+- **Connected:** pull live participant data, and save generated thank-yous and updates with the `save_*` tools. They wait on the campaign's page in the organizer's PayIt2 account; saving never sends or posts anything, so the organizer still sends each thank-you their own way. Show the organizer the text in your reply too, and tell them where the saved copy is.
 
-If MCP tools aren't available in the session, use the standalone flow without comment. Do not prompt the organizer to authenticate.
+If PayIt2 tools aren't available in the session, use the standalone flow. See `campaign-context` for the one sign-in mention.
+
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 ## If the PayIt2 MCP server is connected
 
@@ -205,7 +207,7 @@ When MCP tools are available, use them to pull real participant data instead of 
 - Call `get_campaign_health(campaignId)` for pace and momentum, useful for milestone-driven re-engagement triggers.
 
 **Persisting generated content:**
-- Call `save_thank_you(campaignId, content)` to record a generated thank-you against the campaign. The organizer still sends it through their preferred channel (email, text, social).
-- Call `save_update_post(campaignId, content)` to publish a campaign update directly to the campaign feed — this is visible to all existing participants.
+- Call `save_thank_you(campaignId, content)` to save a generated thank-you to the campaign's page in the organizer's PayIt2 account. Saving sends nothing: the organizer sends it through their preferred channel (email, text, social).
+- Call `save_update_post(campaignId, content, title)` to save a generated update as a draft on the campaign's page. Nothing is posted or emailed until the organizer posts it there.
 
 These MCP tools are optional enhancements. The skill generates the same quality content in standalone mode by asking the organizer for participant details directly.

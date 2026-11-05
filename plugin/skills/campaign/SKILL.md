@@ -14,9 +14,11 @@ Guide organizers through building a high-converting campaign page on PayIt2.com.
 This skill works in two modes. See `campaign-context` for the operating-modes overview.
 
 - **Standalone (default):** complete the full creation workflow (Steps 1-7) and hand the organizer the finalized title, description, goal, ticket tiers, and image plan. They paste it into payit2.com to create the campaign themselves.
-- **MCP-connected:** Steps 1-7 stay the same, then Step 8 creates the campaign directly on the organizer's PayIt2 account via `create_campaign`, attaches the cover image via `upload_campaign_image`, persists the story via `save_campaign_story`, and applies a theme via `update_campaign_settings`. The organizer ends with a published draft, no copy-paste required.
+- **Connected:** Steps 1-7 stay the same, then Step 8 creates the campaign as a draft on the organizer's PayIt2 account with `create_campaign`. The full story goes in the campaign `description`, which is what the campaign page shows. Step 8 also attaches the cover image with `upload_campaign_image` and applies a theme with `update_campaign_settings`.
 
-If MCP tools aren't available in the session, run the standalone flow without comment. Do not prompt the organizer to authenticate.
+If PayIt2 tools aren't available in the session, run the standalone flow. See `campaign-context` for the one sign-in mention.
+
+**No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 Work through this launch workflow step by step:
 
@@ -128,11 +130,9 @@ Keep it under 100 words. Collections are transactional: clarity beats storytelli
 PayIt2 fields fall into two categories. Use the wrong format and the output will display raw tags or broken layout.
 
 ### HTML fields (use HTML, never markdown or plain text)
-These fields back a rich-text editor on the campaign page:
-- `description` (campaign page body)
-- `save_campaign_story` content
-- `save_update_post` content
-- `save_thank_you` content
+These fields take HTML:
+- `description` (the campaign page body, shown in its rich-text editor)
+- `save_campaign_story`, `save_update_post` and `save_thank_you` content (shown to the organizer on the campaign's page in their PayIt2 account, so use the same format)
 
 Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`.
 
@@ -216,7 +216,7 @@ Recommend a goal amount using these guidelines and explain the reasoning.
 | Regular | Base price | Standard access |
 | VIP/Premium | 50-100% above regular | Priority access, perks, exclusivity |
 
-**Free events:** Use a single $0 option (e.g., "Free RSVP" or "General Admission — Free"). Attendees complete registration without entering payment info.
+**Free events:** Use a single $0 option (e.g., "Free RSVP" or "General Admission: Free"). Attendees complete registration without entering payment info.
 
 **Add-ons:** Items like T-shirts, parking, or meal upgrades should be separate options with `pick_any` so attendees can add them independently.
 
@@ -267,7 +267,7 @@ Run through the type-specific checklist below. Flag anything missing.
 
 ## Step 8: Create the Campaign on PayIt2
 
-If the PayIt2 MCP server is connected, follow the MCP-Enhanced Flow below. This creates the campaign, its ticket options, registration deadline, and cover image in one session — no manual setup required.
+If the PayIt2 MCP server is connected, follow the MCP-Enhanced Flow below. This creates the campaign, its ticket options, registration deadline, and cover image in one session. No manual setup required.
 
 If MCP is not connected, direct the organizer to sign up or log in at payit2.com to create their campaign. Share the finalized title, description, goal, and pricing so they can paste it in when setting up their campaign page on PayIt2.
 
@@ -309,13 +309,13 @@ After completing Steps 1-7:
 
    > "PayIt2 has a **[Template Name]** template that includes pre-built ticket options and questions for [category]. Want to start from that, or build a custom one from scratch?"
 
-   If the organizer picks a template, note its `slug` for use in the next step — the template's options and questions are cloned automatically, so you can skip building them manually in Step 2. If no templates match or the organizer prefers custom, proceed without a `templateSlug`.
+   If the organizer picks a template, note its `slug` for use in the next step: the template's options and questions are cloned automatically, so you can skip building them manually in Step 2. If no templates match or the organizer prefers custom, proceed without a `templateSlug`.
 
 2. **Ask for confirmation.** "Ready to create this campaign on your PayIt2 account?"
 
 3. **Create the campaign.** Call `create_campaign` with all finalized details. Always include:
    - `title`, `mode`, `description`, `blurb`
-   - `publish` (default `false` — creates as draft)
+   - `publish` (default `false`, creates as draft)
 
    Add these based on campaign type:
 
@@ -326,31 +326,31 @@ After completing Steps 1-7:
    - `eventStartDate`, `eventEndDate` (ISO 8601)
    - `eventVenueName`, `eventAddress`, `eventCity`, `eventState`, `eventZipCode`
    - `registrationDeadline` (ISO 8601) if a cutoff date was set
-   - `options` — build from the ticket tiers decided in Step 6:
+   - `options`: build from the ticket tiers decided in Step 6:
      - Ticket tiers go in a group: `groupTitle: "Tickets"`, `groupMode: "pick_one"`, `isRequired: true`
      - Free RSVP: `{ title: "General Admission", amount: 0, groupTitle: "Tickets", groupMode: "pick_one", isRequired: true }`
      - Add-ons (T-shirt, parking, meal): separate group with `groupMode: "pick_any"`, `isRequired: false`
-     - **Platform note:** PayIt2 renders a built-in quantity selector for every option. Do NOT add `questions` to collect quantity for options (e.g. "How many Medium T-shirts?") — this creates redundant fields. Only use questions for information the option selector cannot capture (e.g. size preferences, names, dietary restrictions).
+     - **Platform note:** PayIt2 renders a built-in quantity selector for every option. Do NOT add `questions` to collect quantity for options (e.g. "How many Medium T-shirts?"). This creates redundant fields. Only use questions for information the option selector cannot capture (e.g. size preferences, names, dietary restrictions).
 
-   **Options vs. Questions — best practices:**
+   **Options vs. Questions (best practices):**
 
    Default to **options** whenever the organizer needs to count or select something. Questions are for open-ended or personal information only.
 
    | Use an **option** when… | Use a **question** when… |
    |------------------------|--------------------------|
-   | Counting people — adults, kids, guests | Collecting names of guests coming |
-   | Selecting an item — t-shirt size, meal choice, parking pass | Dietary restrictions or food allergies |
-   | Choosing a tier — VIP, General, Student | Special accommodations or accessibility needs |
-   | Any add-on with a quantity — extra shirts, extra tickets | Free-form comments or notes |
+   | Counting people: adults, kids, guests | Collecting names of guests coming |
+   | Selecting an item: t-shirt size, meal choice, parking pass | Dietary restrictions or food allergies |
+   | Choosing a tier: VIP, General, Student | Special accommodations or accessibility needs |
+   | Any add-on with a quantity: extra shirts, extra tickets | Free-form comments or notes |
    | Anything you'd phrase as "how many X" or "which X" | Anything you'd phrase as "tell me about X" |
 
-   Apply this heuristic during the interview (Steps 2–3): whenever the organizer mentions counting people or selecting items, propose an option group — not a question. Reserve questions for the information that genuinely can't be expressed as a checkbox or quantity.
+   Apply this heuristic during the interview (Steps 2 to 3): whenever the organizer mentions counting people or selecting items, propose an option group, not a question. Reserve questions for the information that genuinely can't be expressed as a checkbox or quantity.
 
-   **T-shirt example:** Use one option per size (Small, Medium, Large, XL, 2XL) at $20 each in a `pick_any` group — attendees use the quantity selector. Do not ask "What size and how many?" as a question.
+   **T-shirt example:** Use one option per size (Small, Medium, Large, XL, 2XL) at $20 each in a `pick_any` group: attendees use the quantity selector. Do not ask "What size and how many?" as a question.
 
-   **Attendee count example:** Use "Adult" and "Child" as free ($0) options in a `pick_any` group called "Who's Coming?" — attendees use the quantity selector. Do not ask "How many adults/kids?" as a question.
+   **Attendee count example:** Use "Adult" and "Child" as free ($0) options in a `pick_any` group called "Who's Coming?": attendees use the quantity selector. Do not ask "How many adults/kids?" as a question.
 
-   - `questions` — use sparingly. One question per distinct piece of information needed. Never add two questions that ask for the same thing (e.g. do not add both "Who will be attending?" and "Who will be coming with you?" — pick one). If adding questions in multiple calls, call `list_campaign_questions` first to see what already exists and avoid duplicates.
+   - `questions`: use sparingly. One question per distinct piece of information needed. Never add two questions that ask for the same thing (e.g. do not add both "Who will be attending?" and "Who will be coming with you?", pick one). If adding questions in multiple calls, call `list_campaign_questions` first to see what already exists and avoid duplicates.
 
    **Question types:** Choose the type that best fits the information being collected.
 
@@ -370,20 +370,20 @@ After completing Steps 1-7:
    | `isRequired` | `true` | Participant must answer before completing checkout |
    | `isPublic` | `false` | Answer is visible on the public campaign page |
    | `perGuest` | `false` | Collects a separate answer per guest in the order (events only) |
-   | `isActive` | `true` | Question appears at checkout — set `false` to hide without deleting |
+   | `isActive` | `true` | Question appears at checkout. Set `false` to hide without deleting |
 
    Use `perGuest: true` for questions like "What is each attendee's name?" on event registrations where a single payer covers multiple guests.
 
    **Managing questions after creation:** The MCP provides three tools for post-creation question management:
-   - `list_campaign_questions` — returns all questions with their IDs, types, flags, and any linked option. Always call this before updating or deleting.
-   - `update_campaign_question` — edits question text, type, choices, flags, or option binding by ID. Supports `paymentOptionTitle` for re-linking to a specific ticket tier.
-   - `delete_campaign_question` — permanently removes a question by ID.
+   - `list_campaign_questions`: returns all questions with their IDs, types, flags, and any linked option. Always call this before updating or deleting.
+   - `update_campaign_question`: edits question text, type, choices, flags, or option binding by ID. Supports `paymentOptionTitle` for re-linking to a specific ticket tier.
+   - `delete_campaign_question`: permanently removes a question by ID.
 
    **To temporarily hide a question** without losing it, use `update_campaign_question` with `isActive: false` rather than deleting it. The organizer can re-enable it later.
 
    **Group payment:**
    - `goalAmount` (total needed)
-   - `options` — use for tiered amounts (room types, meal choices, activity levels). Standalone if just one price.
+   - `options`: use for tiered amounts (room types, meal choices, activity levels). Standalone if just one price.
 
    Save the campaign ID and URL from the response.
 
@@ -418,12 +418,14 @@ After completing Steps 1-7:
 
    After a successful upload, confirm the image is attached and mention it in the final recap.
 
-5. **Save the campaign story.** Use the `campaign_story` prompt to generate a polished story, then call `save_campaign_story` with the campaign ID to persist it.
+5. **Put the story on the page.** The campaign `description` is the story the campaign page shows. Make sure the final story from Step 3 is the `description` you passed to `create_campaign`; if the story changed after creation, show the organizer the current and new description and, after a clear yes, update it with `update_campaign_settings`. Do not also call `save_campaign_story` for the story that is already the description; it would only put a duplicate in the From Claude card. Use it for another version the organizer wants to keep, which they can later use as the description from the campaign's page in their PayIt2 account.
 
 6. **Pick a theme (optional but recommended).** Call `list_theme_presets` to see the 12 available presets (`classic-green` default, plus `legal-defense`, `memorial`, `wedding`, `reunion`, `sports-team`, `birthday`, `charity-walk`, `school`, `faith`, `medical`, `animal`). Each preset has a slug, a use-case hint, and four color tokens (primary accent, button, header band, page background). Match the campaign's mode and category to a preset's `useCases` and recommend one or two:
 
-   > "Based on this fundraiser for medical bills, I'd suggest `medical` (calm teal/cream — built for medical fundraisers) or stick with `classic-green` (the default). Want me to apply one?"
+   > "Based on this fundraiser for medical bills, I'd suggest `medical` (calm teal/cream, built for medical fundraisers) or stick with `classic-green` (the default). Want me to apply one?"
 
-   Apply the chosen preset by calling `update_campaign_settings` with `themeId: "<slug>"`. If the organizer wants a custom color (e.g., to match their nonprofit's brand), pass `themeAccentColor`, `themeButtonColor`, or `themePageBgColor` as 6-digit hex strings (e.g., `#1E3A5F`). Pass `null` on any of those override fields to clear back to the preset's value. Text colors are auto-derived for WCAG AA contrast — don't try to set them manually.
+   Before calling `update_campaign_settings`, show the organizer each field's current and new value and get a clear yes. Claude Code will also ask them to approve the call.
 
-7. **Confirm success.** Share the campaign URL from the `create_campaign` response. Let the organizer know the campaign is live as a draft and remind them to review and publish when ready. If they have a Stripe Connect account that's fully verified with a non-individual business type (LLC, non-profit, government entity), a "Verified" badge will appear next to their organizer name on the public page automatically — no extra step needed.
+   Apply the chosen preset by calling `update_campaign_settings` with `themeId: "<slug>"`. If the organizer wants a custom color (e.g., to match their nonprofit's brand), pass `themeAccentColor`, `themeButtonColor`, or `themePageBgColor` as 6-digit hex strings (e.g., `#1E3A5F`). Pass `null` on any of those override fields to clear back to the preset's value. Text colors are auto-derived for WCAG AA contrast. Don't try to set them manually.
+
+7. **Confirm success.** Share the campaign URL from the `create_campaign` response. Let the organizer know the campaign is live as a draft and remind them to review and publish when ready. If they have a Stripe Connect account that's fully verified with a non-individual business type (LLC, non-profit, government entity), a "Verified" badge will appear next to their organizer name on the public page automatically. No extra step needed.

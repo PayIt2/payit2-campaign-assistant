@@ -28,10 +28,10 @@ owner: claude-maintained
 > Thank you,
 > [Organizer]
 >
-> PS — [One emotional or urgent detail that creates immediacy]
+> PS: [One emotional or urgent detail that creates immediacy]
 
 ### Email 2: Early Momentum (Day 3)
-**Subject**: [X] people have already donated — join them?
+**Subject**: [X] people have already donated: join them?
 **Send to**: Full list minus donors
 **Purpose**: Social proof + second ask
 
@@ -58,7 +58,7 @@ owner: claude-maintained
 >
 > I wanted to personally thank you for your donation of $[amount] to [Name]'s fundraiser. It means more than you know.
 >
-> We're now at $[total] — [X]% of our goal.
+> We're now at $[total], [X]% of our goal.
 >
 > I have one more ask: Would you share the fundraiser with one person who might also want to help? Here's a message you can forward:
 >
@@ -88,7 +88,7 @@ owner: claude-maintained
 ## Milestone Emails
 
 ### 25% Milestone
-**Subject**: 🎉 25% of goal reached — thank you!
+**Subject**: 🎉 25% of goal reached, thank you!
 > We just crossed 25%! $[amount] raised from [X] donors. [Brief celebration + what the next milestone unlocks]. Help us get to 50%: [Link]
 
 ### 50% Milestone
@@ -96,12 +96,12 @@ owner: claude-maintained
 > [Name]'s fundraiser just hit 50%! We've raised $[amount] and we can see the finish line. [Impact update]. Help us keep going: [Link]
 
 ### 75% Milestone
-**Subject**: SO CLOSE — just $[gap] to go
+**Subject**: SO CLOSE: just $[gap] to go
 > We're at 75% of our goal. $[amount] raised, $[gap] to go. [Urgency detail]. If just [X] more people gave $[average donation], we'd be there: [Link]
 
 ### Goal Reached
 **Subject**: WE DID IT! 🎉 Thank you!
-> Thanks to [X] donors, we reached our $[goal] goal! [Emotional reaction]. [Next steps for how funds will be used]. You made this possible. From the bottom of our hearts — THANK YOU.
+> Thanks to [X] donors, we reached our $[goal] goal! [Emotional reaction]. [Next steps for how funds will be used]. You made this possible. From the bottom of our hearts, THANK YOU.
 
 ## Final Push Sequence (Last 5 Days)
 
@@ -115,7 +115,7 @@ owner: claude-maintained
 
 ### Email 7: Final Day (Day 0)
 **Subject**: Today is the last day
-> This is it. [Name]'s fundraiser closes tonight. We're at [X]% — every dollar in the next few hours counts. [Link]. Thank you for everything.
+> This is it. [Name]'s fundraiser closes tonight. We're at [X]%. Every dollar in the next few hours counts. [Link]. Thank you for everything.
 
 ## Re-Engagement Email (For Stalled Campaigns)
 

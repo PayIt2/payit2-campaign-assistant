@@ -23,17 +23,17 @@ Everyone pays the same amount. Best for dues, equal-benefit expenses, uniform or
 | $2,400 | 20 | $120.00 | $120 |
 | $3,500 | 28 | $125.00 | $125 |
 
-**Buffer recommendation**: Add $2-5 per person to cover PayIt2 processing fees and potential no-shows. If you collect a surplus, return it or roll it to the next collection — never quietly keep it.
+**Buffer recommendation**: Add $2-5 per person to cover PayIt2 processing fees and potential no-shows. If you collect a surplus, return it or roll it to the next collection. Never quietly keep it.
 
 ### Model 2: Tiered Options
 Different levels for different participation. Best for trips with room choices, events with meal options, equipment with size/quantity variations.
 
-**Example — Weekend Trip:**
+**Example (Weekend Trip):**
 - Shared room (2-3 per room): $150/person
 - Private room: $250/person
 - Day-tripper (no overnight): $75/person
 
-**Example — Club Dinner:**
+**Example (Club Dinner):**
 - Standard meal: $45/person
 - Vegetarian meal: $45/person
 - Meal + open bar: $70/person
@@ -62,7 +62,7 @@ Contributors hate surprise fees. Transparency prevents friction and complaints.
 ## Handling Overages
 
 If you collect more than needed:
-1. **Announce the surplus** to the group: "We hit $1,340 — $40 over our goal!"
+1. **Announce the surplus** to the group: "We hit $1,340, $40 over our goal!"
 2. **Options**: (a) Roll to next collection, (b) reduce everyone's balance proportionally, (c) donate the remainder to a related cause, (d) cover incidentals without asking for more money.
 3. **Never keep it silently.** Trust is the organizer's most valuable asset.
 

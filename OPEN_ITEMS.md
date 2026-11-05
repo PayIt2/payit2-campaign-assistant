@@ -38,7 +38,9 @@ _(None outstanding. Q1 — REST API timing — was resolved by cancelling B-1; s
 
 ### Engineering Health — plugin is live; hygiene stays continuous
 
-_(none — B-2 terminology audit closed 2026-06-09; see COMPLETED_ITEMS.md)_
+B-4 Put the `/mcp` sign-in step back once prod accepts Claude Code's sign-in
+B-5 Move the live e2e run into CI
+B-6 Make the connector check a required status check
 
 ### Launch Gates
 
@@ -65,6 +67,19 @@ _(None. All open work in this repo is post-V2-dev-complete cosmetic / discovery 
 **Classification rationale:** Marketing/discovery enhancement. Allows users to find PayIt2 Campaign Assistant without first knowing about PayIt2's marketplace. Backlog — not on the V2 dev-complete path.
 
 _(B-2 closed 2026-06-09 — see COMPLETED_ITEMS.md)_
+
+### B-4. Put the `/mcp` sign-in step back once prod accepts Claude Code's sign-in
+**Source:** 1.7.0 (spec D12, 2026-11-04).
+**Why:** prod's edge answers any sign-in registration carrying a `http://localhost` redirect with an HTML 403, and prod's `OAUTH_ALLOWED_REDIRECT_HOSTS` lacks loopback hosts, so Claude Code cannot sign in to PayIt2. The Claude desktop app and claude.ai can. 1.7.0's skills and README say Claude Code sign-in is coming instead of sending anyone to `/mcp`.
+**Depends on:** the app-v2 and edge fix (Thomas). **Done when:** the skills and README name `/mcp` again, and live scenario 4 (not signed in) passes.
+
+### B-5. Move the live e2e run into CI
+**Source:** 1.7.0 (spec D3).
+**Why:** `npm run live` runs headless Claude against dev on Brian's machine with his Claude token. CI needs a workload identity rule, which only Thomas can add (§4).
+
+### B-6. Make the connector check a required status check
+**Source:** 1.7.0 final review.
+**Why:** `connector.yml` runs on every plugin or tests PR, but nothing stops a merge when it is red. Branch protection is a console setting only Thomas can change.
 
 ---
 

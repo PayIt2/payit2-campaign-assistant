@@ -49,7 +49,7 @@ Design 2-4 tiers with 20-25% price gaps. The gap must feel meaningful (worth upg
 | 10-19 tickets | 15% off |
 | 20+ tickets | 20% off |
 
-Group discounts turn one buyer into a table, a team, or a section. Always offer them — the volume makes up for the discount.
+Group discounts turn one buyer into a table, a team, or a section. Always offer them. The volume makes up for the discount.
 
 ## Pricing Formulas
 
