@@ -22,7 +22,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "mcp__.*payit2.*__update_campaign_settings",
+        "matcher": "mcp__.*__update_campaign_settings",
         "hooks": [
           {
             "type": "command",

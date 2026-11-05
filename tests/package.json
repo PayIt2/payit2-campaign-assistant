@@ -6,7 +6,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run .unit.test",
-    "connector": "vitest run .connector.test",
+    "connector": "vitest run .connector.test --no-file-parallelism",
     "live": "tsx live/run.ts"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { assertDevTarget, loadConfig } from "./env.js";
 
-const KEY = "pi2_live_0123456789abcdef";
+const KEY = "pi2_test_0123456789abcdef";
 const noKeychain = () => undefined;
 
 describe("assertDevTarget", () => {

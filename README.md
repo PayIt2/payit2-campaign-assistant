@@ -44,10 +44,10 @@ You can also just describe your situation in plain language - Claude will figure
 
 The plugin runs in two modes:
 
-- **Standalone (default).** Anyone with Claude can install and use the plugin. Claude walks you through everything — story, title, goal, pricing, social posts, thank-yous — and hands you finished content to paste into payit2.com.
+- **Standalone (default).** Anyone with Claude can install and use the plugin. Claude walks you through everything (story, title, goal, pricing, social posts, thank-yous) and hands you finished content to paste into payit2.com.
 - **PayIt2-connected.** If you have a PayIt2 account, sign in once and Claude can pull your live campaign data and create or update campaigns directly. In the Claude desktop app or claude.ai, open **Customize > Plugins**, choose **PayIt2 Campaign Assistant** and connect PayIt2 on its **Connectors** tab. Signing in from Claude Code is coming soon; until then the plugin works standalone there. Same workflows, less copy-paste. Claude always asks before changing a campaign's settings.
 
-You can start in standalone mode and connect later — there's nothing to reinstall.
+You can start in standalone mode and connect later. There's nothing to reinstall.
 
 **Example prompts:**
 - *"My neighbor's house burned down. Help me raise $15,000 for her family."*

@@ -46,7 +46,7 @@ owner: claude-maintained
 - Average donors: 30-100
 - Average campaign length: 30-45 days
 - Success rate: ~20%
-- Note: GoFundMe bans fundraising for defense of violent charges — this is PayIt2's niche opportunity
+- Note: GoFundMe bans fundraising for defense of violent charges. This is PayIt2's niche opportunity
 - Key success factor: Professional tone, rights-framing, clear legal cost breakdown
 
 ### Emergency/Crisis
@@ -55,7 +55,7 @@ owner: claude-maintained
 - Average campaign length: 14-30 days
 - Success rate: ~28% (highest urgency = highest conversion)
 - Top-performing sub-categories: House fire, natural disaster, sudden loss
-- Key success factor: Immediacy — launched within days of the event
+- Key success factor: Immediacy: launched within days of the event
 
 ### Education
 - Average raised: $1,500-$5,000
@@ -68,14 +68,14 @@ owner: claude-maintained
 - Average raised: $3,000-$10,000
 - Average donors: 40-120
 - Average campaign length: 14-21 days
-- Success rate: ~35% (highest of all categories — strong emotional response + time-bounded need)
+- Success rate: ~35% (highest of all categories: strong emotional response + time-bounded need)
 - Key success factor: Launched quickly after loss, warm community tone
 
 ### Community/Nonprofit
 - Average raised: $2,000-$10,000
 - Average donors: 30-100
 - Average campaign length: 30-90 days
-- Success rate: ~18% (lowest — often lacks personal urgency)
+- Success rate: ~18% (lowest, often lacks personal urgency)
 - Key success factor: Local community engagement, organizational backing
 
 ## Donation Patterns

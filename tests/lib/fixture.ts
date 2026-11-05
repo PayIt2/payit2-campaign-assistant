@@ -22,6 +22,13 @@ export async function ensureFixtureCampaign(mcp: Mcp, api: DevApi): Promise<stri
   return parseField(text, "ID");
 }
 
+/** Dismiss what earlier runs saved on the fixture, so test drafts never pile up on its page. */
+export async function dismissTestSaves(api: DevApi, campaignId: string): Promise<number> {
+  const waiting = (await api.listSavedContent(campaignId)).filter((i) => i.content.includes(MARKER_PREFIX));
+  for (const item of waiting) await api.dismissSavedContent(campaignId, item.id);
+  return waiting.length;
+}
+
 export async function sweepLeftovers(api: DevApi): Promise<string[]> {
   const leftovers = (await api.listMyCampaigns(MARKER_PREFIX)).filter((c) => c.title.startsWith(MARKER_PREFIX));
   for (const c of leftovers) await api.deletePermanent(c.id);

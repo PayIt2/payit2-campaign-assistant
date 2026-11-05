@@ -30,7 +30,9 @@ describe("shipped plugin files", () => {
     expect(matcher.test("mcp__plugin_payit2-campaign-assistant_payit2__update_campaign_settings")).toBe(true);
     expect(matcher.test("mcp__payit2__update_campaign_settings")).toBe(true);
     expect(matcher.test("mcp__payit2__update_campaign_question")).toBe(false);
-    expect(matcher.test("mcp__other__update_campaign_settings")).toBe(false);
+    // claude.ai and Cowork may name a connector's server by id rather than "payit2"; the tool name is PayIt2's alone.
+    expect(matcher.test("mcp__1a59c906-04da-521d-bda7-7f71b9f9e01c__update_campaign_settings")).toBe(true);
+    expect(matcher.test("mcp__payit2__get_campaign_overview")).toBe(false);
   });
 
   it("confirm-settings-change.sh asks for approval", () => {
@@ -41,7 +43,7 @@ describe("shipped plugin files", () => {
     expect(parsed.hookSpecificOutput.permissionDecisionReason).toMatch(/organizer/i);
   });
 
-  it("session-start.sh prints context and never mentions signing in", () => {
+  it("session-start.sh prints context and does not greet a signed-out organizer", () => {
     const out = execFileSync(PLUGIN + "scripts/session-start.sh", { input: "{}", encoding: "utf8" });
     expect(out).toMatch(/list_my_campaigns/);
     expect(out).toMatch(/do not greet/i);
@@ -110,6 +112,11 @@ describe("plugin copy", () => {
     for (const rel of ["skills/campaign-context/SKILL.md", "skills/campaign/SKILL.md"]) {
       expect(readFileSync(PLUGIN + rel, "utf8")).toMatch(/current and new value/i);
     }
+  });
+
+  it("has no em or en dashes, so the templates never teach Claude to write them for organizers (§16)", () => {
+    const hits = allText().filter(({ t }) => /[—–]/.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
   });
 
   it("no skill tells Claude to stay silent about signing in", () => {

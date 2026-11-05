@@ -159,7 +159,7 @@ Pins the git-subdir source to $PLUGIN_SHA, the $VERSION release commit on
 payit2-campaign-assistant."
   fi
   git push -u origin "$BRANCH"
-  if gh pr view "$BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
+  if [ "$(gh pr view "$BRANCH" --json state -q .state 2>/dev/null)" = "OPEN" ]; then
     echo "    updated the open PR for $BRANCH"
   else
     gh pr create --draft --base "$default" --head "$BRANCH" \

@@ -61,7 +61,7 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 |---|---|
 | `plugin/.mcp.json` (new) | One server, `payit2`: `{"type": "http", "url": "https://mcp.payit2.com/mcp"}`, no headers |
 | `plugin/.claude-plugin/plugin.json` | Remove `userConfig`; version `1.7.0` |
-| `plugin/hooks/hooks.json` | `PreToolUse` matcher becomes the regex `mcp__.*payit2.*__update_campaign_settings` and runs `scripts/confirm-settings-change.sh`; `SessionStart` runs `scripts/session-start.sh`; `SubagentStart` and `Stop` are removed, with `scripts/save-summary.sh` (D10) |
+| `plugin/hooks/hooks.json` | `PreToolUse` matcher becomes the regex `mcp__.*__update_campaign_settings` and runs `scripts/confirm-settings-change.sh`; `SessionStart` runs `scripts/session-start.sh`; `SubagentStart` and `Stop` are removed, with `scripts/save-summary.sh` (D10) |
 | `plugin/skills/campaign-context/SKILL.md` | Replace the "never mention" rule with the light mention (below); add the confirm-before-changing-settings rule |
 | `plugin/skills/campaign/SKILL.md` | Add the confirm-before-changing-settings rule to Step 8 |
 | `plugin/skills/check-in`, `promote`, `engage` `SKILL.md` | Replace API-key wording with signing in to PayIt2. Remove every claim that saved content appears in the campaign feed or the organizer's dashboard: the skill gives the organizer the finished text to post themselves, and calls the matching `save_*` tool to keep a record (D9). |
@@ -71,11 +71,12 @@ The PayIt2 app is live in production, and so is its MCP server at `https://mcp.p
 
 ### The hook matcher
 
-The regex `mcp__.*payit2.*__update_campaign_settings` matches three ways the tool can appear:
+The regex `mcp__.*__update_campaign_settings` matches every way the tool can appear (widened 2026-11-04 from `mcp__.*payit2.*__`, because claude.ai and Cowork may name a connector's server by an id rather than `payit2`; no other service has a tool by this name):
 
 - the bundled connector: `mcp__plugin_payit2-campaign-assistant_payit2__update_campaign_settings`
 - a hand-added server named `payit2`, per `docs/API-KEYS.md` in app-v2: `mcp__payit2__update_campaign_settings`
 - the e2e live run's dev server, also named `payit2`
+- a connector added through claude.ai or Cowork, whatever server name those apps give it
 
 This is verified by a real run (Part B, scenario 3), not just from the docs.
 

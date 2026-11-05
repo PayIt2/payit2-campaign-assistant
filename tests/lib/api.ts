@@ -11,14 +11,17 @@ export interface CampaignDetail {
   role: string;
 }
 export interface CampaignSummary { id: string; title: string; status: string }
+export interface SavedItem { id: string; type: string; content: string; resolution: string | null }
 
 export const toNumber = (v: number | string | null | undefined): number => (v == null ? 0 : Number(v));
 
 export class DevApi {
   constructor(private readonly cfg: Pick<E2EConfig, "apiUrl" | "apiKey">) {}
 
-  private async request(method: string, path: string): Promise<Response> {
-    return fetch(`${this.cfg.apiUrl}${path}`, { method, headers: { "x-api-key": this.cfg.apiKey } });
+  private async request(method: string, path: string, body?: unknown): Promise<Response> {
+    const headers: Record<string, string> = { "x-api-key": this.cfg.apiKey };
+    if (body !== undefined) headers["content-type"] = "application/json";
+    return fetch(`${this.cfg.apiUrl}${path}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
   }
 
   private async json<T>(method: string, path: string): Promise<T> {
@@ -48,6 +51,17 @@ export class DevApi {
 
   async listPayments(id: string): Promise<unknown[]> {
     return this.json<unknown[]>("GET", `/api/v1/campaigns/${id}/payments`);
+  }
+
+  /** What the save_* tools left on a campaign. Only items still waiting for the organizer unless `all`. */
+  async listSavedContent(campaignId: string, all = false): Promise<SavedItem[]> {
+    return this.json<SavedItem[]>("GET", `/api/v1/campaigns/${campaignId}/ai-content${all ? "?all=1" : ""}`);
+  }
+
+  /** The organizer's Dismiss on the From Claude card. There is no delete route for saved content. */
+  async dismissSavedContent(campaignId: string, id: string): Promise<void> {
+    const res = await this.request("PATCH", `/api/v1/campaigns/${campaignId}/ai-content/${id}`, { resolution: "dismissed" });
+    if (!res.ok) throw new Error(`PATCH saved content ${id}: ${res.status} ${await res.text()}`);
   }
 
   async deletePermanent(id: string): Promise<void> {

@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { loadConfig, readKeychain, CLAUDE_TOKEN_SERVICE } from "../lib/env.js";
 import { connectMcp } from "../lib/mcp.js";
 import { DevApi } from "../lib/api.js";
-import { ensureFixtureCampaign, runMarker, sweepLeftovers, FIXTURE_TITLE } from "../lib/fixture.js";
+import { dismissTestSaves, ensureFixtureCampaign, runMarker, sweepLeftovers, FIXTURE_TITLE } from "../lib/fixture.js";
 import { parseStream, type StreamSummary } from "./stream.js";
 import { runClaude } from "./claude.js";
 import { SCENARIOS, type Scenario } from "./scenarios.js";
@@ -82,6 +82,7 @@ try {
     else if (fixture.title !== FIXTURE_TITLE) {
       await mcp.callText("update_campaign_settings", { campaignId: fixtureId, title: FIXTURE_TITLE });
     }
+    if (fixture) await dismissTestSaves(api, fixtureId);
   }
   await sweepLeftovers(api);
   await mcp.close();
