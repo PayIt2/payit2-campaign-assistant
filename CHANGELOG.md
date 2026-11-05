@@ -11,6 +11,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-04
+
 ### Added
 
 - **The plugin now ships with the PayIt2 connector.** Organizers sign in to PayIt2 once, on the
