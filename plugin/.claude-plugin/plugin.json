@@ -1,6 +1,6 @@
 {
   "name": "payit2-campaign-assistant",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage participants through conversation with Claude.",
   "author": {
     "name": "Brian Anderson, PayIt2 Founder"
@@ -17,14 +17,5 @@
     "campaign-health-check",
     "event-ticketing",
     "cost-splitting"
-  ],
-  "userConfig": {
-    "payit2_api_key": {
-      "type": "string",
-      "title": "PayIt2 API key",
-      "description": "Your PayIt2 API key (found in PayIt2 dashboard > Settings > Developers)",
-      "sensitive": true,
-      "required": false
-    }
-  }
+  ]
 }

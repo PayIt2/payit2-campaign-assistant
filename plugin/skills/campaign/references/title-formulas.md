@@ -69,4 +69,4 @@ Before finalizing, verify the title:
 - [ ] Makes the situation clear without clicking
 - [ ] Contains at least one category keyword
 - [ ] Avoids jargon, abbreviations, or inside references
-- [ ] Passes the "scroll test" — would you stop scrolling to read more?
+- [ ] Passes the "scroll test": would you stop scrolling to read more?

@@ -37,10 +37,10 @@ owner: claude-maintained
 - [ ] Tags are relevant (+1)
 
 ### Total Page Score: /45
-- 40-45: Excellent — ready to promote aggressively
-- 30-39: Good — fix top gaps before major promotion
-- 20-29: Needs work — address weaknesses before investing in promotion
-- <20: Major rewrite needed — page will waste traffic
+- 40-45: Excellent: ready to promote aggressively
+- 30-39: Good: fix top gaps before major promotion
+- 20-29: Needs work: address weaknesses before investing in promotion
+- <20: Major rewrite needed: page will waste traffic
 
 ## Promotion Audit
 
@@ -65,10 +65,10 @@ owner: claude-maintained
 - [ ] Different ask amounts for different relationship tiers (+2)
 
 ### Total Promotion Score: /40
-- 35-40: Excellent promotion — focus on optimization
-- 25-34: Good effort — expand channels and increase frequency
-- 15-24: Under-promoting — this is likely the primary bottleneck
-- <15: Severely under-promoted — campaign won't succeed without major increase
+- 35-40: Excellent promotion: focus on optimization
+- 25-34: Good effort: expand channels and increase frequency
+- 15-24: Under-promoting: this is likely the primary bottleneck
+- <15: Severely under-promoted: campaign won't succeed without major increase
 
 ## Engagement Audit
 
@@ -101,11 +101,11 @@ owner: claude-maintained
 | **TOTAL** | **110** | ___ |
 
 ### Interpretation
-- 90-110: Campaign is optimized — maintain and expand
-- 70-89: Healthy campaign — address top 3 gaps
-- 50-69: Underperforming — significant changes needed
-- 30-49: At risk — intervention required
-- <30: Critical — consider relaunch with new strategy
+- 90-110: Campaign is optimized: maintain and expand
+- 70-89: Healthy campaign: address top 3 gaps
+- 50-69: Underperforming: significant changes needed
+- 30-49: At risk: intervention required
+- <30: Critical: consider relaunch with new strategy
 
 ## Quick-Win Action Menu
 

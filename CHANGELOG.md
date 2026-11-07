@@ -11,11 +11,33 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-04
+
+### Added
+
+- **The plugin now ships with the PayIt2 connector.** Organizers sign in to PayIt2 once, on the
+  plugin's Connectors tab in the Claude desktop app or claude.ai, instead of pasting an API key.
+  The unused API-key setting is gone. Signing in from Claude Code waits on a PayIt2 server fix;
+  until then the plugin works standalone there.
+- **Install steps for the Claude desktop app and claude.ai.** The README's install steps were
+  Claude Code commands. They now walk through Customize > Plugins, with the Claude Code commands
+  kept as a short aside.
+- **End-to-end tests.** `tests/` holds a connector check that runs in CI against dev and a
+  live run of the plugin with Claude. See `tests/README.md`.
+
+### Changed
+
+- **What Claude saves now reaches the organizer, and the skills say so.** Since PayIt2's
+  2026-11-04 release, an update draft waits on the campaign's page for the organizer to post,
+  and stories, thank-yous and improvement notes show in its From Claude card. Saving never
+  posts, emails or changes the public page. The skills tell the organizer where to find what
+  was saved and list the new `list_saved_content` tool. A campaign's story still goes in its
+  description, which the page shows.
+- **When PayIt2 isn't connected, Claude mentions signing in once** if the organizer asks about
+  their live numbers, then carries on without it.
+
 ### Fixed
 
-- **The API key location was wrong.** The README and the key prompt said
-  Settings > API; the PayIt2 page is Settings > Developers (CEO question
-  2026-10-25, "Is the MCP and plugin information actually right?").
 - **The plugin manifest failed Claude Code's schema, so none of the five skills
   registered.** `claude plugin validate` reported three errors, and any one of them is
   enough for the loader to discard the plugin:
@@ -29,6 +51,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
   `claude plugin validate plugin` now passes. The diff on `hooks.json` looks large only
   because wrapping reindents the whole file.
+
+- **The startup greeting never ran.** Claude Code rejects prompt-type hooks on SessionStart.
+  It is now a command hook.
+- **The confirmation before changing campaign settings never fired.** Its matcher used the
+  wrong tool name, and its prompt asked a hook model to read a conversation it never sees.
+  It is now a command hook that asks the organizer to approve every settings change.
+- **Two hooks that could not work are removed.** SubagentStart and Stop were prompt hooks that
+  needed the conversation, and the Stop hook piped into a script, which hooks cannot do.
 
 ## [1.6.0] - 2026-04-28
 
