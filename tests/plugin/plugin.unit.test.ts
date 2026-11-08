@@ -17,6 +17,29 @@ describe("shipped plugin files", () => {
     expect(json(".claude-plugin/plugin.json").userConfig).toBeUndefined();
   });
 
+  it("quotes every hook path, so a plugin folder with a space in it still runs", () => {
+    const hooks = json("hooks/hooks.json").hooks as Record<string, Array<{ hooks: Array<{ command: string }> }>>;
+    const commands = Object.values(hooks).flatMap((groups) => groups.flatMap((g) => g.hooks.map((h) => h.command)));
+    expect(commands).toHaveLength(3);
+    for (const c of commands) expect(c).toMatch(/^"\$\{CLAUDE_PLUGIN_ROOT\}\/scripts\/[a-z-]+\.sh"$/);
+  });
+
+  const detect = (prompt: string) =>
+    execFileSync(PLUGIN + "scripts/detect-campaign-url.sh", {
+      input: JSON.stringify({ hook_event_name: "UserPromptSubmit", prompt }),
+      encoding: "utf8",
+    });
+
+  it("detect-campaign-url.sh names a campaign link's type and slug in plain shell, without jq", () => {
+    expect(readFileSync(PLUGIN + "scripts/detect-campaign-url.sh", "utf8")).not.toMatch(/\bjq\b/);
+    const out = detect("How is https://www.payit2.com/event/sw9gsvg doing?");
+    expect(out).toContain("[PayIt2 Campaign Detected: https://payit2.com/event/sw9gsvg]");
+    expect(out).toContain("Type: event");
+    expect(out).toContain("Slug: sw9gsvg");
+    expect(out).toMatch(/get_campaign_overview/);
+    expect(detect("Help me plan a 5K")).toBe("");
+  });
+
   it("uses no prompt-type hooks, which Claude Code rejects or cannot ground", () => {
     const hooks = json("hooks/hooks.json").hooks as Record<string, Array<{ hooks: Array<{ type: string }> }>>;
     const types = Object.values(hooks).flatMap((groups) => groups.flatMap((g) => g.hooks.map((h) => h.type)));

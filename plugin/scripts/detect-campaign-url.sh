@@ -1,24 +1,22 @@
 #!/bin/bash
-# UserPromptSubmit hook: detect PayIt2 campaign URLs and inject context for Claude.
-# Input: JSON via stdin with "prompt" field.
-# Output: context injected into Claude's pre-processing for this turn.
-
+# UserPromptSubmit hook: spot a PayIt2 campaign link in the organizer's message and add its type
+# and slug to the turn. Plain shell only, with no external JSON parser, so it runs on any Mac or Linux machine.
+# Input: the hook's JSON on stdin. Output: context for Claude, or nothing.
 INPUT=$(cat)
-PROMPT=$(echo "$INPUT" | jq -r '.prompt // ""')
+URL=$(printf '%s' "$INPUT" | grep -oiE 'payit2\.com/(fundraiser|event|group)/[A-Za-z0-9_-]+' | head -n 1)
+[ -z "$URL" ] && exit 0
+TYPE=$(printf '%s' "$URL" | cut -d'/' -f2)
+SLUG=$(printf '%s' "$URL" | cut -d'/' -f3)
 
-if echo "$PROMPT" | grep -qiE 'payit2\.com/(fundraiser|event|group)/[a-zA-Z0-9_-]+'; then
-  URL=$(echo "$PROMPT" | grep -oiE 'payit2\.com/(fundraiser|event|group)/[a-zA-Z0-9_-]+' | head -1)
-  TYPE=$(echo "$URL" | cut -d'/' -f2)
-  SLUG=$(echo "$URL" | cut -d'/' -f3)
+cat <<EOF
+[PayIt2 Campaign Detected: https://$URL]
+Type: $TYPE
+Slug: $SLUG
 
-  echo "[PayIt2 Campaign Detected: https://$URL]"
-  echo "Type: $TYPE"
-  echo "Slug: $SLUG"
-  echo ""
-  echo "If PayIt2 tools are available, call get_campaign_overview with the slug or campaign ID to fetch live stats before responding. If they are not, ask the organizer for the current numbers; the skills work fine in standalone mode."
-  echo ""
-  echo "If the organizer hasn't said what they want, ask which command to run:"
-  echo "  /check-in  - health score and prioritized action plan"
-  echo "  /promote   - promotion strategy and content calendar"
-  echo "  /engage    - participant messages (thank-yous, updates, re-engagement)"
-fi
+If PayIt2 tools are available, call get_campaign_overview with the slug or campaign ID to fetch live stats before responding. If they are not, ask the organizer for the current numbers; the skills work fine in standalone mode.
+
+If the organizer hasn't said what they want, ask which command to run:
+  /check-in  - health score and prioritized action plan
+  /promote   - promotion strategy and content calendar
+  /engage    - participant messages (thank-yous, updates, re-engagement)
+EOF
