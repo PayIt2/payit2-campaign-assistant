@@ -140,16 +140,15 @@ Templates provide structure only. They never include a cover image. A cover phot
 1. Ask: "Do you have a photo you'd like to use? If not, I can find one from a free source."
 2. If the user provides a URL or file, upload it directly via `upload_campaign_image`.
 3. If no photo is available, search Unsplash using WebSearch or WebFetch:
-   - Search query: `site:unsplash.com [keywords matching campaign topic]`
-   - Fetch the results page and extract 3-5 specific image src URLs (images.unsplash.com or plus.unsplash.com)
+   - Fetch `https://unsplash.com/s/photos/[keywords]?orientation=landscape&license=free`
+   - Extract 3-5 specific image src URLs (images.unsplash.com only)
    - Present the options with brief descriptions and let the user pick
    - Upload the chosen image via `upload_campaign_image` using the `imageUrl` parameter
 
 **Unsplash URL format for upload (always add quality params):**
-- `https://images.unsplash.com/photo-[ID]?w=1280&q=80`
-- `https://plus.unsplash.com/premium_photo-[ID]?w=1280&q=80`
+- `https://images.unsplash.com/photo-[ID]?w=1600&q=80`
 
-All Unsplash images (including plus.unsplash.com) are free for commercial use under the Unsplash License.
+Photos on images.unsplash.com are free for commercial use under the Unsplash License. Never use plus.unsplash.com photos: they are Unsplash+, a paid license.
 
 **Search keywords by campaign type:**
 

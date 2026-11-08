@@ -160,6 +160,11 @@ describe("plugin copy", () => {
     expect(existsSync(PLUGIN + "skills/campaign/references/enrich-guide.md")).toBe(true);
   });
 
+  it("never sends Claude to Unsplash+ photos, which need a paid license", () => {
+    const hits = allText().filter(({ t }) => /plus\.unsplash\.com\/premium|including plus\.unsplash/i.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
+
   it("the campaign skill helps a new organizer connect, steering them to the sign-in choices that create an account", () => {
     const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
     expect(skill).toMatch(/Customize > Plugins/);
