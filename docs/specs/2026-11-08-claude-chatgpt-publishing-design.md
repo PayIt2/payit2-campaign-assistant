@@ -56,8 +56,8 @@ Changes in `plugin/` and around it:
 - Add `plugin/README.md`: what the assistant does, what it sends where (PayIt2's MCP server at `mcp.payit2.com`, Unsplash photo search when it picks a cover), how to connect, at least 40 words outside code blocks.
 - Add `plugin/LICENSE` (the repo's existing license) and set `license` in `plugin.json`.
 - Add a square PayIt2 icon (PNG, 512 to 2048 px, under 2 MB) at `plugin/.claude-plugin/icon.png`, from the brand plugin's assets.
-- Set `privacyPolicyUrl` and `homepage` in `plugin.json` to payit2.com pages. Confirm the privacy policy covers data sent through the assistant.
-- Remove `plugin/skills/.DS_Store` and add `.DS_Store` to `.gitignore`.
+- Set `homepage` in `plugin.json` and put a `Privacy:` link to payit2.com/privacy in `plugin/README.md`. The directory accepts the README link; a top-level `privacyPolicyUrl` key would be stripped, with a warning, by the claude.ai organization sync that the team marketplace feeds. Confirm the privacy policy covers data sent through the assistant.
+- Keep `.DS_Store` files out of git (`.gitignore` already lists it; none are committed). Validate from the committed files, since an untracked `.DS_Store` on disk is not part of a submission.
 - Raise `version` to 2.0.0 and add a CHANGELOG entry that tells existing installs to reinstall.
 
 Release with `release.sh v2.0.0`. That moves the pin in the public marketplace and in `PayIt2/payit2-team-plugins`, whose draft PR #1 turns green on the new pin.
