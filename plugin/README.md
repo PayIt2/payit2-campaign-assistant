@@ -1,3 +1,9 @@
+---
+title: "PayIt2 plugin"
+type: reference
+doc_status: active
+owner: claude-maintained
+---
 # PayIt2
 
 PayIt2 helps organizers run fundraisers, events and group payments. This plugin brings PayIt2
