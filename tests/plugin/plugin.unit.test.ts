@@ -19,6 +19,20 @@ describe("shipped plugin files", () => {
     expect(manifest.displayName).toBe("PayIt2");
   });
 
+  it("carries what the Claude directory requires: README, license, icon and a privacy link", () => {
+    const readme = readFileSync(PLUGIN + "README.md", "utf8");
+    const prose = readme.replace(/```[\s\S]*?```/g, "");
+    expect(prose.split(/\s+/).filter(Boolean).length).toBeGreaterThanOrEqual(40);
+    expect(readme).toContain("/plugin install payit2 --marketplace PayIt2/payit2-plugins-marketplace");
+    expect(readme).toContain("https://www.payit2.com/privacy");
+    expect(readme).toContain("mcp.payit2.com");
+    expect(readFileSync(PLUGIN + "LICENSE", "utf8")).toMatch(/^MIT License/);
+    expect(existsSync(PLUGIN + ".claude-plugin/icon.png")).toBe(true);
+    const manifest = json(".claude-plugin/plugin.json");
+    expect(manifest.license).toBe("MIT");
+    expect(manifest.homepage).toBe("https://www.payit2.com/ai-assistant");
+  });
+
   it("asks for no API key", () => {
     expect(json(".claude-plugin/plugin.json").userConfig).toBeUndefined();
   });
