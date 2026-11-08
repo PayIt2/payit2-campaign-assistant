@@ -18,7 +18,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 MARKETPLACES=("$REPO_DIR/../payit2-plugins-marketplace" "$REPO_DIR/../payit2-team-plugins")
-PLUGIN_NAME="payit2-campaign-assistant"
+PLUGIN_NAME="$(python3 -c 'import json, sys; print(json.load(open(sys.argv[1]))["name"])' "$REPO_DIR/plugin/.claude-plugin/plugin.json")"
 DRY_RUN="${DRY_RUN:-}"
 
 VERSION="${1:-}"
@@ -145,24 +145,10 @@ for i in "${!MARKETPLACES[@]}"; do
     run git switch --no-track -c "$BRANCH" "origin/$default"
   fi
   if [[ -n "$DRY_RUN" ]]; then
-    echo "    [dry run] set $PLUGIN_NAME sha to $PLUGIN_SHA in .claude-plugin/marketplace.json"
+    echo "    [dry run] set the payit2-campaign-assistant entry to name $PLUGIN_NAME, sha $PLUGIN_SHA"
     continue
   fi
-  python3 - "$PLUGIN_SHA" "$PLUGIN_NAME" <<'PY'
-import json, sys
-sha, name = sys.argv[1], sys.argv[2]
-path = ".claude-plugin/marketplace.json"
-data = json.load(open(path))
-for plugin in data.get("plugins", []):
-    if plugin.get("name") == name:
-        plugin["source"]["sha"] = sha
-        break
-else:
-    sys.exit(f"{name} entry not found in {path}")
-with open(path, "w") as f:
-    json.dump(data, f, indent=2)
-    f.write("\n")
-PY
+  python3 "$REPO_DIR/scripts/bump_pin.py" .claude-plugin/marketplace.json "$PLUGIN_NAME" "$PLUGIN_SHA"
   git add .claude-plugin/marketplace.json
   if git diff --cached --quiet; then
     echo "    pin already at $PLUGIN_SHA"

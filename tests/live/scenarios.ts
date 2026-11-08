@@ -18,7 +18,7 @@ const calls = (s: StreamSummary, name: string) => s.toolUses.filter((u) => u.nam
 const resultFor = (s: StreamSummary, id: string) => s.toolResults.find((r) => r.toolUseId === id);
 const NOT_HERE = "The organizer is not available to answer questions; use what the tools return and finish.";
 
-const BUNDLED = "plugin:payit2-campaign-assistant:payit2";
+const BUNDLED = "plugin:payit2:payit2";
 const SIGN_IN = /\bsign(?:ing)?[ -]in\b/i;
 
 // Scenario 4: the bundled prod connector is present but the organizer has not signed in.
@@ -50,7 +50,7 @@ export const SCENARIOS: Scenario[] = [
     maxTurns: 15,
     maxBudgetUsd: 1.5,
     prompt: ({ fixtureId }) =>
-      `/payit2-campaign-assistant:check-in My campaign ID is ${fixtureId}. Run my weekly check-in with my live numbers. ${NOT_HERE}`,
+      `/payit2:check-in My campaign ID is ${fixtureId}. Run my weekly check-in with my live numbers. ${NOT_HERE}`,
     async check(s, { fixtureId, api }) {
       const f: string[] = [];
       if (calls(s, "get_campaign_health").length === 0) f.push("get_campaign_health was not called");
@@ -65,7 +65,7 @@ export const SCENARIOS: Scenario[] = [
     maxTurns: 15,
     maxBudgetUsd: 1.5,
     prompt: ({ fixtureId, marker }) =>
-      `/payit2-campaign-assistant:engage My campaign ID is ${fixtureId}. Write a short progress update for my supporters and save it. Put this exact tag on its own line in the update: ${marker}. ${NOT_HERE}`,
+      `/payit2:engage My campaign ID is ${fixtureId}. Write a short progress update for my supporters and save it. Put this exact tag on its own line in the update: ${marker}. ${NOT_HERE}`,
     async check(s, { marker, fixtureId, api }) {
       const f: string[] = [];
       const saves = calls(s, "save_update_post").filter((u) => String(u.input.content ?? "").includes(marker));
@@ -115,7 +115,7 @@ export const SCENARIOS: Scenario[] = [
     maxTurns: 30,
     maxBudgetUsd: 3,
     prompt: ({ marker }) =>
-      `/payit2-campaign-assistant:campaign Create a new fundraiser on my PayIt2 account as a draft. ` +
+      `/payit2:campaign Create a new fundraiser on my PayIt2 account as a draft. ` +
       `Title: "${marker} Defense Fund for Maria Lopez". Cause: legal defense for Maria Lopez, a Grand Rapids teacher ` +
       `fighting a wrongful termination case. Goal: $15,000. Theme: the legal-defense preset. No cover image. ` +
       `Use the story you write as the description. I have answered everything; go ahead and create it as a draft. ${NOT_HERE}`,

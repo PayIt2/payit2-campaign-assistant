@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\""
           }
         ]
       }
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/detect-campaign-url.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/detect-campaign-url.sh\""
           }
         ]
       }
@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/confirm-settings-change.sh"
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/confirm-settings-change.sh\""
           }
         ]
       }

@@ -5,7 +5,7 @@ const lines = [
   { type: "system", subtype: "hook_response", hook_event: "SessionStart", hook_name: "SessionStart:startup", outcome: "success", output: "" },
   {
     type: "system", subtype: "init", claude_code_version: "2.1.252",
-    plugins: [{ name: "payit2-campaign-assistant", path: "/x", source: "payit2-campaign-assistant@inline", version: "1.7.0" }],
+    plugins: [{ name: "payit2", path: "/x", source: "payit2@inline", version: "1.7.0" }],
     mcp_servers: [{ name: "payit2", status: "connected" }],
     tools: ["Read", "mcp__payit2__get_campaign_health"],
   },
@@ -25,7 +25,7 @@ describe("parseStream", () => {
   it("collects init, tool calls, results, hooks, denials and the final reply", () => {
     const s = parseStream(lines + "\nnot json\n");
     expect(s.init).toEqual({
-      plugins: ["payit2-campaign-assistant"],
+      plugins: ["payit2"],
       mcpServers: [{ name: "payit2", status: "connected" }],
       tools: ["Read", "mcp__payit2__get_campaign_health"],
       version: "2.1.252",

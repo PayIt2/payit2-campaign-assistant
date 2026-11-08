@@ -22,9 +22,9 @@ function claudeAuth() {
 function initFailures(sc: Scenario, s: StreamSummary): string[] {
   if (!s.init) return ["no init event (Claude did not start)"];
   const f: string[] = [];
-  if (JSON.stringify(s.init.plugins) !== JSON.stringify(["payit2-campaign-assistant"])) f.push(`unexpected plugins loaded: ${s.init.plugins.join(", ")}`);
+  if (JSON.stringify(s.init.plugins) !== JSON.stringify(["payit2"])) f.push(`unexpected plugins loaded: ${s.init.plugins.join(", ")}`);
   const names = s.init.mcpServers.map((m) => m.name);
-  const expected = sc.connector === "dev" ? ["payit2"] : ["plugin:payit2-campaign-assistant:payit2"];
+  const expected = sc.connector === "dev" ? ["payit2"] : ["plugin:payit2:payit2"];
   if (JSON.stringify(names) !== JSON.stringify(expected)) f.push(`unexpected MCP servers: ${names.join(", ")}`);
   return f;
 }

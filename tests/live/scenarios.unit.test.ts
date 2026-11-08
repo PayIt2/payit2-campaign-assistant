@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { parseStream } from "./stream.js";
 import { checkNotSignedIn } from "./scenarios.js";
 
-const BUNDLED = "plugin:payit2-campaign-assistant:payit2";
+const BUNDLED = "plugin:payit2:payit2";
 
 // Line shapes copied from live runs (CLI 2.1.252): the init status of the bundled server is "pending" in
 // both the signed-out and the failed case, so the failure only shows up in the ToolSearch result.
@@ -19,7 +19,7 @@ function run(opts: { failedError?: string; reply: string }) {
         tool_use_result: { matches: [], query: "list_my_campaigns", total_deferred_tools: 14 },
       };
   return parseStream([
-    { type: "system", subtype: "init", claude_code_version: "2.1.252", plugins: [{ name: "payit2-campaign-assistant" }], mcp_servers: [{ name: BUNDLED, status: "pending" }], tools: ["ToolSearch"] },
+    { type: "system", subtype: "init", claude_code_version: "2.1.252", plugins: [{ name: "payit2" }], mcp_servers: [{ name: BUNDLED, status: "pending" }], tools: ["ToolSearch"] },
     { type: "assistant", message: { content: [{ type: "tool_use", id: "t1", name: "ToolSearch", input: { query: "list_my_campaigns" } }] } },
     toolResult,
     { type: "assistant", message: { content: [{ type: "text", text: opts.reply }] } },
