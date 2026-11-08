@@ -11,6 +11,21 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-08
+
+### Changed
+
+- **The plugin is now `payit2`, shown as PayIt2.** Commands move from
+  `/payit2-campaign-assistant:<skill>` to `/payit2:<skill>`. If you installed an earlier version,
+  uninstall it and install `payit2` from the same marketplace.
+- **Hooks run from any folder.** Their paths are quoted, and campaign-link detection no longer
+  needs `jq`.
+
+### Added
+
+- A README, license, icon and privacy link inside the plugin, which the Claude directory
+  requires.
+
 ## [1.8.0] - 2026-11-08
 
 ### Changed
