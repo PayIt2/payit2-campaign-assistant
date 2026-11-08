@@ -90,6 +90,20 @@ PLUGIN_SHA="$(git rev-parse HEAD)"
 
 # ---------- Preflight: every marketplace, before anything irreversible ----------
 
+# A marketplace that is neither cloned here nor on GitHub does not exist yet (the private
+# team marketplace, Plan 2, as of 2026-11-08): skip it with a warning. One that exists on
+# GitHub but is not cloned still stops the release, in the preflight below.
+ACTIVE_MARKETPLACES=()
+for dir in "${MARKETPLACES[@]}"; do
+  if [[ ! -d "$dir" ]] && ! gh repo view "PayIt2/$(basename "$dir")" >/dev/null 2>&1; then
+    echo "==> skipping $(basename "$dir"): no local clone and no PayIt2/$(basename "$dir") on GitHub"
+    continue
+  fi
+  ACTIVE_MARKETPLACES+=("$dir")
+done
+[[ ${#ACTIVE_MARKETPLACES[@]} -gt 0 ]] || die "no marketplace repo to pin"
+MARKETPLACES=("${ACTIVE_MARKETPLACES[@]}")
+
 DEFAULT_BRANCHES=()
 for dir in "${MARKETPLACES[@]}"; do
   default="$(preflight_marketplace "$dir")" || exit 1
