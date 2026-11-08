@@ -1,6 +1,6 @@
 {
   "name": "payit2-campaign-assistant",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage participants through conversation with Claude.",
   "author": {
     "name": "Brian Anderson, PayIt2 Founder"
