@@ -65,9 +65,14 @@ preflight_marketplace() {
   git -C "$dir" fetch origin --prune --quiet || die "could not fetch origin in $name"
   default="$(resolve_default_branch "$dir")" || die "could not work out the default branch of $name (origin/HEAD is unset, remote set-head failed, gh repo view failed)"
   git -C "$dir" rev-parse --verify --quiet "refs/remotes/origin/$default" >/dev/null || die "$name has no origin/$default after fetching"
-  git -C "$dir" show "origin/$default:.claude-plugin/marketplace.json" 2>/dev/null \
-    | python3 -c 'import json, sys; sys.exit(0 if any(p.get("name") == sys.argv[1] for p in json.load(sys.stdin).get("plugins", [])) else 1)' "$PLUGIN_NAME" 2>/dev/null \
-    || die "$name has no $PLUGIN_NAME entry in .claude-plugin/marketplace.json on origin/$default"
+  # Read today's release branch when it exists (a marketplace whose first PR is still open has
+  # no index on its default branch yet), and find the entry by source like scripts/bump_pin.py,
+  # so a renamed plugin is still found.
+  local ref="origin/$default"
+  git -C "$dir" rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" >/dev/null && ref="origin/$BRANCH"
+  git -C "$dir" show "$ref:.claude-plugin/marketplace.json" 2>/dev/null \
+    | python3 -c 'import json, sys; sys.exit(0 if any(p.get("source", {}).get("url") == "PayIt2/payit2-campaign-assistant" and p.get("source", {}).get("path") == "plugin" for p in json.load(sys.stdin).get("plugins", [])) else 1)' 2>/dev/null \
+    || die "$name has no PayIt2/payit2-campaign-assistant (plugin/) entry in .claude-plugin/marketplace.json on $ref"
   echo "$default"
 }
 
