@@ -146,6 +146,11 @@ function textFiles(dir: string): string[] {
 const allText = () => textFiles(PLUGIN).map((f) => ({ f, t: readFileSync(f, "utf8") }));
 
 describe("plugin copy", () => {
+  it("tells organizers to choose PayIt2, the plugin's display name since 2.0.0", () => {
+    const hits = allText().filter(({ t }) => /choose \**PayIt2 Campaign Assistant/.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
+
   it("never promises that saving posts, publishes or notifies anyone (D9)", () => {
     const bad = /(campaign(?:'s)? (?:update )?feed|show(?:s)? up in the organizer's dashboard|appear in the organizer's dashboard|notifies existing participants)/i;
     const hits = allText().filter(({ t }) => bad.test(t)).map(({ f }) => f.replace(PLUGIN, ""));

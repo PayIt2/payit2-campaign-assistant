@@ -28,7 +28,7 @@ Check whether PayIt2 tools such as `create_campaign` and `list_my_campaigns` are
 **If they are not**, tell the organizer in a few lines, before anything else, that connecting PayIt2 lets you create the page and hand them its link, and how to do it:
 
 > To build your page for you, I need to be connected to PayIt2. It takes about 30 seconds:
-> 1. Open **Customize > Plugins**, choose **PayIt2 Campaign Assistant**, and open its **Connectors** tab.
+> 1. Open **Customize > Plugins**, choose **PayIt2**, and open its **Connectors** tab.
 > 2. Click **Connect** next to PayIt2.
 > 3. On the PayIt2 sign-in page, choose **Continue with Google** or **Email me a sign-in link**. If you are new to PayIt2, either one creates your free account in the same step.
 >
