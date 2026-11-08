@@ -27,6 +27,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   gives the Connectors-tab steps first and steers someone new to Continue with Google or Email me
   a sign-in link, which create the account in the same step. This is the conversation's one
   sign-in mention; `campaign-context` now allows it for /campaign as well as for live numbers.
+- **Cover photos: no pre-cropping, and small photos get flagged.** The page now shows covers at 3:1
+  on desktop and 16:9 on phones and shows tall photos whole, so the guide stops telling Claude to
+  crop to 3:1. When PayIt2 says a photo is too small to look sharp, Claude tells the organizer.
 - **Descriptions stop repeating the page.** The blurb, date, venue and prices already have their
   own places on the campaign page, so the description sticks to the hook, why it matters and the
   call to action.
