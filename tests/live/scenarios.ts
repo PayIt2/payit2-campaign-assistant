@@ -132,8 +132,10 @@ export const SCENARIOS: Scenario[] = [
       if (toNumber(d.goalAmount) !== 15000) f.push(`goal is ${d.goalAmount}, not 15000`);
       if ((d.description ?? "").length < 400) f.push(`description is ${(d.description ?? "").length} characters, under 400`);
       if (!/Maria/.test(d.description ?? "")) f.push("description does not name the cause from the brief");
-      const themeCalls = calls(s, "update_campaign_settings");
-      if (themeCalls.length > 0 && !s.denials.includes(tool("update_campaign_settings"))) {
+      // A theme-only call is the theme from the creation summary and passes the hook (1.8.0); any other settings change must be denied headless.
+      const isThemeOnly = (i: Record<string, unknown>) => Object.keys(i).every((k) => k === "campaignId" || k === "themeId") && typeof i.themeId === "string";
+      const otherCalls = calls(s, "update_campaign_settings").filter((c) => !isThemeOnly(c.input));
+      if (otherCalls.length > 0 && !s.denials.includes(tool("update_campaign_settings"))) {
         f.push("a settings change went through without the organizer's approval");
       }
       return f;

@@ -43,6 +43,28 @@ describe("shipped plugin files", () => {
     expect(parsed.hookSpecificOutput.permissionDecisionReason).toMatch(/organizer/i);
   });
 
+  const hook = (toolInput: unknown) =>
+    execFileSync(PLUGIN + "scripts/confirm-settings-change.sh", {
+      input: JSON.stringify({ tool_name: "mcp__payit2__update_campaign_settings", tool_input: toolInput }),
+      encoding: "utf8",
+    });
+
+  it("confirm-settings-change.sh lets a theme-only call through, since the creation summary already showed it", () => {
+    expect(hook({ campaignId: "c1", themeId: "charity-walk" })).toBe("");
+  });
+
+  it("confirm-settings-change.sh still asks when a call changes anything besides the theme preset", () => {
+    for (const input of [
+      { campaignId: "c1", title: "New title" },
+      { campaignId: "c1", themeId: "school", title: "New title" },
+      { campaignId: "c1", themeId: "school", themeAccentColor: "#112233" },
+      { campaignId: "c1", themeId: null },
+      { campaignId: "c1", description: "<p>{\"themeId\":\"school\"}</p>" },
+    ]) {
+      expect(JSON.parse(hook(input)).hookSpecificOutput.permissionDecision).toBe("ask");
+    }
+  });
+
   it("session-start.sh prints context and does not greet a signed-out organizer", () => {
     const out = execFileSync(PLUGIN + "scripts/session-start.sh", { input: "{}", encoding: "utf8" });
     expect(out).toMatch(/list_my_campaigns/);
@@ -123,6 +145,28 @@ describe("plugin copy", () => {
     for (const skill of ["campaign", "check-in", "promote", "engage", "campaign-context"]) {
       expect(readFileSync(PLUGIN + `skills/${skill}/SKILL.md`, "utf8")).toMatch(/No em dashes in anything you write for the organizer/);
     }
+  });
+
+  it("the campaign skill gets a page up fast: basics in one message, one confirmation, publish, then the link (1.8.0)", () => {
+    const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
+    expect(skill).toMatch(/basics in one message/i);
+    expect(skill).toMatch(/Confirm once/i);
+    expect(skill).toMatch(/publish: true/);
+    expect(skill).toMatch(/Lead with the link/i);
+    expect(skill).toMatch(/list_theme_presets/);
+    // No menus before the campaign exists.
+    expect(skill).not.toMatch(/Generate 5 Title Options/i);
+    expect(skill).not.toMatch(/present 3-5 options/i);
+    expect(existsSync(PLUGIN + "skills/campaign/references/enrich-guide.md")).toBe(true);
+  });
+
+  it("the campaign skill helps a new organizer connect, steering them to the sign-in choices that create an account", () => {
+    const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
+    expect(skill).toMatch(/Customize > Plugins/);
+    expect(skill).toMatch(/Connectors/);
+    expect(skill).toMatch(/Continue with Google/);
+    expect(skill).toMatch(/Email me a sign-in link/);
+    expect(skill).not.toMatch(/\/mcp/);
   });
 
   it("no skill tells Claude to stay silent about signing in", () => {

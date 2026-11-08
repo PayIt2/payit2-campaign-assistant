@@ -33,7 +33,7 @@ Once installed, the plugin gives Claude four skills you can invoke directly:
 
 | Skill | What it does |
 |-------|-------------|
-| `/campaign` | Walks you through building any campaign from scratch - fundraiser, event, or group - with story, title, goal, ticketing, cost-splitting, and launch strategy |
+| `/campaign` | Gets your fundraiser, event, or group page up in a few minutes: a few basics in one message, one confirmation, and you have the link. Then it helps you add the story, tickets, photo and launch plan while you use it |
 | `/promote` | Generates a complete promotion package: platform-specific social posts, email sequences, content calendar, and SEO recommendations |
 | `/check-in` | Health check on any active campaign with a score, diagnosis, and specific action items |
 | `/engage` | Generates personalized messages for participants - thank-yous, updates, re-engagement, share requests, and unpaid member follow-ups |
