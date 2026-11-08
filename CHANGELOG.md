@@ -27,6 +27,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   gives the Connectors-tab steps first and steers someone new to Continue with Google or Email me
   a sign-in link, which create the account in the same step. This is the conversation's one
   sign-in mention; `campaign-context` now allows it for /campaign as well as for live numbers.
+- **Descriptions stop repeating the page.** The blurb, date, venue and prices already have their
+  own places on the campaign page, so the description sticks to the hook, why it matters and the
+  call to action.
 - **Claude picks the theme.** It matches the campaign to a preset itself instead of offering a
   list. The settings hook lets a call that sets only the theme preset through without a second
   prompt, because the organizer already approved it in the creation summary; every other

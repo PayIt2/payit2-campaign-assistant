@@ -66,7 +66,7 @@ Fill every remaining field with your best call. Do not ask about these.
 | Field | Default |
 |---|---|
 | Title | One title under 60 characters with the key proper noun (event name, person, school or group) and the year for events. Fundraisers start with "Help" or "Support" when it fits. |
-| Description | A short HTML draft written from what they told you: about 100 words for a fundraiser, under 150 for an event, under 75 for a group. Hook, the facts, a clear call to action. Invent no facts: if you do not know it, leave it out. |
+| Description | A short HTML draft written from what they told you: about 100 words for a fundraiser, under 120 for an event, under 75 for a group. Hook, why it matters, who it is for, a clear call to action. Do not repeat what the page already shows on its own: the blurb, the date and time, the venue and address, and the ticket or option prices all appear in their own places on the page. Invent no facts: if you do not know it, leave it out. |
 | Blurb | One plain-text line for link previews. |
 | Event end time | Start plus 2 hours (a 5K or short event: plus 1.5 hours). |
 | Event time zone | From the venue's location, as an IANA name (Michigan is America/Detroit). |

@@ -154,6 +154,8 @@ describe("plugin copy", () => {
     expect(skill).toMatch(/publish: true/);
     expect(skill).toMatch(/Lead with the link/i);
     expect(skill).toMatch(/list_theme_presets/);
+    // The page shows the date, venue and prices itself; the description must not repeat them.
+    expect(skill).toMatch(/Do not repeat what the page already shows/);
     // No menus before the campaign exists.
     expect(skill).not.toMatch(/Generate 5 Title Options/i);
     expect(skill).not.toMatch(/present 3-5 options/i);
