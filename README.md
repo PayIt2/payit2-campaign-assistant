@@ -21,7 +21,7 @@ This plugin works inside **Claude**, Anthropic's free AI assistant. You don't ne
 3. Find **PayIt2 Campaign Assistant** in the list and add it
 4. Say *"Help me create a fundraising campaign"* and Claude will guide you from there
 
-> Using Claude Code instead? Run `/plugin marketplace add PayIt2/payit2-plugins-marketplace`, then `/plugin install payit2-campaign-assistant@payit2`.
+> Using Claude Code instead? Run `/plugin marketplace add PayIt2/payit2-plugins-marketplace`, then `/plugin install payit2@payit2`.
 >
 > The plugin is distributed through PayIt2's own marketplace (step 2), not Claude's central Discover tab. [Create a free PayIt2 account](https://www.payit2.com/register) to put it to work on a real campaign.
 
@@ -73,7 +73,7 @@ claude --plugin-dir ./payit2-campaign-assistant/plugin
 
 # Or install to your user scope permanently
 claude plugin marketplace add PayIt2/payit2-plugins-marketplace
-claude plugin install payit2-campaign-assistant@payit2
+claude plugin install payit2@payit2
 ```
 
 ### Directory layout

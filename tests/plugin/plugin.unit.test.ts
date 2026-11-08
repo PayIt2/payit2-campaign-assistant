@@ -13,6 +13,12 @@ describe("shipped plugin files", () => {
     });
   });
 
+  it("is the payit2 plugin, shown as PayIt2 (D6)", () => {
+    const manifest = json(".claude-plugin/plugin.json");
+    expect(manifest.name).toBe("payit2");
+    expect(manifest.displayName).toBe("PayIt2");
+  });
+
   it("asks for no API key", () => {
     expect(json(".claude-plugin/plugin.json").userConfig).toBeUndefined();
   });
@@ -50,7 +56,7 @@ describe("shipped plugin files", () => {
   it("matches update_campaign_settings from the bundled, hand-added and e2e servers only", () => {
     const pre = json("hooks/hooks.json").hooks.PreToolUse[0];
     const matcher = new RegExp(pre.matcher);
-    expect(matcher.test("mcp__plugin_payit2-campaign-assistant_payit2__update_campaign_settings")).toBe(true);
+    expect(matcher.test("mcp__plugin_payit2_payit2__update_campaign_settings")).toBe(true);
     expect(matcher.test("mcp__payit2__update_campaign_settings")).toBe(true);
     expect(matcher.test("mcp__payit2__update_campaign_question")).toBe(false);
     // claude.ai and Cowork may name a connector's server by id rather than "payit2"; the tool name is PayIt2's alone.

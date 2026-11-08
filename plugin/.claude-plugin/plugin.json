@@ -1,5 +1,6 @@
 {
-  "name": "payit2-campaign-assistant",
+  "name": "payit2",
+  "displayName": "PayIt2",
   "version": "1.8.0",
   "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage participants through conversation with Claude.",
   "author": {
