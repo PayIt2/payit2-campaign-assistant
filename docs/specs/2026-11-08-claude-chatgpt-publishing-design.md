@@ -111,7 +111,7 @@ Success: the Claude plugin passes **Validate** with no blocking findings; the Ch
 - Run the same script in each: sign in, `/campaign` for a test event as a draft, check-in on a campaign, a declined settings change.
 
 **Public listings (after D1's organizations exist):**
-- Claude, from PayIt2's Team org: submit `mcp.payit2.com/mcp` as an MCP connector; submit the plugin bundle from `PayIt2/payit2-campaign-assistant`, folder `plugin`, following release tags; pair the two.
+- Claude, from PayIt2's Team org: submit `mcp.payit2.com/mcp` as an MCP connector; submit the plugin bundle from `PayIt2/payit2-ai-plugin`, folder `plugin`, following release tags; pair the two.
 - ChatGPT, from PayIt2's OpenAI org: submit the ChatGPT zip with the test account, the five positive and three negative test cases, the walkthrough video and the release notes; publish after approval.
 - These steps are done by an owner in each portal. Claude prepares every text field, the test cases and the video script.
 

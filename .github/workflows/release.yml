@@ -49,4 +49,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "$GITHUB_REF_NAME" payit2-campaign-assistant.zip --clobber
+          gh release upload "$GITHUB_REF_NAME" payit2-claude-plugin.zip --clobber
