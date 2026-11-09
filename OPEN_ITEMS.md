@@ -19,7 +19,7 @@ owner: claude-maintained
 ## Verification notes from this audit
 
 - **Plugin live status:** ✅ Live in PayIt2's OWN marketplace. payit2.com/ai-assistant.html instructs users to run `/plugin marketplace add PayIt2/payit2-plugins-marketplace` then `/plugin install payit2-campaign-assistant`. The plugin zip is published at `github.com/PayIt2/payit2-plugins-marketplace/releases/latest`. NOT listed in Claude's central public Discover tab — that's a separate (and larger) submission milestone, tracked as B-2 below.
-- **Canonical product name:** "PayIt2 Campaign Assistant." Used everywhere on the live website, in the plugin manifest, in the install instructions, in the published zip filename (`payit2-campaign-assistant-plugin.zip`).
+- **Canonical product name:** the plugin is **PayIt2** (id `payit2`, since 2.0.0); the website calls the product the AI Campaign Assistant. Repo `PayIt2/payit2-ai-plugin` (renamed 2026-11-08); zips `payit2-claude-plugin.zip` and `payit2-chatgpt-plugin.zip`.
 - **Repo naming drift:** GitHub repo and filesystem are `payit2-campaign-coach`. Everything user-facing is `payit2-campaign-assistant`. Real outstanding work to reconcile — surfaced as B-3.
 
 ---
