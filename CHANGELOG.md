@@ -28,6 +28,11 @@ Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before
   and the skills no longer name Claude or its menus.
 - **Claude Code can sign in.** The steps say to run `/mcp` instead of "coming soon".
 
+- **A household registers together.** When ticket or RSVP tiers are for different people (Adult,
+  Student / Kid, Senior), /campaign now puts them in a pick-any group, so one registration covers
+  2 adults and 3 kids with a quantity on each. Pick-one stays for choices a person makes once,
+  such as a race distance.
+
 ### Added
 
 - **A ChatGPT package.** `build-openai.sh` builds `dist/payit2-chatgpt-plugin.zip` in OpenAI's plugin
