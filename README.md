@@ -81,7 +81,7 @@ claude plugin install payit2@payit2
 ```
 plugin/
 ├── .claude-plugin/
-│   └── plugin.json                   # Plugin manifest (v1.6.0)
+│   └── plugin.json                   # Plugin manifest (name payit2; version in CHANGELOG.md)
 ├── skills/
 │   ├── campaign-context/             # Shared context engine (used by all user-facing skills)
 │   │   └── SKILL.md
