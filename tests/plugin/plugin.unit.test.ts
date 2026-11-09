@@ -259,6 +259,19 @@ describe("plugin copy", () => {
     expect(existsSync(PLUGIN + "skills/campaign/references/enrich-guide.md")).toBe(true);
   });
 
+  it("puts tiers for different people (adult, kid, student) in a pick-any group, so a household registers together (2.1.0)", () => {
+    // Brian 2026-11-09: a family RSVP for 2 adults and 3 kids was impossible when Adult and Kid
+    // sat in a pick-one group; a pick-any group takes a quantity on each option.
+    const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
+    const ticketsRow = skill.split("\n").find((l) => l.startsWith("| Event tickets")) ?? "";
+    expect(ticketsRow).not.toMatch(/\(choose one\)/);
+    expect(ticketsRow).toMatch(/groupMode: "pick_any"/);
+    expect(ticketsRow).toMatch(/household/i);
+    expect(ticketsRow).toMatch(/groupMode: "pick_one"/); // still right for mutually exclusive choices
+    const enrich = readFileSync(PLUGIN + "skills/campaign/references/enrich-guide.md", "utf8");
+    expect(enrich).toMatch(/pick_any/);
+  });
+
   it("never sends Claude to Unsplash+ photos, which need a paid license", () => {
     const hits = allText().filter(({ t }) => /plus\.unsplash\.com\/premium|including plus\.unsplash/i.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
     expect(hits).toEqual([]);
