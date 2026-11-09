@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 // Backticked snake_case words in the plugin that are option or question types, not tools.
-export const NON_TOOL_TOKENS = new Set(["multi_select", "pick_any"]);
+export const NON_TOOL_TOKENS = new Set(["multi_select", "pick_any", "pick_one"]);
 
 const BACKTICKED = /`([a-z]+(?:_[a-z]+)+)(?:\([^`]*\))?`/g;
 const MCP_NAME = /mcp__[A-Za-z0-9_.*-]*?__([a-z]+(?:_[a-z]+)+)/g;
