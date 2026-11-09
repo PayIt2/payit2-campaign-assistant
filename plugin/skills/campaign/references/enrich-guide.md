@@ -199,7 +199,7 @@ Recommend a goal amount using these guidelines and explain the reasoning.
 
 **Free events:** Use a single $0 option (e.g., "Free RSVP" or "General Admission: Free"). Attendees complete registration without entering payment info.
 
-**Add-ons:** Items like T-shirts, parking, or meal upgrades should be separate options with `pick_any` so attendees can add them independently.
+**Add-ons:** Items like T-shirts, parking, or meal upgrades go together in one `pick_any` group titled "Add-ons" (`isRequired: false`), so attendees can add any of them. Do not give each add-on its own group or leave it without a `groupTitle`.
 
 Present a pricing table for the user's event.
 
@@ -243,6 +243,30 @@ Run through the type-specific checklist below. Flag anything missing.
 - [ ] Goal amount matches total needed
 - [ ] Deadline is set to a date with a real constraint
 - [ ] At least one co-organizer assigned to help with follow-up
+
+---
+
+## Option groups
+
+How a page shows its options depends on how you group them. Before calling `create_campaign` or `add_campaign_options`, sort every option into a group:
+
+1. **Every option gets a `groupTitle`.** An option without one is shown on its own, and on a fundraiser page each one becomes a separate card marked "Optional". Five amounts then read as five unrelated boxes.
+2. **Same kind of choice, same group.** Ticket tiers, giving levels, sponsorship packages, T-shirt sizes and meal choices each go in one group. Never make a group with a single option when its siblings exist.
+3. **Different kinds of choice, different groups.** Tickets and add-ons are two groups ("Tickets", "Add-ons"); a race distance and a shirt size are two groups.
+4. **Pick the mode by what a person does:**
+   - `pick_one`: a person chooses exactly one (a race distance, a sponsorship package, a giving level).
+   - `pick_any`: a person may take several (people tiers in one household, add-ons, costs a donor can cover).
+5. **Required only when the page cannot work without it.** Tickets for a paid event and a group's dues are required. Giving levels and add-ons pass `isRequired: false`. Leaving `isRequired` out makes the group required.
+6. **Group titles are short nouns the participant reads:** "Tickets", "Who's Coming?", "Giving Levels", "What your gift covers", "Sponsorship Levels", "Add-ons", "Shirt Size". Not "Options" or "Group 1".
+7. **Send a whole group in one call.** `add_campaign_options` makes a new group for each `groupTitle` it receives, even when the page already has a group with that title. On a live page, call `list_campaign_option_groups` first. To add a choice to a group that already exists, do not call the tool: tell the organizer to add it to that group on the campaign's Options tab.
+
+| Campaign | Groups |
+|---|---|
+| 5K with shirts | "Registration" (`pick_any`: Adult, Student / Kid), "Add-ons" (`pick_any`, optional: Extra Shirt) |
+| Fundraiser | "Giving Levels" (`pick_one`, optional: $25, $50, $100, $250) |
+| Medical fundraiser by cost | "What your gift covers" (`pick_any`, optional: Co-pay $25, Therapy session $50, Week of lost income $100) |
+| Sponsorships | "Sponsorship Levels" (`pick_one`, optional: Bronze $250, Silver $500, Gold $1,000) |
+| Team dues | "Dues" (`pick_one`, required: Full Season, Half Season) |
 
 ---
 
