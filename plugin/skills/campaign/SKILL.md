@@ -138,7 +138,7 @@ Run Steps 2 to 4 the same way, then give the organizer one paste-ready block: ti
 
 PayIt2 fields fall into two categories. Use the wrong format and the page shows raw tags or a broken layout.
 
-**HTML fields:** `description`, and the content of `save_campaign_story`, `save_update_post` and `save_thank_you`. Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. No inline styles, no `<div>` wrappers, no `<h1>`.
+**HTML fields:** `description`, and the content of `save_campaign_story`, `save_update_post` and `save_thank_you`. Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. No inline styles, no `<div>` wrappers, no `<h1>`. Give each paragraph its own `<p>`; the page spaces paragraphs itself, so never add an empty `<p></p>` or a `<br>` to make a gap.
 
 **Plain-text fields (no HTML, no markdown):** title, blurb, venue name, address, city and state, option titles and descriptions, question text and details, and any other short label.
 

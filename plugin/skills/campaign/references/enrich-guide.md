@@ -116,7 +116,7 @@ These fields take HTML:
 - `description` (the campaign page body, shown in its rich-text editor)
 - `save_campaign_story`, `save_update_post` and `save_thank_you` content (shown to the organizer on the campaign's page in their PayIt2 account, so use the same format)
 
-Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`.
+Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`. Give each paragraph its own `<p>`; the page spaces paragraphs itself, so never add an empty `<p></p>` or a `<br>` to make a gap.
 
 ### Plain-text fields (no HTML, no markdown)
 These fields render as-is:
