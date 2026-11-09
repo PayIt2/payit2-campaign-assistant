@@ -45,7 +45,7 @@ After editing files in `plugin/`, rebuild the zip:
 ./build-plugin.sh
 ```
 
-This creates `payit2-campaign-assistant.zip` in the repo root. To try it in the Claude desktop app or claude.ai, upload it from Customize > Plugins > Add > Upload plugin.
+This creates `payit2-claude-plugin.zip` in the repo root. To try it in the Claude desktop app or claude.ai, upload it from Customize > Plugins > Add > Upload plugin.
 
 ## Git Workflow
 
