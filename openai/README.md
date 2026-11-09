@@ -26,4 +26,4 @@ either one creates a free PayIt2 account if you do not have one yet.
 
 Privacy: https://www.payit2.com/privacy
 Terms: https://www.payit2.com/terms
-Support: https://www.payit2.com/contact
+Support: https://www.payit2.com/support
