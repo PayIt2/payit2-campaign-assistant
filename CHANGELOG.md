@@ -30,7 +30,7 @@ Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before
 
 ### Added
 
-- **A ChatGPT package.** `build-openai.sh` builds `dist/payit2-openai.zip` in OpenAI's plugin
+- **A ChatGPT package.** `build-openai.sh` builds `dist/payit2-chatgpt-plugin.zip` in OpenAI's plugin
   layout from the same skills, without hooks, scripts or the agent. Each release attaches it.
 
 ## [2.0.0] - 2026-11-08

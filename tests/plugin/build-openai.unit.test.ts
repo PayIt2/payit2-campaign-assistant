@@ -14,9 +14,9 @@ const claudeManifest = JSON.parse(readFileSync(REPO + "plugin/.claude-plugin/plu
 let out = "";
 let stage = "";
 beforeAll(() => {
-  out = mkdtempSync(join(tmpdir(), "payit2-openai-"));
+  out = mkdtempSync(join(tmpdir(), "payit2-chatgpt-"));
   execFileSync(REPO + "build-openai.sh", { env: { ...process.env, OUT: out }, encoding: "utf8" });
-  stage = join(out, "payit2-openai");
+  stage = join(out, "payit2-chatgpt-plugin");
 });
 afterAll(() => rmSync(out, { recursive: true, force: true }));
 
@@ -82,7 +82,7 @@ describe("build-openai.sh", () => {
   });
 
   it("zips the package with plugin.json at the root", () => {
-    const listing = execFileSync("unzip", ["-Z1", join(out, "payit2-openai.zip")], { encoding: "utf8" }).split("\n");
+    const listing = execFileSync("unzip", ["-Z1", join(out, "payit2-chatgpt-plugin.zip")], { encoding: "utf8" }).split("\n");
     expect(listing).toContain("plugin.json");
     expect(listing).toContain("mcp.json");
     expect(listing).toContain("skills/campaign-context/SKILL.md");

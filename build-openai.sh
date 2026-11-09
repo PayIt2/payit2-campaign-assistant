@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build the ChatGPT (OpenAI) package from the same plugin/ source as the Claude zip.
-# Output: $OUT/payit2-openai/ (staged) and $OUT/payit2-openai.zip. OUT defaults to dist/.
+# Output: $OUT/payit2-chatgpt-plugin/ (staged) and $OUT/payit2-chatgpt-plugin.zip. OUT defaults to dist/.
 #
 # OpenAI's portable layout (developers.openai.com/plugins/build/plugins, checked 2026-11-08):
 # root plugin.json and mcp.json, skills/<name>/SKILL.md, assets/. Plugins with hooks are not
@@ -12,8 +12,8 @@ cd "$(dirname "$0")"
 OUT="${OUT:-dist}"
 mkdir -p "$OUT"
 OUT="$(cd "$OUT" && pwd)"
-STAGE="$OUT/payit2-openai"
-ZIP="$OUT/payit2-openai.zip"
+STAGE="$OUT/payit2-chatgpt-plugin"
+ZIP="$OUT/payit2-chatgpt-plugin.zip"
 rm -rf "$STAGE" "$ZIP"
 mkdir -p "$STAGE/assets"
 

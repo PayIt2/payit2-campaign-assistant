@@ -50,4 +50,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "$GITHUB_REF_NAME" payit2-campaign-assistant.zip dist/payit2-openai.zip --clobber
+          gh release upload "$GITHUB_REF_NAME" payit2-campaign-assistant.zip dist/payit2-chatgpt-plugin.zip --clobber
