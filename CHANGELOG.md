@@ -11,6 +11,28 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-09
+
+Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before release.
+
+### Changed
+
+- **Settings changes are approved once.** PayIt2 now saves a settings change only on a second
+  call with `confirm: true`; the first call returns each field's current and new value. The
+  skills show that preview and wait for a clear yes, and in Cowork and Claude Code the approval
+  prompt now appears only on the saving call, so the organizer is no longer asked twice.
+- **The skills stand on their own.** The start-of-conversation greeting and campaign-link
+  handling, which only hooks gave before, now live in `campaign-context` too, so Claude Chat and
+  ChatGPT get them. The hooks still add them in Cowork and Claude Code.
+- **Connection steps live in one place per chat** (`campaign-context/references/connect.md`),
+  and the skills no longer name Claude or its menus.
+- **Claude Code can sign in.** The steps say to run `/mcp` instead of "coming soon".
+
+### Added
+
+- **A ChatGPT package.** `build-openai.sh` builds `dist/payit2-chatgpt-plugin.zip` in OpenAI's plugin
+  layout from the same skills, without hooks, scripts or the agent. Each release attaches it.
+
 ## [2.0.0] - 2026-11-08
 
 ### Changed
