@@ -45,7 +45,9 @@ You can also just describe your situation in plain language - Claude will figure
 The plugin runs in two modes:
 
 - **Standalone (default).** Anyone with Claude can install and use the plugin. Claude walks you through everything (story, title, goal, pricing, social posts, thank-yous) and hands you finished content to paste into payit2.com.
-- **PayIt2-connected.** If you have a PayIt2 account, sign in once and Claude can pull your live campaign data and create or update campaigns directly. In the Claude desktop app or claude.ai, open **Customize > Plugins**, choose **PayIt2** and connect it on its **Connectors** tab. Signing in from Claude Code is coming soon; until then the plugin works standalone there. Same workflows, less copy-paste. Claude always asks before changing a campaign's settings.
+- **PayIt2-connected.** If you have a PayIt2 account, sign in once and Claude can pull your live campaign data and create or update campaigns directly. In the Claude desktop app or claude.ai, open **Customize > Plugins**, choose **PayIt2** and connect it on its **Connectors** tab. In Claude Code, run `/mcp`, choose the PayIt2 server and sign in. Same workflows, less copy-paste. Claude always asks before changing a campaign's settings, and PayIt2 saves a change only after you approve it.
+
+A ChatGPT package is built from the same skills by `./build-openai.sh` (into `dist/`), without the Claude-only hooks and agent. Each release attaches it next to the Claude zip.
 
 You can start in standalone mode and connect later. There's nothing to reinstall.
 

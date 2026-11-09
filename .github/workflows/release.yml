@@ -40,13 +40,14 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Build plugin zip
+      - name: Build plugin zips (Claude and ChatGPT)
         run: |
-          chmod +x build-plugin.sh
+          chmod +x build-plugin.sh build-openai.sh
           ./build-plugin.sh
+          ./build-openai.sh
 
-      - name: Upload zip to release
+      - name: Upload zips to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "$GITHUB_REF_NAME" payit2-campaign-assistant.zip --clobber
+          gh release upload "$GITHUB_REF_NAME" payit2-campaign-assistant.zip dist/payit2-openai.zip --clobber

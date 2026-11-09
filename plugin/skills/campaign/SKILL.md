@@ -25,18 +25,10 @@ Check whether PayIt2 tools such as `create_campaign` and `list_my_campaigns` are
 
 **If they are**, go straight to Step 2; there is nothing to set up.
 
-**If they are not**, tell the organizer in a few lines, before anything else, that connecting PayIt2 lets you create the page and hand them its link, and how to do it:
-
-> To build your page for you, I need to be connected to PayIt2. It takes about 30 seconds:
-> 1. Open **Customize > Plugins**, choose **PayIt2**, and open its **Connectors** tab.
-> 2. Click **Connect** next to PayIt2.
-> 3. On the PayIt2 sign-in page, choose **Continue with Google** or **Email me a sign-in link**. If you are new to PayIt2, either one creates your free account in the same step.
->
-> Then tell me "connected". Or, if you'd rather not connect right now, I'll write everything so you can paste it into payit2.com.
+**If they are not**, tell the organizer in a few lines, before anything else, that connecting PayIt2 lets you create the page and hand them its link ("To build your page for you, I need to be connected to PayIt2. It takes about 30 seconds."), then give the steps from the connection steps for this chat in `../campaign-context/references/connect.md` (campaign-context/references/connect.md). End with: "Or, if you'd rather not connect right now, I'll write everything so you can paste it into payit2.com."
 
 Rules for this step:
-- Steer new organizers to **Continue with Google** or **Email me a sign-in link**, not the sign-up form: both create the account and bring them straight back to Claude.
-- In Claude Code, signing in to PayIt2 is not available yet. Say in one sentence that it is coming, then use the standalone finish at the end of this skill.
+- Steer new organizers to **Continue with Google** or **Email me a sign-in link**, not the sign-up form: both create the account and bring them straight back to this chat.
 - This counts as the conversation's one sign-in mention (see `campaign-context`). Do not repeat it.
 - If the organizer says "connected" but the PayIt2 tools still are not available, ask them to start a new chat and run /campaign again; everything they told you is above to paste in. Do not loop on this.
 - While they connect, you may go ahead with Step 2 so no time is lost.
@@ -105,7 +97,7 @@ The organizer's yes to this summary covers creating the campaign, publishing it,
 Do these in order, without further questions:
 
 1. **Create.** Call `create_campaign` with the title, mode, description (HTML), blurb, the type's fields (goal, event dates with the UTC offset, time zone, venue and options) and `publish: true`, unless the organizer asked for a draft. If PayIt2 cannot publish yet (usually because Stripe is not connected for a paid campaign), it creates a draft and the reply says why; that is fine, carry on. Save the campaign ID and URL.
-2. **Theme.** Call `update_campaign_settings` with only the campaign ID and the theme you picked. This is the theme the organizer already approved in Step 4, so do not ask again.
+2. **Theme.** Call `update_campaign_settings` with only the campaign ID and the theme you picked. This is the theme the organizer already approved in Step 4, so do not ask again; PayIt2 saves a theme-only change without a preview.
 3. **Cover photo.** Call `upload_campaign_image` with `imageUrl`. To find a photo, fetch Unsplash's own search for free landscape photos, `https://unsplash.com/s/photos/<two-or-three-words>?orientation=landscape&license=free` (for a run: running-race), pick the result that best fits the campaign and the season (no summer beach shots for a January race), and use its images.unsplash.com address with `?w=1600&q=80`. Use only images.unsplash.com photos: plus.unsplash.com photos are Unsplash+, a paid license. Landscape fills the cover best: the page shows it at 3:1 on desktop and 16:9 on phones (a tall photo shows whole, but smaller). If the upload reply has a "Heads up" line saying the photo is too small to look sharp, pick a larger one, or for the organizer's own photo tell them and ask for the original. If the upload fails, try one other photo, then move on and put "add a cover photo" on the list in Step 6. Never say a photo was uploaded when it was not.
 
 If `create_campaign` itself fails, tell the organizer plainly what PayIt2 said, fix what you can (a date format, a missing field) and try once more. Do not retry a create whose outcome is unknown: call `list_my_campaigns` first to see whether it exists.

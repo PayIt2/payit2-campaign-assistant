@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "plugin/**"
+      - "openai/**"
+      - "build-openai.sh"
       - "tests/**"
       - ".github/workflows/connector.yml"
   workflow_dispatch:

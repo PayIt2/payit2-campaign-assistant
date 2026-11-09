@@ -78,34 +78,51 @@ describe("shipped plugin files", () => {
     expect(matcher.test("mcp__payit2__get_campaign_overview")).toBe(false);
   });
 
-  it("confirm-settings-change.sh asks for approval", () => {
-    const out = execFileSync(PLUGIN + "scripts/confirm-settings-change.sh", { input: "{}", encoding: "utf8" });
-    const parsed = JSON.parse(out);
-    expect(parsed.hookSpecificOutput.hookEventName).toBe("PreToolUse");
-    expect(parsed.hookSpecificOutput.permissionDecision).toBe("ask");
-    expect(parsed.hookSpecificOutput.permissionDecisionReason).toMatch(/organizer/i);
-  });
-
   const hook = (toolInput: unknown) =>
     execFileSync(PLUGIN + "scripts/confirm-settings-change.sh", {
       input: JSON.stringify({ tool_name: "mcp__payit2__update_campaign_settings", tool_input: toolInput }),
       encoding: "utf8",
     });
 
-  it("confirm-settings-change.sh lets a theme-only call through, since the creation summary already showed it", () => {
-    expect(hook({ campaignId: "c1", themeId: "charity-walk" })).toBe("");
+  it("confirm-settings-change.sh asks for approval on the saving call (confirm: true)", () => {
+    const parsed = JSON.parse(hook({ campaignId: "c1", title: "New title", confirm: true }));
+    expect(parsed.hookSpecificOutput.hookEventName).toBe("PreToolUse");
+    expect(parsed.hookSpecificOutput.permissionDecision).toBe("ask");
+    expect(parsed.hookSpecificOutput.permissionDecisionReason).toMatch(/organizer/i);
   });
 
-  it("confirm-settings-change.sh still asks when a call changes anything besides the theme preset", () => {
+  it("confirm-settings-change.sh lets the preview call through, since the server saves nothing without confirm (2.1.0)", () => {
+    // Asking on the preview too made the organizer approve the same change twice.
     for (const input of [
       { campaignId: "c1", title: "New title" },
-      { campaignId: "c1", themeId: "school", title: "New title" },
+      { campaignId: "c1", title: "New title", confirm: false },
       { campaignId: "c1", themeId: "school", themeAccentColor: "#112233" },
-      { campaignId: "c1", themeId: null },
-      { campaignId: "c1", description: "<p>{\"themeId\":\"school\"}</p>" },
+      { campaignId: "c1", description: "<p>{\"confirm\": true}</p>" },
     ]) {
-      expect(JSON.parse(hook(input)).hookSpecificOutput.permissionDecision).toBe("ask");
+      expect(hook(input), JSON.stringify(input)).toBe("");
     }
+  });
+
+  it("confirm-settings-change.sh lets a theme-only call through, since the creation summary already showed it", () => {
+    expect(hook({ campaignId: "c1", themeId: "charity-walk" })).toBe("");
+    expect(hook({ campaignId: "c1", themeId: "charity-walk", confirm: true })).toBe("");
+  });
+
+  it("confirm-settings-change.sh asks on every saving call that changes anything besides the theme preset", () => {
+    for (const input of [
+      { campaignId: "c1", title: "New title", confirm: true },
+      { campaignId: "c1", themeId: "school", title: "New title", confirm: true },
+      { confirm: true, campaignId: "c1", themeId: "school", themeAccentColor: "#112233" },
+      { campaignId: "c1", themeId: null, confirm: true },
+      { campaignId: "c1", description: "<p>{\"themeId\":\"school\"}</p>", confirm: true },
+    ]) {
+      expect(JSON.parse(hook(input)).hookSpecificOutput.permissionDecision, JSON.stringify(input)).toBe("ask");
+    }
+  });
+
+  it("confirm-settings-change.sh asks when it cannot read the call, rather than letting a save through", () => {
+    const out = execFileSync(PLUGIN + "scripts/confirm-settings-change.sh", { input: "not json", encoding: "utf8" });
+    expect(JSON.parse(out).hookSpecificOutput.permissionDecision).toBe("ask");
   });
 
   it("session-start.sh prints context and does not greet a signed-out organizer", () => {
@@ -122,8 +139,9 @@ describe("shipped plugin files", () => {
     expect(out).toMatch(/signing in to PayIt2 lets you pull those numbers/);
     expect(out).toMatch(/Customize > Plugins/);
     expect(out).toMatch(/Connectors tab/);
-    expect(out).toMatch(/in Claude Code, signing in to PayIt2 is not available yet/);
-    expect(out).not.toMatch(/\/mcp/);
+    // Prod accepts Claude Code's loopback sign-in since 2026-11-06 (app-v2 B-378 D).
+    expect(out).toMatch(/in Claude Code, run \/mcp/);
+    expect(out).not.toMatch(/not available yet/);
     expect(out).toMatch(/ask for their numbers/i);
     expect(out).toMatch(/never stop at the sign-in message/i);
   });
@@ -169,19 +187,50 @@ describe("plugin copy", () => {
     expect(hits).toEqual([]);
   });
 
-  it("tells the organizer how to sign in exactly where the light mention lives", () => {
+  it("tells the organizer how to sign in exactly where the light mention lives, from the connection steps for this chat", () => {
     const ctx = readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8");
     expect(ctx).toMatch(/once per conversation/i);
-    expect(ctx).toMatch(/Customize > Plugins/);
-    expect(ctx).toMatch(/Connectors tab/);
-    // Claude Code sign-in is blocked on prod until the loopback redirect fix, so no skill sends anyone to /mcp.
-    expect(ctx).not.toMatch(/\/mcp/);
+    expect(ctx).toMatch(/references\/connect\.md/);
   });
 
-  it("states the confirm-before-changing rule in the skills (claude.ai chat ignores hooks)", () => {
+  it("keeps the Claude connection steps in one file the ChatGPT package replaces (2.1.0)", () => {
+    const connect = readFileSync(PLUGIN + "skills/campaign-context/references/connect.md", "utf8");
+    expect(connect).toMatch(/Customize > Plugins/);
+    expect(connect).toMatch(/Connectors/);
+    expect(connect).toMatch(/Continue with Google/);
+    expect(connect).toMatch(/Email me a sign-in link/);
+    expect(connect).toMatch(/Claude Code/);
+    expect(connect).toMatch(/\/mcp/);
+    expect(connect).not.toMatch(/not available yet|coming soon/i);
+  });
+
+  it("no skill names Claude or its menus, so the same skills read right in ChatGPT (2.1.0)", () => {
+    const skills = allText().filter(({ f }) => f.includes("/skills/") && !f.endsWith("references/connect.md"));
+    const hits = skills
+      .filter(({ t }) => /\bClaude\b|Customize > Plugins|Cowork|claude\.ai|\/mcp\b/.test(t.replace(/From Claude card/g, "")))
+      .map(({ f }) => f.replace(PLUGIN, ""));
+    expect(hits).toEqual([]);
+  });
+
+  it("states the confirm-before-changing rule in the skills, through the server's preview (hooks do not run in every chat)", () => {
     for (const rel of ["skills/campaign-context/SKILL.md", "skills/campaign/SKILL.md"]) {
       expect(readFileSync(PLUGIN + rel, "utf8")).toMatch(/current and new value/i);
     }
+    const ctx = readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8");
+    expect(ctx).toMatch(/preview/i);
+    expect(ctx).toMatch(/confirm: true/);
+  });
+
+  it("the shared skill opens a session and handles campaign links on its own, where hooks do not run (2.1.0)", () => {
+    const ctx = readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8");
+    const description = ctx.match(/^description: (.*)$/m)?.[1] ?? "";
+    expect(description).toMatch(/payit2\.com campaign link/i);
+    expect(ctx).toMatch(/## Start of a conversation/);
+    expect(ctx).toMatch(/call `list_my_campaigns` once/i);
+    expect(ctx).toMatch(/payit2\.com\/fundraiser\//);
+    expect(ctx).toMatch(/payit2\.com\/event\//);
+    expect(ctx).toMatch(/payit2\.com\/group\//);
+    expect(ctx).toMatch(/`get_campaign_overview`/);
   });
 
   it("has no em or en dashes, so the templates never teach Claude to write them for organizers (§16)", () => {
@@ -217,11 +266,9 @@ describe("plugin copy", () => {
 
   it("the campaign skill helps a new organizer connect, steering them to the sign-in choices that create an account", () => {
     const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
-    expect(skill).toMatch(/Customize > Plugins/);
-    expect(skill).toMatch(/Connectors/);
+    expect(skill).toMatch(/campaign-context\/references\/connect\.md/);
     expect(skill).toMatch(/Continue with Google/);
     expect(skill).toMatch(/Email me a sign-in link/);
-    expect(skill).not.toMatch(/\/mcp/);
   });
 
   it("no skill tells Claude to stay silent about signing in", () => {
