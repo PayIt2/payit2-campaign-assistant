@@ -1,7 +1,7 @@
 #!/bin/bash
 # Release the Campaign Assistant and open pin-bump PRs in both marketplaces.
 #
-#  1. payit2-campaign-assistant: main must already carry the release through a merged PR
+#  1. payit2-ai-plugin (this repo): main must already carry the release through a merged PR
 #     (plugin.json version, a "## [X.Y.Z]" CHANGELOG heading, the rebuilt zip). This script
 #     tags that commit and creates the GitHub release; the release workflow attaches the zip.
 #     Safe to rerun: a release that already sits at that commit is kept, and only the PR steps run.
@@ -71,8 +71,8 @@ preflight_marketplace() {
   local ref="origin/$default"
   git -C "$dir" rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" >/dev/null && ref="origin/$BRANCH"
   git -C "$dir" show "$ref:.claude-plugin/marketplace.json" 2>/dev/null \
-    | python3 -c 'import json, sys; sys.exit(0 if any(p.get("source", {}).get("url") == "PayIt2/payit2-campaign-assistant" and p.get("source", {}).get("path") == "plugin" for p in json.load(sys.stdin).get("plugins", [])) else 1)' 2>/dev/null \
-    || die "$name has no PayIt2/payit2-campaign-assistant (plugin/) entry in .claude-plugin/marketplace.json on $ref"
+    | python3 -c 'import json, sys; sys.exit(0 if any(p.get("source", {}).get("url") == "PayIt2/payit2-ai-plugin" and p.get("source", {}).get("path") == "plugin" for p in json.load(sys.stdin).get("plugins", [])) else 1)' 2>/dev/null \
+    || die "$name has no PayIt2/payit2-ai-plugin (plugin/) entry in .claude-plugin/marketplace.json on $ref"
   echo "$default"
 }
 
@@ -161,7 +161,7 @@ for i in "${!MARKETPLACES[@]}"; do
     git commit -q -m "release: bump $PLUGIN_NAME pointer to $VERSION
 
 Pins the git-subdir source to $PLUGIN_SHA, the $VERSION release commit on
-payit2-campaign-assistant."
+payit2-ai-plugin."
   fi
   git push -u origin "$BRANCH"
   if [ "$(gh pr view "$BRANCH" --json state -q .state 2>/dev/null)" = "OPEN" ]; then
@@ -169,7 +169,7 @@ payit2-campaign-assistant."
   else
     gh pr create --draft --base "$default" --head "$BRANCH" \
       --title "release: bump $PLUGIN_NAME pointer to $VERSION" \
-      --body "Pins \`$PLUGIN_NAME\` to \`$PLUGIN_SHA\`, the [$VERSION release](https://github.com/PayIt2/payit2-campaign-assistant/releases/tag/$VERSION).
+      --body "Pins \`$PLUGIN_NAME\` to \`$PLUGIN_SHA\`, the [$VERSION release](https://github.com/PayIt2/payit2-ai-plugin/releases/tag/$VERSION).
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)"
   fi

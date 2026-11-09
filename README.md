@@ -66,10 +66,10 @@ This is a [Claude Code plugin](https://code.claude.com/docs/en/plugins) - a self
 ### Install in Claude Code
 
 ```bash
-git clone https://github.com/PayIt2/payit2-campaign-assistant.git
+git clone https://github.com/PayIt2/payit2-ai-plugin.git
 
 # Load for a single session
-claude --plugin-dir ./payit2-campaign-assistant/plugin
+claude --plugin-dir ./payit2-ai-plugin/plugin
 
 # Or install to your user scope permanently
 claude plugin marketplace add PayIt2/payit2-plugins-marketplace
