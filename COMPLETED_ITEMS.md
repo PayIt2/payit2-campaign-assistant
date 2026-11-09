@@ -10,6 +10,12 @@ Items completed from OPEN_ITEMS.md, with date and outcome.
 
 ---
 
+## 2026-11-09 (release tooling)
+
+- **`release.sh` and `scripts/bump_pin.py` find the marketplace entry whatever form its url takes.** Both marketplaces now write the plugin source as the full `https://github.com/PayIt2/payit2-ai-plugin.git` url, because Claude Code 2.1.319 clones the `owner/repo` shorthand over SSH and the desktop app's "Add to this computer" failed with `Permission denied (publickey)` for anyone without a GitHub SSH key. `bump_pin.py` normalises the url before matching and release.sh's preflight calls it, so a pin bump works against either form. Covered by `tests/plugin/bump-pin.unit.test.ts`. PR: fix/git-subdir-https-url.
+
+---
+
 ## 2026-06-09 (terminology audit)
 
 - **B-2. Body-copy terminology audit — 7 files referencing "supporter"** — Reviewed all 9 occurrences against PLATFORM-STANDARDS §16. Outcome: 8 of 9 are PLATFORM-STANDARDS-compliant fundraiser-context body copy ("Fundraiser-specific content may use 'donors,' 'supporters,' or 'contributors.'"). 1 change made.
