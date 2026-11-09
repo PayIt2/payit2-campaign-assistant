@@ -38,6 +38,9 @@ Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before
   with no group showed as its own "Optional" card, so a fundraiser's amounts read as a stack of
   separate boxes. The guide also says to send a whole group in one call, since adding options
   never joins a group the page already has.
+- **One paragraph, one `<p>`.** The HTML rules now say to give each paragraph its own `<p>` and never
+  add an empty paragraph or `<br>` for spacing: the page and the editor space paragraphs themselves
+  (app-v2 B-455), so a blank line would double the gap.
 
 ### Added
 
