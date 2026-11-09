@@ -16,7 +16,7 @@ Documentation governance: PLATFORM-STANDARDS §14 plus `../payit2-business/docs/
 
 # CLAUDE.md
 
-This repo is the PayIt2 Campaign Assistant plugin for Claude Code.
+This repo (`PayIt2/payit2-ai-plugin`, renamed from `payit2-campaign-assistant` on 2026-11-08) is the PayIt2 plugin: one source for the Claude plugin and the ChatGPT package.
 
 ## Structure
 

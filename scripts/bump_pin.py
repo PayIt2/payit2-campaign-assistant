@@ -7,7 +7,7 @@ payit2-campaign-assistant to payit2 renames the entry in the same step that move
 import json
 import sys
 
-REPO = "PayIt2/payit2-campaign-assistant"
+REPO = "PayIt2/payit2-ai-plugin"
 FOLDER = "plugin"
 
 

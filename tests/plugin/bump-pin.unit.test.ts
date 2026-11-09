@@ -24,14 +24,14 @@ function bump(plugins: Entry[]) {
 
 describe("scripts/bump_pin.py", () => {
   it("renames the Campaign Assistant entry and moves its pin in one step", () => {
-    const [p] = bump([entry("payit2-campaign-assistant", "PayIt2/payit2-campaign-assistant", "plugin")]);
+    const [p] = bump([entry("payit2-campaign-assistant", "PayIt2/payit2-ai-plugin", "plugin")]);
     expect(p.name).toBe("payit2");
     expect(p.source.sha).toBe(SHA);
   });
 
   it("leaves other plugins alone", () => {
     const out = bump([
-      entry("payit2-campaign-assistant", "PayIt2/payit2-campaign-assistant", "plugin"),
+      entry("payit2-campaign-assistant", "PayIt2/payit2-ai-plugin", "plugin"),
       entry("payit2-brand", "PayIt2/payit2-business", "plugins/payit2-brand"),
     ]);
     expect(out[1]).toEqual(entry("payit2-brand", "PayIt2/payit2-business", "plugins/payit2-brand"));
