@@ -65,12 +65,15 @@ Fill every remaining field with your best call. Do not ask about these.
 | Registration deadline | Leave it out, so registration stays open until the event, unless they named one. |
 | Event tickets | The prices they gave, as options in a required "Registration" or "Tickets" group. When the tiers are for different people who come together (Adult, Student / Kid, Senior, or free RSVP counts like Adult and Kid), pass `groupMode: "pick_any"`: a household then registers everyone at once, with a quantity on each tier. Use `groupMode: "pick_one"` only when each person picks exactly one of several choices (a race distance, in person or virtual) and nobody would buy two kinds. If they gave one price, add a $15 or half-price "Student / Kid (18 and under)" tier only for family events such as runs and festivals. Skip early bird pricing in the fast path: PayIt2 options cannot switch price on a date, so it would need manual changes later. |
 | Fundraiser goal | What they said. If they asked you to suggest one, use the guide's benchmarks and keep it under $5,000 when the need allows, since smaller goals succeed more often. |
+| Fundraiser amounts | If a template supplies amounts, keep them and add none. Otherwise put three or four suggested amounts in one group: `groupTitle: "Giving Levels"`, `groupMode: "pick_one"`, `isRequired: false`. When the amounts are things the money pays for (a co-pay, a therapy session, a month's rent), title the group "What your gift covers" and use `groupMode: "pick_any"`, so a donor can cover more than one. |
 | Group options | One option at the per-person amount; split the total by headcount and round up to the next dollar to cover fees. |
 | Theme | Call `list_theme_presets` and pick the preset whose use cases best match the campaign (a run or walk is `charity-walk`, school boosters or PTA is `school`, a team is `sports-team`, a medical need is `medical`, legal defense is `legal-defense`, a memorial is `memorial`, a reunion is `reunion`). Use `classic-green` when nothing fits. |
 | Cover photo | If they shared a photo URL, use it. Otherwise find one strong Unsplash photo yourself (see Step 5) and use it. Do not show them options first. |
 | Template | Call `list_templates`. Use a template's slug only if it clearly matches this campaign; never ask about it. |
 
 Add no registration questions, add-ons or extra groups in the fast path unless the organizer asked for them. Those go on the "make it better" list.
+
+Every option you create gets a `groupTitle`. Choices of the same kind (ticket tiers, giving levels, sizes, sponsorship packages) share one group, never one group or one untitled option each: an option with no `groupTitle` shows as its own card, and on a fundraiser page a list of amounts then reads as a stack of separate "Optional" boxes. The full rules are under "Option groups" in `references/enrich-guide.md`.
 
 ---
 

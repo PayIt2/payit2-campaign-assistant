@@ -32,6 +32,12 @@ Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before
   Student / Kid, Senior), /campaign now puts them in a pick-any group, so one registration covers
   2 adults and 3 kids with a quantity on each. Pick-one stays for choices a person makes once,
   such as a race distance.
+- **Options come in titled groups.** /campaign now gives every option a group title and keeps
+  choices of the same kind together: one "Giving Levels" group for a fundraiser's amounts (or
+  "What your gift covers" when the amounts are costs), one "Add-ons" group for extras. An option
+  with no group showed as its own "Optional" card, so a fundraiser's amounts read as a stack of
+  separate boxes. The guide also says to send a whole group in one call, since adding options
+  never joins a group the page already has.
 
 ### Added
 
