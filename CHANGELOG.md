@@ -11,6 +11,18 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+Ship with app-v2 #1979 (the drafts card is titled "AI drafts" there).
+
+### Changed
+
+- **ChatGPT listing fixes from OpenAI's automated checks (2026-11-10).** The subtitle is 25 characters
+  ("Run your PayIt2 campaigns"), the package names a support URL, the long description says what
+  PayIt2 does in plain words, and the repository link uses the repo's current name.
+- **The cover photo is part of what the organizer approves.** The campaign summary names the photo
+  and its link, and nothing is uploaded until the organizer says yes (OpenAI flagged the skill for
+  sending data without clear intent).
+- **Saved drafts are in the "AI drafts" card**, the card's new name in PayIt2.
+
 ## [2.1.0] - 2026-11-09
 
 Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before release.

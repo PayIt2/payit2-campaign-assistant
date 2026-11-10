@@ -44,6 +44,10 @@ describe("build-openai.sh", () => {
     expect(oa.interface.websiteURL).toBe("https://www.payit2.com/ai-assistant");
     expect(oa.interface.privacyPolicyURL).toBe("https://www.payit2.com/privacy");
     expect(oa.interface.termsOfServiceURL).toBe("https://www.payit2.com/terms");
+    // OpenAI's portal (2026-11-10): the subtitle is at most 30 characters and a support URL is required.
+    expect(oa.interface.shortDescription.length).toBeLessThanOrEqual(30);
+    expect(oa.interface.supportURL).toBe("https://www.payit2.com/support");
+    expect(m.repository).toBe("https://github.com/PayIt2/payit2-ai-plugin");
     for (const icon of [oa.interface.logo, oa.interface.composerIcon]) {
       expect(icon).toBe("./assets/icon.png");
       expect(existsSync(join(stage, icon))).toBe(true);

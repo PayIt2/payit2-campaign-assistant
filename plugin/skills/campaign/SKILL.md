@@ -68,7 +68,7 @@ Fill every remaining field with your best call. Do not ask about these.
 | Fundraiser amounts | If a template supplies amounts, keep them and add none. Otherwise put three or four suggested amounts in one group: `groupTitle: "Giving Levels"`, `groupMode: "pick_one"`, `isRequired: false`. When the amounts are things the money pays for (a co-pay, a therapy session, a month's rent), title the group "What your gift covers" and use `groupMode: "pick_any"`, so a donor can cover more than one. |
 | Group options | One option at the per-person amount; split the total by headcount and round up to the next dollar to cover fees. |
 | Theme | Call `list_theme_presets` and pick the preset whose use cases best match the campaign (a run or walk is `charity-walk`, school boosters or PTA is `school`, a team is `sports-team`, a medical need is `medical`, legal defense is `legal-defense`, a memorial is `memorial`, a reunion is `reunion`). Use `classic-green` when nothing fits. |
-| Cover photo | If they shared a photo URL, use it. Otherwise find one strong Unsplash photo yourself (see Step 5) and use it. Do not show them options first. |
+| Cover photo | If they shared a photo and asked for it on the page, use it. Otherwise find one strong Unsplash photo yourself (see Step 5). Either way, the Step 4 summary names the photo and its link, and nothing is uploaded until the organizer says yes. |
 | Template | Call `list_templates`. Use a template's slug only if it clearly matches this campaign; never ask about it. |
 
 Add no registration questions, add-ons or extra groups in the fast path unless the organizer asked for them. Those go on the "make it better" list.
@@ -86,12 +86,13 @@ Show one compact summary and ask a single yes or no question. For example:
 > - **When:** Fri, Jan 1, 2027, 1:00 to 2:30 PM ET
 > - **Where:** Hudsonville High School, Hudsonville, MI
 > - **Tickets:** Adult $35, Student / Kid $15, Virtual Runner $25
-> - **Look:** Charity Walk theme with a race finish line photo
+> - **Look:** Charity Walk theme
+> - **Cover photo:** a race finish line photo from Unsplash (<photo link>), uploaded to your PayIt2 page
 > - **Description:** (two or three line preview)
 >
 > Create it and put it live? You can change anything afterwards.
 
-The organizer's yes to this summary covers creating the campaign, publishing it, uploading the photo and applying the theme shown. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
+The organizer's yes to this summary covers creating the campaign, publishing it, uploading the cover photo named in it to their PayIt2 page and applying the theme shown. Nothing else is sent anywhere. If they say no to the photo, create the campaign without one. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
 
 ---
 
