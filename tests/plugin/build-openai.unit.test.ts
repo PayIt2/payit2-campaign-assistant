@@ -34,7 +34,9 @@ describe("build-openai.sh", () => {
     expect(m.$schema).toBe("https://agent-plugins.org/schemas/1.0.0/plugin.schema.json");
     expect(m.name).toBe("payit2");
     expect(m.version).toBe(claudeManifest.version);
-    expect(m.description).toBe(claudeManifest.description);
+    // The listing reads the package description too, so it is the ChatGPT long description (2026-11-10 listing checks).
+    expect(m.description).toBe(m.extensions["com.openai"].interface.longDescription);
+    expect(m.description).toContain("from ChatGPT");
     expect(m.license).toBe("MIT");
     const oa = m.extensions["com.openai"];
     expect(oa.onboardingSkill).toBe("./skills/campaign-context/SKILL.md");

@@ -131,36 +131,16 @@ These fields render as-is:
 
 ## Visual Strategy
 
-### Cover Photo (required -- always source and upload during campaign creation)
+### Cover Photo
 
-Templates provide structure only. They never include a cover image. A cover photo must be sourced and uploaded on every campaign before publishing. Do not skip this step or treat it as optional follow-up -- a page without a cover image converts significantly worse.
+A campaign created from a template (`templateSlug` on `create_campaign`) shows the template's own cover photo until the organizer adds one, so every templated page has a cover from the start. A custom campaign with no template has none, so prefer a matching template.
 
-**Photo sourcing sequence:**
+**The organizer picks the photo:**
 
-1. Ask: "Do you have a photo you'd like to use? If not, I can find one from a free source."
-2. If the user provides a URL or file, upload it directly via `upload_campaign_image`.
-3. If no photo is available, search Unsplash using WebSearch or WebFetch:
-   - Fetch `https://unsplash.com/s/photos/[keywords]?orientation=landscape&license=free`
-   - Extract 3-5 specific image src URLs (images.unsplash.com only)
-   - Present the options with brief descriptions and let the user pick
-   - Upload the chosen image via `upload_campaign_image` using the `imageUrl` parameter
+1. In the Step 4 summary, offer a free Unsplash search link built from the campaign, `https://unsplash.com/s/photos/<two-or-three-words>?orientation=landscape&license=free` (for a 5K: running-race), and say how to choose: open a photo, right-click it, "Copy image address", paste it in the chat.
+2. Upload only a photo the organizer picked or shared and asked for, via `upload_campaign_image` with its image address (images.unsplash.com for Unsplash; never plus.unsplash.com, a paid license).
+3. Never search for, open or fetch photos yourself. The organizer does the choosing.
 
-**Unsplash URL format for upload (always add quality params):**
-- `https://images.unsplash.com/photo-[ID]?w=1600&q=80`
-
-Photos on images.unsplash.com are free for commercial use under the Unsplash License. Never use plus.unsplash.com photos: they are Unsplash+, a paid license.
-
-**Search keywords by campaign type:**
-
-| Campaign type | Good search terms |
-|---|---|
-| Medical / health fundraiser | patient recovery, healthcare support, hospital hope |
-| Legal defense fundraiser | courthouse, justice, legal support |
-| Emergency / disaster fundraiser | community support, helping hands, rebuilding |
-| Event: workshop / conference | workshop collaboration, team learning, professional seminar |
-| Event: social / celebration | celebration gathering, community party, event crowd |
-| Event: sports / run | race finish line, community run, team sport |
-| Collection: group / team | team group photo, club members, community together |
 
 ### What makes a strong cover image
 
@@ -321,28 +301,16 @@ Use `perGuest: true` for questions like "What is each attendee's name?" on event
 
 ---
 
-## Preparing an Organizer's Own Photo
+## The Organizer's Own Photo
 
-**Before you upload, verify the source is actually high-resolution:**
-```bash
-sips -g pixelWidth -g pixelHeight "<file>"
-```
-File size is a misleading proxy for photos. An iMessage/AirDrop preview can be 600KB+ on disk but only 640×480 pixels - PNG lossless compression bloats the byte count without adding detail. If dimensions are under ~1600 wide, ask the organizer for the original (Photos > File > Export > Export Unmodified Original, or the full-size version from iCloud). Multiple `IMG_1234.png`, `IMG_1234 (1).png`, `IMG_1234 (2).png` in Downloads often means the biggest number is the full-res.
+A photo goes on the page only when the organizer offers it and says yes to it in the summary. It goes to PayIt2 and nowhere else.
 
-**Do not pre-crop.** The page shows the cover at 3:1 on desktop and 16:9 on phones, and it shows a tall or square photo whole over a blurred copy of itself instead of cropping it. Upload the organizer's original; a landscape photo at least 1200 pixels wide fills both shapes best. If the upload reply has a "Heads up" line about size, tell the organizer and ask for the original.
+- **A link to the photo** (an https address that opens the image itself): pass it to `upload_campaign_image` as `imageUrl`.
+- **A photo pasted into the chat, or a file on their computer:** tell the organizer that PayIt2 needs a link to the photo, or that they can add it themselves on their campaign page in PayIt2 once it is created. Do not move, copy or publish the file anywhere else.
 
-**Pathways by how the image was shared:**
-- **File path on disk** (e.g. `~/Downloads/hero.jpg`): verify dimensions, then push the original to a temp location the MCP can fetch (a public GitHub raw URL works well - use the `payit2-plugins-marketplace` repo's `tmp-assets/` folder, then clean up with a follow-up commit). Pass as `imageUrl`. Only fall back to `imageBase64` if the file is already under ~300KB.
-- **Public URL** (Slack CDN, Google Drive share link, S3): pass directly as `imageUrl`, but still verify dimensions first with a `curl | sips` round-trip if quality matters.
-- **Inline image pasted in chat:** you can see it visually but the bytes are NOT on disk and NOT accessible to you. Do not silently skip it. Tell the organizer exactly one of:
-  1. "Drag the image from this chat to your Downloads folder and tell me the filename."
-  2. "If it's already hosted anywhere (Slack, Drive, a website), paste the URL."
+**Do not pre-crop.** The page shows the cover at 3:1 on desktop and 16:9 on phones, and it shows a tall or square photo whole over a blurred copy of itself instead of cropping it. A landscape photo at least 1200 pixels wide fills both shapes best. If the upload reply has a "Heads up" line about size, tell the organizer and ask for a larger photo.
 
-  Then proceed with whichever path they choose. Never claim the image was uploaded when it wasn't.
-
-**Gotchas:** git pushes of files over ~1MB can fail with HTTP 400 `send-pack: unexpected disconnect`. Either keep the JPEG under ~1.5MB (quality 88, max 1800 wide is usually safe) or bump `git config http.postBuffer 524288000` before pushing. After upload, verify the result with `curl -sI <cover-url>` and `sips -g pixelWidth -g pixelHeight` - the backend resizes to fit inside 1600x900.
-
-After a successful upload, confirm the image is attached and mention it in the final recap.
+After a successful upload, confirm the image is attached and mention it in the final recap. Never say a photo was uploaded when it wasn't.
 
 ---
 

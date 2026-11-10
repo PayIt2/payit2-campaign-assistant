@@ -21,8 +21,7 @@ either one creates a free PayIt2 account if you do not have one yet.
 - **PayIt2:** once you connect, the plugin uses PayIt2's server at `https://mcp.payit2.com/mcp`
   to read and change your own campaigns, as you. It never asks for a password or any other secret.
   PayIt2 shows you each settings change and saves it only after you say yes.
-- **Unsplash:** when it picks a cover photo, it searches Unsplash's free photos and sends the
-  chosen photo's address to PayIt2.
+- **Your photos:** a photo you pick (for example, a free one on Unsplash) or share goes to PayIt2 only when you ask for it on your campaign page.
 
 Privacy: https://www.payit2.com/privacy
 Terms: https://www.payit2.com/terms

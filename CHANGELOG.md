@@ -11,7 +11,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-Ship with app-v2 #1979 (the drafts card is titled "AI drafts" there).
+Ship with app-v2 #1982, the hotfix batch that carries #1979 (the drafts card is titled "AI drafts" there).
 
 ### Changed
 
@@ -22,6 +22,18 @@ Ship with app-v2 #1979 (the drafts card is titled "AI drafts" there).
   and its link, and nothing is uploaded until the organizer says yes (OpenAI flagged the skill for
   sending data without clear intent).
 - **Saved drafts are in the "AI drafts" card**, the card's new name in PayIt2.
+- **An organizer's own photo goes to PayIt2 and nowhere else.** The enrich guide used to tell the
+  assistant to push an organizer's photo from their computer to a public GitHub repo to get a link,
+  base64-encode it, and run shell and git commands; that section is gone. A photo is uploaded only
+  from a link the organizer gives and approves, or the organizer adds it on their campaign page.
+  OpenAI's checks flagged the skill as transmitting files and as concealed or encoded behaviour until
+  this section was removed (package v9, 2026-11-10).
+- **The organizer picks the cover photo.** The summary offers a free Unsplash search link; the
+  assistant never searches for, opens or fetches photos itself, and the campaign skill no longer
+  uses WebSearch. A templated page keeps the template's cover until the organizer picks one.
+- **No silent decisions.** The campaign skill fills fields with sensible defaults and shows every one
+  in the summary the organizer approves, instead of deciding without asking.
+- **The ChatGPT package's description** is the ChatGPT long description, which the listing reads.
 
 ## [2.1.0] - 2026-11-09
 

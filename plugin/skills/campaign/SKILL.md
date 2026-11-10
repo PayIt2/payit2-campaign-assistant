@@ -1,20 +1,20 @@
 ---
 name: campaign
 description: Create a PayIt2 campaign fast (fundraiser, event, or group) and hand the organizer a link to their page in minutes, then help them improve it
-allowed-tools: Read, Write, WebSearch
+allowed-tools: Read, Write
 argument-hint: "[optional: type of campaign or brief description]"
 ---
 
 # Campaign Creation and Launch
 
-The goal is a real campaign page and its link, in the organizer's hands within a few minutes. Get the few facts only the organizer knows, decide everything else yourself with good defaults, confirm once, create it, and give them the link. Depth (the full story interview, title options, more tiers, registration questions, a better photo) comes afterwards, while they are already using the page.
+The goal is a real campaign page and its link, in the organizer's hands within a few minutes. Get the few facts only the organizer knows, fill in the rest with sensible defaults, show all of it in one summary for the organizer to approve, then create it and give them the link. Depth (the full story interview, title options, more tiers, registration questions, a better photo) comes afterwards, while they are already using the page.
 
 **No em dashes in anything you write for the organizer.** Use a comma, colon or period instead; PayIt2's style forbids them.
 
 **Speed rules for this skill:**
 - Never ask a question you can answer with a sensible default. Make the call, show it in the summary, and let them change it.
 - Ask for the basics in **one** message, not one question at a time. This overrides the one-question rule in `campaign-context` for this skill's fast path.
-- Never offer a menu of choices before the campaign exists (no five titles, no three photos, no theme list). Pick the best one.
+- Never offer a menu of choices before the campaign exists (no five titles, no three photos, no theme list). Pick the best one and show it in the summary.
 - Never re-ask anything already in the conversation or the arguments.
 
 ---
@@ -51,9 +51,9 @@ If their first message already covers these, skip straight to Step 3.
 
 ---
 
-## Step 3: Decide everything else yourself
+## Step 3: Fill in the rest with sensible defaults
 
-Fill every remaining field with your best call. Do not ask about these.
+Fill every remaining field with a sensible default instead of asking a question. Every one of them appears in the Step 4 summary, where the organizer sees it and can change it before anything is created.
 
 | Field | Default |
 |---|---|
@@ -68,7 +68,7 @@ Fill every remaining field with your best call. Do not ask about these.
 | Fundraiser amounts | If a template supplies amounts, keep them and add none. Otherwise put three or four suggested amounts in one group: `groupTitle: "Giving Levels"`, `groupMode: "pick_one"`, `isRequired: false`. When the amounts are things the money pays for (a co-pay, a therapy session, a month's rent), title the group "What your gift covers" and use `groupMode: "pick_any"`, so a donor can cover more than one. |
 | Group options | One option at the per-person amount; split the total by headcount and round up to the next dollar to cover fees. |
 | Theme | Call `list_theme_presets` and pick the preset whose use cases best match the campaign (a run or walk is `charity-walk`, school boosters or PTA is `school`, a team is `sports-team`, a medical need is `medical`, legal defense is `legal-defense`, a memorial is `memorial`, a reunion is `reunion`). Use `classic-green` when nothing fits. |
-| Cover photo | If they shared a photo and asked for it on the page, use it. Otherwise find one strong Unsplash photo yourself (see Step 5). Either way, the Step 4 summary names the photo and its link, and nothing is uploaded until the organizer says yes. |
+| Cover photo | The template's own cover photo, unless the organizer picks one. Offer them a free Unsplash search link for their campaign (Step 4); they choose the photo. Never search for, open or fetch photos yourself. |
 | Template | Call `list_templates`. Use a template's slug only if it clearly matches this campaign; never ask about it. |
 
 Add no registration questions, add-ons or extra groups in the fast path unless the organizer asked for them. Those go on the "make it better" list.
@@ -87,22 +87,22 @@ Show one compact summary and ask a single yes or no question. For example:
 > - **Where:** Hudsonville High School, Hudsonville, MI
 > - **Tickets:** Adult $35, Student / Kid $15, Virtual Runner $25
 > - **Look:** Charity Walk theme
-> - **Cover photo:** a race finish line photo from Unsplash (<photo link>), uploaded to your PayIt2 page
+> - **Cover photo:** the template's photo, or pick a free one on Unsplash: <search link for this campaign, e.g. https://unsplash.com/s/photos/running-race?orientation=landscape&license=free>. Open the photo you like, right-click it, choose "Copy image address" and paste it here.
 > - **Description:** (two or three line preview)
 >
 > Create it and put it live? You can change anything afterwards.
 
-The organizer's yes to this summary covers creating the campaign, publishing it, uploading the cover photo named in it to their PayIt2 page and applying the theme shown. Nothing else is sent anywhere. If they say no to the photo, create the campaign without one. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
+The organizer's yes to this summary covers creating the campaign, publishing it, uploading the photo they picked or shared for the page, and applying the theme shown. Nothing else is sent anywhere. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
 
 ---
 
 ## Step 5: Create it and get the link
 
-Do these in order, without further questions:
+Do these in order. The organizer approved each of them in Step 4:
 
 1. **Create.** Call `create_campaign` with the title, mode, description (HTML), blurb, the type's fields (goal, event dates with the UTC offset, time zone, venue and options) and `publish: true`, unless the organizer asked for a draft. If PayIt2 cannot publish yet (usually because Stripe is not connected for a paid campaign), it creates a draft and the reply says why; that is fine, carry on. Save the campaign ID and URL.
-2. **Theme.** Call `update_campaign_settings` with only the campaign ID and the theme you picked. This is the theme the organizer already approved in Step 4, so do not ask again; PayIt2 saves a theme-only change without a preview.
-3. **Cover photo.** Call `upload_campaign_image` with `imageUrl`. To find a photo, fetch Unsplash's own search for free landscape photos, `https://unsplash.com/s/photos/<two-or-three-words>?orientation=landscape&license=free` (for a run: running-race), pick the result that best fits the campaign and the season (no summer beach shots for a January race), and use its images.unsplash.com address with `?w=1600&q=80`. Use only images.unsplash.com photos: plus.unsplash.com photos are Unsplash+, a paid license. Landscape fills the cover best: the page shows it at 3:1 on desktop and 16:9 on phones (a tall photo shows whole, but smaller). If the upload reply has a "Heads up" line saying the photo is too small to look sharp, pick a larger one, or for the organizer's own photo tell them and ask for the original. If the upload fails, try one other photo, then move on and put "add a cover photo" on the list in Step 6. Never say a photo was uploaded when it was not.
+2. **Theme.** Call `update_campaign_settings` with the campaign ID and the theme the organizer approved in Step 4.
+3. **Cover photo.** If the organizer pasted a photo's image address (an images.unsplash.com link, or a link to their own photo) and wants it on the page, call `upload_campaign_image` with it. If they pasted an Unsplash photo page link (unsplash.com/photos/...) instead, ask them for the image address: right-click the photo and choose "Copy image address". Use only images.unsplash.com addresses from Unsplash; plus.unsplash.com photos are Unsplash+, a paid license, so ask them to pick a free one. If they did not pick a photo, skip this step: the template's cover is already on the page. If the upload reply has a "Heads up" line saying the photo is too small to look sharp, tell the organizer and suggest a larger one. If the upload fails, keep the template's cover and put "add your own cover photo" on the improvement list.
 
 If `create_campaign` itself fails, tell the organizer plainly what PayIt2 said, fix what you can (a date format, a missing field) and try once more. Do not retry a create whose outcome is unknown: call `list_my_campaigns` first to see whether it exists.
 
