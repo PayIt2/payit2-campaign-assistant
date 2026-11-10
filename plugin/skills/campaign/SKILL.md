@@ -92,7 +92,7 @@ Show one compact summary and ask a single yes or no question. For example:
 >
 > Create it and put it live? You can change anything afterwards.
 
-The organizer's yes to this summary covers creating the campaign, publishing it, uploading the photo they picked or shared for the page, and applying the theme shown. Nothing else is sent anywhere. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
+The organizer's yes to this summary covers creating the campaign, publishing it, uploading the photo they picked or shared for the page, and applying the theme shown. If they want changes, make them and show the summary again. If they say "create it but don't publish yet", create it as a draft.
 
 ---
 

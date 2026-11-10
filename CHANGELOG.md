@@ -34,6 +34,7 @@ Ship with app-v2 #1982, the hotfix batch that carries #1979 (the drafts card is 
 - **No silent decisions.** The campaign skill fills fields with sensible defaults and shows every one
   in the summary the organizer approves, instead of deciding without asking.
 - **The ChatGPT package's description** is the ChatGPT long description, which the listing reads.
+- OpenAI's automated checks pass on all five skills with this wording (package v10, 2026-11-10); the sentence "Nothing else is sent anywhere" drew "not suitable for broad discovery" and is gone.
 
 ## [2.1.0] - 2026-11-09
 
