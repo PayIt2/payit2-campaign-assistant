@@ -1,24 +1,26 @@
 {
   "name": "payit2",
   "displayName": "PayIt2",
-  "version": "2.1.1",
-  "description": "AI-powered campaign assistant for PayIt2.com. Create, promote, and optimize any campaign type: fundraisers, events, and groups. Get guidance, generate content, and engage participants through conversation.",
+  "version": "2.1.2",
+  "description": "Run your PayIt2 campaigns with Claude: sell event tickets, take RSVPs, collect group payments and dues, and raise money for a cause. Build a campaign page in minutes, promote it with ready-to-post social posts and emails, see how ticket sales and donations are tracking, and thank or remind the people who signed up.",
   "author": {
     "name": "Brian Anderson, PayIt2 Founder"
   },
   "license": "MIT",
   "homepage": "https://www.payit2.com/ai-assistant",
   "keywords": [
-    "fundraising",
-    "events",
-    "group-payments",
-    "crowdfunding",
     "payit2",
+    "event-tickets",
+    "rsvp",
+    "ticket-sales",
+    "payments",
+    "group-payments",
+    "fundraising",
+    "donations",
+    "crowdfunding",
     "campaigns",
+    "marketing",
     "participant-engagement",
-    "content-generation",
-    "campaign-health-check",
-    "event-ticketing",
     "cost-splitting"
   ]
 }
