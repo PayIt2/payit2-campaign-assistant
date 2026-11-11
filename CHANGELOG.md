@@ -11,6 +11,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-11-11
+
+### Changed
+
+- **The plugin's description and keywords say what PayIt2 does:** event tickets and RSVPs, group
+  payments and dues, fundraising, promotion and following up with participants. claude.ai appears to label
+  plugins from what they say, and the old wording ("guidance", "generate content") read as task
+  and document tools, so the plugin showed as Tickets & tasks and Files & documents.
+
 ## [2.1.1] - 2026-11-10
 
 ### Fixed
