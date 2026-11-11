@@ -11,10 +11,35 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-Ship with app-v2 #1982, the hotfix batch that carries #1979 (the drafts card is titled "AI drafts" there).
+## [2.1.0] - 2026-11-10
+
+Needs the PayIt2 server's two-step settings change (app-v2 B-436) and the "AI drafts" card (app-v2 #1982); both reached prod on 2026-11-10.
 
 ### Changed
 
+- **Settings changes are approved once.** PayIt2 now saves a settings change only on a second
+  call with `confirm: true`; the first call returns each field's current and new value. The
+  skills show that preview and wait for a clear yes, and in Cowork and Claude Code the approval
+  prompt now appears only on the saving call, so the organizer is no longer asked twice.
+- **The skills stand on their own.** The start-of-conversation greeting and campaign-link
+  handling, which only hooks gave before, now live in `campaign-context` too, so Claude Chat and
+  ChatGPT get them. The hooks still add them in Cowork and Claude Code.
+- **Connection steps live in one place per chat** (`campaign-context/references/connect.md`),
+  and the skills no longer name Claude or its menus.
+- **Claude Code can sign in.** The steps say to run `/mcp` instead of "coming soon".
+- **A household registers together.** When ticket or RSVP tiers are for different people (Adult,
+  Student / Kid, Senior), /campaign now puts them in a pick-any group, so one registration covers
+  2 adults and 3 kids with a quantity on each. Pick-one stays for choices a person makes once,
+  such as a race distance.
+- **Options come in titled groups.** /campaign now gives every option a group title and keeps
+  choices of the same kind together: one "Giving Levels" group for a fundraiser's amounts (or
+  "What your gift covers" when the amounts are costs), one "Add-ons" group for extras. An option
+  with no group showed as its own "Optional" card, so a fundraiser's amounts read as a stack of
+  separate boxes. The guide also says to send a whole group in one call, since adding options
+  never joins a group the page already has.
+- **One paragraph, one `<p>`.** The HTML rules now say to give each paragraph its own `<p>` and never
+  add an empty paragraph or `<br>` for spacing: the page and the editor space paragraphs themselves
+  (app-v2 B-455), so a blank line would double the gap.
 - **ChatGPT listing fixes from OpenAI's automated checks (2026-11-10).** The subtitle is 25 characters
   ("Run your PayIt2 campaigns"), the package names a support URL, the long description says what
   PayIt2 does in plain words, and the repository link uses the repo's current name.
@@ -35,37 +60,6 @@ Ship with app-v2 #1982, the hotfix batch that carries #1979 (the drafts card is 
   in the summary the organizer approves, instead of deciding without asking.
 - **The ChatGPT package's description** is the ChatGPT long description, which the listing reads.
 - OpenAI's automated checks pass on all five skills with this wording (package v10, 2026-11-10); the sentence "Nothing else is sent anywhere" drew "not suitable for broad discovery" and is gone.
-
-## [2.1.0] - 2026-11-09
-
-Needs the PayIt2 server's two-step settings change (app-v2 B-436) on prod before release.
-
-### Changed
-
-- **Settings changes are approved once.** PayIt2 now saves a settings change only on a second
-  call with `confirm: true`; the first call returns each field's current and new value. The
-  skills show that preview and wait for a clear yes, and in Cowork and Claude Code the approval
-  prompt now appears only on the saving call, so the organizer is no longer asked twice.
-- **The skills stand on their own.** The start-of-conversation greeting and campaign-link
-  handling, which only hooks gave before, now live in `campaign-context` too, so Claude Chat and
-  ChatGPT get them. The hooks still add them in Cowork and Claude Code.
-- **Connection steps live in one place per chat** (`campaign-context/references/connect.md`),
-  and the skills no longer name Claude or its menus.
-- **Claude Code can sign in.** The steps say to run `/mcp` instead of "coming soon".
-
-- **A household registers together.** When ticket or RSVP tiers are for different people (Adult,
-  Student / Kid, Senior), /campaign now puts them in a pick-any group, so one registration covers
-  2 adults and 3 kids with a quantity on each. Pick-one stays for choices a person makes once,
-  such as a race distance.
-- **Options come in titled groups.** /campaign now gives every option a group title and keeps
-  choices of the same kind together: one "Giving Levels" group for a fundraiser's amounts (or
-  "What your gift covers" when the amounts are costs), one "Add-ons" group for extras. An option
-  with no group showed as its own "Optional" card, so a fundraiser's amounts read as a stack of
-  separate boxes. The guide also says to send a whole group in one call, since adding options
-  never joins a group the page already has.
-- **One paragraph, one `<p>`.** The HTML rules now say to give each paragraph its own `<p>` and never
-  add an empty paragraph or `<br>` for spacing: the page and the editor space paragraphs themselves
-  (app-v2 B-455), so a blank line would double the gap.
 
 ### Added
 
