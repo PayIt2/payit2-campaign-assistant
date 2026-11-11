@@ -149,6 +149,11 @@ describe("shipped plugin files", () => {
   it("drops the Stop hook's orphaned script", () => {
     expect(existsSync(PLUGIN + "scripts/save-summary.sh")).toBe(false);
   });
+
+  it("keeps zip's temp files out of the repo root (2.1.0 shipped a broken zinHZLH5)", () => {
+    const root = PLUGIN + "../";
+    expect(readdirSync(root).filter((n) => /^zi[A-Za-z0-9]{6}$/.test(n))).toEqual([]);
+  });
 });
 
 import { readdirSync, statSync } from "node:fs";
@@ -180,6 +185,27 @@ describe("plugin copy", () => {
     const hits = allText().filter(({ t }) => stale.test(t)).map(({ f }) => f.replace(PLUGIN, ""));
     expect(hits).toEqual([]);
     expect(readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8")).toMatch(/`list_saved_content`/);
+  });
+
+  it("routes any create request to the campaign skill, not straight to create_campaign (2.1.1)", () => {
+    // "Create a payit2 fundraiser" called create_campaign bare, skipping template, theme and giving levels.
+    const skill = readFileSync(PLUGIN + "skills/campaign/SKILL.md", "utf8");
+    const description = /^description: (.+)$/m.exec(skill)?.[1] ?? "";
+    expect(description).toMatch(/^Use whenever/);
+    expect(description).toMatch(/create/i);
+    expect(description).toMatch(/fundraiser/i);
+    expect(description).toMatch(/before calling create_campaign/);
+    const ctx = readFileSync(PLUGIN + "skills/campaign-context/SKILL.md", "utf8");
+    expect(ctx).toMatch(/Creating a campaign always goes through the `campaign` skill/);
+  });
+
+  it("writes saved drafts as plain paragraphs, as the save_* tools ask; only the description is HTML (2.1.1)", () => {
+    for (const rel of ["skills/campaign/SKILL.md", "skills/campaign/references/enrich-guide.md"]) {
+      const t = readFileSync(PLUGIN + rel, "utf8");
+      const html = /HTML fields?[^\n]*\n(?:[^\n]+\n)*/.exec(t)?.[0] ?? "";
+      expect(html, rel).not.toMatch(/save_(campaign_story|update_post|thank_you)/);
+      expect(t, rel).toMatch(/Saved drafts \(plain paragraphs/);
+    }
   });
 
   it("no longer asks for an API key", () => {

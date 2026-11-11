@@ -109,14 +109,15 @@ Keep it under 100 words. Collections are transactional: clarity beats storytelli
 
 ## Content Formatting Rules
 
-PayIt2 fields fall into two categories. Use the wrong format and the output will display raw tags or broken layout.
+PayIt2 fields fall into three categories. Use the wrong format and the output will display raw tags or broken layout.
 
-### HTML fields (use HTML, never markdown or plain text)
-These fields take HTML:
-- `description` (the campaign page body, shown in its rich-text editor)
-- `save_campaign_story`, `save_update_post` and `save_thank_you` content (shown to the organizer on the campaign's page in their PayIt2 account, so use the same format)
+### HTML field (use HTML, never markdown or plain text)
+Only the campaign `description` takes HTML (the campaign page body, shown in its rich-text editor).
 
 Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. Keep it semantic and lean. No inline styles, no `<div>` wrappers, no `<h1>`. Give each paragraph its own `<p>`; the page spaces paragraphs itself, so never add an empty `<p></p>` or a `<br>` to make a gap.
+
+### Saved drafts (plain paragraphs, no HTML, no markdown)
+The content of `save_campaign_story`, `save_update_post`, `save_thank_you` and `save_improvement_notes`: plain text with paragraphs separated by a blank line, as the PayIt2 tools themselves ask.
 
 ### Plain-text fields (no HTML, no markdown)
 These fields render as-is:
