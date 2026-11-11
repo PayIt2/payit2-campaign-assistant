@@ -28,14 +28,16 @@ python3 - "$STAGE" <<'PY'
 import json, sys
 stage = sys.argv[1]
 src = json.load(open("plugin/.claude-plugin/plugin.json"))
+LONG = "Create and run PayIt2 fundraisers, events and group payments from ChatGPT. Build a campaign page from a few details, check how a campaign is doing and what to do next, and draft posts, emails, thank-yous and updates for your participants. Connect your PayIt2 account to work with your own campaigns."
 manifest = {
     "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
     "name": src["name"],
     "version": src["version"],
-    "description": src["description"],
+    # The ChatGPT listing reads the package description too; it says what the plugin does in ChatGPT (2026-11-10 listing checks).
+    "description": LONG,
     "author": {"name": "PayIt2", "url": "https://www.payit2.com"},
     "homepage": src["homepage"],
-    "repository": "https://github.com/PayIt2/payit2-campaign-assistant",
+    "repository": "https://github.com/PayIt2/payit2-ai-plugin",
     "license": src["license"],
     "keywords": src["keywords"],
     "extensions": {
@@ -43,10 +45,11 @@ manifest = {
             "onboardingSkill": "./skills/campaign-context/SKILL.md",
             "interface": {
                 "displayName": src["displayName"],
-                "shortDescription": "Build, check and promote PayIt2 campaigns in chat.",
-                "longDescription": src["description"],
+                "shortDescription": "Run your PayIt2 campaigns",
+                "longDescription": LONG,
                 "developerName": "PayIt2",
                 "websiteURL": src["homepage"],
+                "supportURL": "https://www.payit2.com/support",
                 "privacyPolicyURL": "https://www.payit2.com/privacy",
                 "termsOfServiceURL": "https://www.payit2.com/terms",
                 "logo": "./assets/icon.png",

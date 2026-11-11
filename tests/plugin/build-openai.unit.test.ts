@@ -34,7 +34,9 @@ describe("build-openai.sh", () => {
     expect(m.$schema).toBe("https://agent-plugins.org/schemas/1.0.0/plugin.schema.json");
     expect(m.name).toBe("payit2");
     expect(m.version).toBe(claudeManifest.version);
-    expect(m.description).toBe(claudeManifest.description);
+    // The listing reads the package description too, so it is the ChatGPT long description (2026-11-10 listing checks).
+    expect(m.description).toBe(m.extensions["com.openai"].interface.longDescription);
+    expect(m.description).toContain("from ChatGPT");
     expect(m.license).toBe("MIT");
     const oa = m.extensions["com.openai"];
     expect(oa.onboardingSkill).toBe("./skills/campaign-context/SKILL.md");
@@ -44,6 +46,10 @@ describe("build-openai.sh", () => {
     expect(oa.interface.websiteURL).toBe("https://www.payit2.com/ai-assistant");
     expect(oa.interface.privacyPolicyURL).toBe("https://www.payit2.com/privacy");
     expect(oa.interface.termsOfServiceURL).toBe("https://www.payit2.com/terms");
+    // OpenAI's portal (2026-11-10): the subtitle is at most 30 characters and a support URL is required.
+    expect(oa.interface.shortDescription.length).toBeLessThanOrEqual(30);
+    expect(oa.interface.supportURL).toBe("https://www.payit2.com/support");
+    expect(m.repository).toBe("https://github.com/PayIt2/payit2-ai-plugin");
     for (const icon of [oa.interface.logo, oa.interface.composerIcon]) {
       expect(icon).toBe("./assets/icon.png");
       expect(existsSync(join(stage, icon))).toBe(true);
