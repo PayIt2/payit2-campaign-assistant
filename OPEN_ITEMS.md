@@ -41,6 +41,7 @@ _(None outstanding. Q1 — REST API timing — was resolved by cancelling B-1; s
 B-4 Put the `/mcp` sign-in step back once prod accepts Claude Code's sign-in
 B-5 Move the live e2e run into CI
 B-6 Make the connector check a required status check
+B-7 Server-side fixes found in the 2026-11-10 test run (app-v2)
 
 ### Launch Gates
 
@@ -80,6 +81,16 @@ _(B-2 closed 2026-06-09 — see COMPLETED_ITEMS.md)_
 ### B-6. Make the connector check a required status check
 **Source:** 1.7.0 final review.
 **Why:** `connector.yml` runs on every plugin or tests PR, but nothing stops a merge when it is red. Branch protection is a console setting only Thomas can change.
+
+### B-7. Server-side fixes found in a 2026-11-10 test run (app-v2, Thomas)
+**Source:** Brian's end-to-end test of creating a fundraiser from Claude chat, 2026-11-10.
+**Why:** these live in the PayIt2 MCP server, not this repo, so the plugin cannot fix them:
+1. `create_campaign`'s description says `options` are for registration and group payment campaigns only, but fundraisers accept them and the `campaign` skill uses them for giving levels. Name fundraiser giving levels in the tool text.
+2. Fundraiser templates (Community Project, for one) carry no suggested amounts, so a campaign made without the skill gets no giving levels. Give each fundraiser template default amounts, or say in `list_templates` which ones have none.
+3. `get_campaign_health` reports "Healthy, on track" for a draft at $0 with no gifts and no end date. It should say not started or needs a first gift.
+4. No tool deletes a campaign, so test drafts made from chat cannot be cleaned up there. Add `delete_campaign`, limited to drafts with no payments.
+5. The connector's server instructions could say "load the PayIt2 `campaign` skill before calling `create_campaign`", for clients that list plugin skills without their descriptions.
+**Done when:** each is shipped or declined, and the skills drop any workaround for it.
 
 ---
 

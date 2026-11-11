@@ -1,6 +1,6 @@
 ---
 name: campaign
-description: Create a PayIt2 campaign fast (fundraiser, event, or group) and hand the organizer a link to their page in minutes, then help them improve it
+description: Use whenever someone asks to create, start, set up, launch or test a PayIt2 campaign (a fundraiser, an event or ticket sale, or a group payment), in any words, and always before calling create_campaign. Picks a template, theme and giving levels, confirms once, then hands the organizer a link to their page in minutes and helps them improve it.
 allowed-tools: Read, Write
 argument-hint: "[optional: type of campaign or brief description]"
 ---
@@ -137,9 +137,11 @@ Run Steps 2 to 4 the same way, then give the organizer one paste-ready block: ti
 
 ## Content Formatting Rules
 
-PayIt2 fields fall into two categories. Use the wrong format and the page shows raw tags or a broken layout.
+PayIt2 fields fall into three categories. Use the wrong format and the page shows raw tags or a broken layout.
 
-**HTML fields:** `description`, and the content of `save_campaign_story`, `save_update_post` and `save_thank_you`. Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. No inline styles, no `<div>` wrappers, no `<h1>`. Give each paragraph its own `<p>`; the page spaces paragraphs itself, so never add an empty `<p></p>` or a `<br>` to make a gap.
+**HTML field:** the campaign `description` only. Allowed tags: `<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<br>`, `<a href="">`. No inline styles, no `<div>` wrappers, no `<h1>`. Give each paragraph its own `<p>`; the page spaces paragraphs itself, so never add an empty `<p></p>` or a `<br>` to make a gap.
+
+**Saved drafts (plain paragraphs):** the content of `save_campaign_story`, `save_update_post`, `save_thank_you` and `save_improvement_notes`. Plain text with paragraphs separated by a blank line, no HTML and no markdown, as the PayIt2 tools themselves ask.
 
 **Plain-text fields (no HTML, no markdown):** title, blurb, venue name, address, city and state, option titles and descriptions, question text and details, and any other short label.
 

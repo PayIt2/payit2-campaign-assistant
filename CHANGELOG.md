@@ -11,6 +11,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Any request to create a campaign runs the campaign skill.** "Create a PayIt2 fundraiser"
+  used to call `create_campaign` directly, skipping the template choice, theme, giving levels
+  and HTML description. The `campaign` skill's description now leads with when to use it
+  ("create, start, set up, launch or test", "before calling create_campaign"), and
+  `campaign-context` says creation always goes through it.
+- **Saved drafts are plain paragraphs.** The skills told Claude to write `save_campaign_story`,
+  `save_update_post` and `save_thank_you` content as HTML, while the PayIt2 tools ask for plain
+  text with blank lines between paragraphs. The skills now match the tools; only the campaign
+  `description` is HTML.
+- **Removed a stray `zinHZLH5`** (a half-written zip temp file committed in 2.1.0) and ignored
+  zip's temp files.
+
 ## [2.1.0] - 2026-11-10
 
 Needs the PayIt2 server's two-step settings change (app-v2 B-436) and the "AI drafts" card (app-v2 #1982); both reached prod on 2026-11-10.
